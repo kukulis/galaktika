@@ -7,7 +7,7 @@ Each attribute requires amount of resources to build. Also attributes relates be
 Resources are limited by the size of your planet, which produces some amount each turn, depending on how many population lives in it.
 Also you may invest your planet resources for upgrading technologies of attack, defence, engines or cargo.
 
-You also may inhabit other planets. Because there is other player in galaxy, there is some concurency between them. But you may make alliances.
+You also may inhabit other planets. Because there are other players in the galaxy, there is some concurency between them. But you may make alliances.
 
 The game is turn based - one turn a day.
 
