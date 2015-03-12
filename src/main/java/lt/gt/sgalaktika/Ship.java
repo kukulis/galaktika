@@ -7,22 +7,18 @@ public class Ship {
 	 */
 	private String shipSerie;
 	
-	private int attack;
+	private double attack;
 	private int guns;
 	private double deffence;
-	private int cargo;
-	private int speed;
+	private double cargo;
+	private double enginePower;
+	private double brutoMass;
+	private double load;
 	
 	public Ship ( String serie ) {
 		this.shipSerie = serie;
 	}
 	
-	public int getAttack() {
-		return attack;
-	}
-	public void setAttack(int attack) {
-		this.attack = attack;
-	}
 	public int getGuns() {
 		return guns;
 	}
@@ -35,18 +31,6 @@ public class Ship {
 	public void setDeffence(double deffence) {
 		this.deffence = deffence;
 	}
-	public int getCargo() {
-		return cargo;
-	}
-	public void setCargo(int cargo) {
-		this.cargo = cargo;
-	}
-	public int getSpeed() {
-		return speed;
-	}
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
 	public String getShipSerie() {
 		return shipSerie;
 	}
@@ -54,4 +38,43 @@ public class Ship {
 		this.shipSerie = shipSerie;
 	}
 
+	public double getAttack() {
+		return attack;
+	}
+
+	public void setAttack(double attack) {
+		this.attack = attack;
+	}
+
+	public double getCargo() {
+		return cargo;
+	}
+
+	public void setCargo(double cargo) {
+		this.cargo = cargo;
+	}
+
+	public double getEnginePower() {
+		return enginePower;
+	}
+
+	public void setEnginePower(double enginePower) {
+		this.enginePower = enginePower;
+	}
+
+	public double getBrutoMass() {
+		return brutoMass;
+	}
+
+	public void setBrutoMass(double brutoMass) {
+		this.brutoMass = brutoMass;
+	}
+
+	public double getLoad() {
+		return load;
+	}
+
+	public void setLoad(double load) {
+		this.load = load;
+	}
 }

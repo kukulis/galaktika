@@ -15,7 +15,7 @@ public class ImitateBattle {
 	private static Logger log = Logger.getLogger( ImitateBattle.class );
 
 	
-	@Test
+//	@Test
 	public void testBattle1 () {
 		Fleet fleet1 = new Fleet();
 		ShipGroup shipGroup1_1 = new ShipGroup( new Ship("1ship1"));
@@ -74,5 +74,11 @@ public class ImitateBattle {
 				System.out.println ( "Ship "+shot.getAttackerShip()+ " shots at " + shot.getDefenderShip()+ " destroyed:"+shot.isDestroyed() );
 			}
 		}
+	}
+	
+	@Test
+	public void testBattleComplex () {
+		log.trace("begin");
+		
 	}
 }
