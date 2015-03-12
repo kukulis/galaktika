@@ -1,0 +1,21 @@
+Reikia rinkti laivus, turinčius ginklus, kad per ėjimą visi galėtų bent po kartą iššauti.
+
+Ar iš kart daryti, turint omeny, kad bus duombazė, ar pradžioje mėginti su objektais?
+
+
+(*) Pakoreguoti atakuojančio išrinkimą tik tarp tų laivų, kurie turi ginklus.
+(*) Įvesti tokį dalyką, kaip raundas mūšyje.
+( ) Optimizuoti laivų skaičiavimą ( su counter'iais ).
+
+( ) Padaryti log'ą 
+	(*) įtraukti loginimo biblioteką
+		(*) sukurti maven'o projektą
+		(*) perkelti klases į maven'o projektą
+	(*) suformuoti konfigą
+	(*) sudėlioti loginimo sakinius
+	
+( ) testuoti grupės parinkimą iš laivyno.
+( ) per anksti užsibaigia roundas, aiškintis: sukurti situaciją, kai būna šovę du laivai iš kiekvieno
+fleet'o (1ship1) ir ( 2ship2 ) ir bandyti parinkti šaunančią grupę.
+-- projektas galaktikam
+
