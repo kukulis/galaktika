@@ -1,6 +1,20 @@
 package lt.gt.sgalaktika;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table( 
+		name="ships",
+		uniqueConstraints=@UniqueConstraint ( columnNames={"shipSerie" } ))
 public class Ship {
+	
+	private long id;
 	
 	/**
 	 * Race+Model+Date.
@@ -13,27 +27,31 @@ public class Ship {
 	private double cargo;
 	private double enginePower;
 	private double brutoMass;
-	private double load;
+	private double loadAmount;
+	
+	public Ship () {
+		
+	}
 	
 	public Ship ( String serie ) {
 		this.shipSerie = serie;
 	}
 	
-	public int getGuns() {
-		return guns;
+	@Id
+	@GeneratedValue(generator="increment")
+	@GenericGenerator(name="increment", strategy = "increment")
+	public long getId() {
+		return id;
 	}
-	public void setGuns(int guns) {
-		this.guns = guns;
+
+	public void setId(long id) {
+		this.id = id;
 	}
-	public double getDeffence() {
-		return deffence;
-	}
-	public void setDeffence(double deffence) {
-		this.deffence = deffence;
-	}
+
 	public String getShipSerie() {
 		return shipSerie;
 	}
+
 	public void setShipSerie(String shipSerie) {
 		this.shipSerie = shipSerie;
 	}
@@ -44,6 +62,22 @@ public class Ship {
 
 	public void setAttack(double attack) {
 		this.attack = attack;
+	}
+
+	public int getGuns() {
+		return guns;
+	}
+
+	public void setGuns(int guns) {
+		this.guns = guns;
+	}
+
+	public double getDeffence() {
+		return deffence;
+	}
+
+	public void setDeffence(double deffence) {
+		this.deffence = deffence;
 	}
 
 	public double getCargo() {
@@ -70,11 +104,11 @@ public class Ship {
 		this.brutoMass = brutoMass;
 	}
 
-	public double getLoad() {
-		return load;
+	public double getLoadAmount() {
+		return loadAmount;
 	}
 
-	public void setLoad(double load) {
-		this.load = load;
+	public void setLoadAmount(double loadAmount) {
+		this.loadAmount = loadAmount;
 	}
 }

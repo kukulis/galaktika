@@ -19,3 +19,6 @@ Ar iš kart daryti, turint omeny, kad bus duombazė, ar pradžioje mėginti su o
 fleet'o (1ship1) ir ( 2ship2 ) ir bandyti parinkti šaunančią grupę.
 -- projektas galaktikam
 
+(*) pasidaryti hibernate pavyzdį.
+( ) saugoti fleet'us į db, o testavimui daryti krovimą iš db.
+( ) Prijungti springo freimworką dėl bean'ų.
