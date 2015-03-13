@@ -58,7 +58,4 @@ public class ShipModel {
 		this.guns = guns;
 	}
 	
-	
-	
-	
 }

@@ -1,5 +1,6 @@
 package lt.gt.sgalaktika;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,7 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table( 
 		name="ships",
-		uniqueConstraints=@UniqueConstraint ( columnNames={"shipSerie" } ))
+		uniqueConstraints=@UniqueConstraint ( name="uniqueShipSerie", columnNames={"shipSerie" } ))
 public class Ship {
 	
 	private long id;
@@ -48,6 +49,7 @@ public class Ship {
 		this.id = id;
 	}
 
+	@Column(name = "shipSerie", nullable = false, length = 32)
 	public String getShipSerie() {
 		return shipSerie;
 	}

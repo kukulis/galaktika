@@ -1,20 +1,29 @@
 package lt.gt.sgalaktika.construction;
 
+import lt.gt.math.Utils;
 import lt.gt.sgalaktika.Ship;
 
 public class ShipFactory {
-	public Ship buildShip ( ShipModel model, Technologies technologies, String serNo ) {
-		Ship ship = new Ship ( serNo );
+	public Ship buildShip(ShipBuildSpecification buildSpecification,
+			String serNo) {
+		Ship ship = new Ship(serNo);
+
+		ShipModel m = buildSpecification.getModel();
+		Technologies t = buildSpecification.getTechnologies();
+
+		ship.setGuns(m.getGuns());
+		ship.setAttack(m.getAttackMass() / m.getGuns() * t.getAttack());
+		ship.setCargo(m.getCargoMass() * t.getCargo() );
+		ship.setEnginePower(m.getEngineMass() * t.getEngine());
+
+		double mass = m.getAttackMass() + m.getCargoMass() + m.getEngineMass()
+				+ m.getDefenceMass();
 		
-		ship.setGuns( model.getGuns());
-		ship.setAttack( model.getAttackMass() / model.getGuns());
-		ship.setCargo( model.getCargoMass() );
-		ship.setEnginePower( model.getEngineMass() * technologies.getEngine());
+		double radius = Utils.sqrt3( mass );
+		ship.setDeffence( m.getDefenceMass() / radius * t.getDefence() );
 		
-		double massNoDefence = model.getAttackMass() + model.getCargoMass()+model.getEngineMass();
-		// TODO
-		
-		
+		ship.setBrutoMass( mass );
+
 		return ship;
 	}
 }

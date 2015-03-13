@@ -14,7 +14,7 @@ public class TestLoadAndStore {
 		log.trace ( "started" );
 		
 		Ship ship = new Ship("tarakonas2");
-		ship.setId(101);
+//		ship.setId(101);
 		ship.setAttack(1);
 		ship.setGuns(2);
 		ship.setDeffence(3);
