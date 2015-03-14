@@ -5,6 +5,7 @@ public class ShipBuildSpecification {
 	private ShipModel model;
 	private Technologies technologies;
 	
+	
 	public Technologies getTechnologies() {
 		return technologies;
 	}
@@ -20,4 +21,6 @@ public class ShipBuildSpecification {
 	public void setModel(ShipModel model) {
 		this.model = model;
 	}
+
+	
 }

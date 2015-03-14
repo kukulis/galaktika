@@ -1,6 +1,7 @@
 package lt.gt.sgalaktika.construction;
 
 import lt.gt.math.Utils;
+import lt.gt.sgalaktika.Fleet;
 import lt.gt.sgalaktika.Ship;
 
 public class ShipFactory {
@@ -25,5 +26,11 @@ public class ShipFactory {
 		ship.setBrutoMass( mass );
 
 		return ship;
+	}
+	
+	public Fleet buildFleet ( FleetBuildSpecification fbS ) {
+		Fleet fleet = new Fleet();
+		
+		return fleet;
 	}
 }
