@@ -10,7 +10,11 @@
         
         <property name="roundNumber" />
         
+<<<<<<< HEAD
         <set name="shots" >
+=======
+        <list name="shots" cascade="all" lazy="false">
+>>>>>>> 0a2b5803f1647c144316a43ab7f44f24efce65b8
 		    <key column="round_id"/>
 		    <one-to-many class="BattleReportShot"/>
 		</set>
