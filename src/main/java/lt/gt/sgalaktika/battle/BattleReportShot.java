@@ -1,6 +1,9 @@
 package lt.gt.sgalaktika.battle;
 
 public class BattleReportShot {
+	private long id;
+	private long round_id;
+	
 	private String attackerShip;
 	private String defenderShip;
 	private boolean destroyed;
@@ -33,6 +36,18 @@ public class BattleReportShot {
 	}
 	public void setDestroyed(boolean destroyed) {
 		this.destroyed = destroyed;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public long getRound_id() {
+		return round_id;
+	}
+	public void setRound_id(long round_id) {
+		this.round_id = round_id;
 	}
 	
 	

@@ -2,6 +2,8 @@ package lt.gt.sgalaktika.persistence;
 
 import lt.gt.sgalaktika.Fleet;
 import lt.gt.sgalaktika.Ship;
+import lt.gt.sgalaktika.battle.BattleReportRound;
+import lt.gt.sgalaktika.battle.BattleReportShot;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,7 +21,27 @@ public class Storage {
 	}
 	
 	public void storeFleet ( Fleet fleet ) {
-		
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save( fleet );
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	public void storeBattleReportShot ( BattleReportShot shot ) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save( shot );
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	public void storeBattleReportRound ( BattleReportRound round ) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save( round );
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	public Fleet loadFleet ( long id ) {

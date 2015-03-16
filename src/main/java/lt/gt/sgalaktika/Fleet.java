@@ -3,9 +3,31 @@ package lt.gt.sgalaktika;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Table;
+
+@Entity
+@Table( name="fleets" )
 public class Fleet {
-	private List <ShipGroup> groups = new ArrayList<ShipGroup> ();
+	@Id
+	private long id;
 	
+//	@ElementCollection
+	
+//	@CollectionOfElements(
+//		    targetElement = lt.gt.sgalaktika.ShipGroup.class
+//	)
+//	@JoinTable(
+//	    name = "groups",
+//	    joinColumns = @JoinColumn(name = "fleet_id")
+//	)
+//	@Column(name = "baz", nullable = false)
+	private List <ShipGroup> groups = new ArrayList<ShipGroup> ();
 	
 //	public void removeOneShip ( Ship ship ) {
 //		// find the group
@@ -28,6 +50,14 @@ public class Fleet {
 		return count;
 	}
 	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public void addShipGroup ( ShipGroup group ) {
 		groups.add(group);
 	}
