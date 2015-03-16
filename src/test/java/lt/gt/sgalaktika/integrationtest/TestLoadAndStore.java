@@ -2,6 +2,8 @@ package lt.gt.sgalaktika.integrationtest;
 
 import lt.gt.sgalaktika.Fleet;
 import lt.gt.sgalaktika.Ship;
+import lt.gt.sgalaktika.Utils;
+import lt.gt.sgalaktika.battle.BattleReport;
 import lt.gt.sgalaktika.battle.BattleReportRound;
 import lt.gt.sgalaktika.battle.BattleReportShot;
 import lt.gt.sgalaktika.persistence.Storage;
@@ -54,7 +56,7 @@ public class TestLoadAndStore {
 		log.trace ( "------- finished ----------" );
 	}
 
-	@Test
+//	@Test
 	public void storeRound () {
 		log.trace ( "------- started ----------" );
 		BattleReportShot shot = new BattleReportShot();
@@ -78,5 +80,55 @@ public class TestLoadAndStore {
 //		storage.storeBattleReportShot( shot );
 		
 		log.trace ( "------- finished ----------" );
+	}
+	
+	
+//	@Test
+	public void storeBattleReport (  ) {
+		log.trace ( "------- started ----------" );
+		BattleReportShot shot = new BattleReportShot();
+		shot.setAttackerShip( "ship1" );
+		shot.setDefenderShip( "ship2" );
+		shot.setDestroyed( false );
+
+		BattleReportShot shot2 = new BattleReportShot();
+		shot2.setAttackerShip( "ship2" );
+		shot2.setDefenderShip( "ship1" );
+		shot2.setDestroyed( true );
+
+		BattleReportRound round = new BattleReportRound() ;
+		round.setRoundNumber( 0 );
+		round.addShot ( shot );
+		round.addShot ( shot2 );
+		
+		BattleReportRound round2 = new BattleReportRound ();
+		round2.setRoundNumber( 1 );
+		BattleReportShot shot3 = new BattleReportShot ();
+		shot3.setAttackerShip( "aaa" );
+		shot3.setDefenderShip( "bbb" );
+		shot3.setDestroyed( true );
+		
+		round2.addShot( shot3 );
+		
+		BattleReport report = new BattleReport();
+		report.addRound ( round );
+		report.addRound ( round2 );
+		
+		Storage storage = new Storage ();
+		storage.storeBattleReport( report );
+		
+		log.trace( "report id=" + report.getId() );
+		
+		
+		log.trace ( "------- finished ----------" );
+	}
+	
+	@Test
+	public void loadBattleReport () {
+		Storage storage = new Storage ();
+		
+		BattleReport report = storage.loadBattleReport ( 1 );
+		
+		Utils.printReport( report );
 	}
 }

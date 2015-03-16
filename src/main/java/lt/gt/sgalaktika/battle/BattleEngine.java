@@ -59,7 +59,7 @@ public class BattleEngine {
 
 		currentRound = new BattleReportRound();
 		currentRound.setRoundNumber( rounds );
-		battleReport.getRounds().add( currentRound );
+		battleReport.addRound( currentRound );
 		
 		while ( ! battleFinished && rounds < maxRoundsCount ) {
 			logger.trace( "rounds="+rounds );
@@ -71,7 +71,7 @@ public class BattleEngine {
 				rounds ++;
 				currentRound = new BattleReportRound();
 				currentRound.setRoundNumber( rounds );
-				battleReport.getRounds().add( currentRound );
+				battleReport.addRound( currentRound );
 				continue;
 			}
 			else {

@@ -3,10 +3,9 @@ package lt.gt.sgalaktika.test;
 import lt.gt.sgalaktika.Fleet;
 import lt.gt.sgalaktika.Ship;
 import lt.gt.sgalaktika.ShipGroup;
+import lt.gt.sgalaktika.Utils;
 import lt.gt.sgalaktika.battle.BattleEngine;
 import lt.gt.sgalaktika.battle.BattleReport;
-import lt.gt.sgalaktika.battle.BattleReportRound;
-import lt.gt.sgalaktika.battle.BattleReportShot;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -62,19 +61,12 @@ public class ImitateBattle {
 			System.out.println ( "fleet1 won" );
 		
 		BattleReport report = engine.getBattleReport();
-		printReport ( report );
+		Utils.printReport ( report );
 		
 	}
 	
 	
-	private void printReport ( BattleReport report ) {
-		for ( BattleReportRound round : report.getRounds() ) {
-			System.out.println ( "round:"+ round.getRoundNumber() );
-			for ( BattleReportShot shot : round.getShots() ) {
-				System.out.println ( "Ship "+shot.getAttackerShip()+ " shots at " + shot.getDefenderShip()+ " destroyed:"+shot.isDestroyed() );
-			}
-		}
-	}
+	
 	
 //	@Test
 	public void testBattleComplex () {

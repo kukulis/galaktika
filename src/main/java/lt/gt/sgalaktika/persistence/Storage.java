@@ -2,6 +2,8 @@ package lt.gt.sgalaktika.persistence;
 
 import lt.gt.sgalaktika.Fleet;
 import lt.gt.sgalaktika.Ship;
+import lt.gt.sgalaktika.Utils;
+import lt.gt.sgalaktika.battle.BattleReport;
 import lt.gt.sgalaktika.battle.BattleReportRound;
 import lt.gt.sgalaktika.battle.BattleReportShot;
 
@@ -60,5 +62,26 @@ public class Storage {
 	
 	public void loadShip ( long shipId ) {
 		
+	}
+	
+	public void storeBattleReport ( BattleReport report ) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save( report );
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	public BattleReport loadBattleReport ( long repId ) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+//		session.save( report );
+//		session.getTransaction().commit();
+		BattleReport report = (BattleReport) session.get( BattleReport.class, repId );
+//		Utils.printReport( report );
+		
+		session.close();
+		
+		return report;
 	}
 }

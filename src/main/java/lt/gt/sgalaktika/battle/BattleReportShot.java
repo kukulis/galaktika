@@ -1,5 +1,6 @@
 package lt.gt.sgalaktika.battle;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,7 +10,9 @@ import javax.persistence.ManyToOne;
 public class BattleReportShot {
 	private long id;
 	
+	@Column( length = 32)
 	private String attackerShip;
+	@Column( length = 32)
 	private String defenderShip;
 	private boolean destroyed;
 	private int number;

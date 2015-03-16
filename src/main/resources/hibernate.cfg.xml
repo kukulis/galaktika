@@ -27,6 +27,7 @@
         <!--<mapping resource="lt/gt/sgalaktika/battle/BattleReportShot.hbm.xml"></mapping> -->
         <!-- <mapping resource="lt/gt/sgalaktika/battle/BattleReportRound.hbm.xml"></mapping> -->
         
+        <mapping class="lt.gt.sgalaktika.battle.BattleReport"/>
         <mapping class="lt.gt.sgalaktika.battle.BattleReportRound"/>
         <mapping class="lt.gt.sgalaktika.battle.BattleReportShot"/>
           

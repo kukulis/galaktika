@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -19,6 +21,8 @@ public class BattleReportRound {
 	private int roundNumber;
 	private List < BattleReportShot> shots = new ArrayList<BattleReportShot>();
 	
+	private BattleReport report; 
+	
 	public BattleReportRound() {
 	}
 	
@@ -30,6 +34,15 @@ public class BattleReportRound {
 		this.id = id;
 	}
 	
+	@ManyToOne
+	public BattleReport getReport() {
+		return report;
+	}
+
+	public void setReport(BattleReport report) {
+		this.report = report;
+	}
+
 	public int getRoundNumber() {
 		return roundNumber;
 	}
@@ -37,7 +50,7 @@ public class BattleReportRound {
 		this.roundNumber = roundNumber;
 	}
 	
-	@OneToMany(mappedBy="round" , cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
+	@OneToMany(mappedBy="round" , cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST}, fetch=FetchType.EAGER )
 	@OrderBy("number")
 	public List<BattleReportShot> getShots() {
 		return shots;
