@@ -19,15 +19,9 @@ public class BattleReportRound {
 	public List<BattleReportShot> getShots() {
 		return shots;
 	}
-<<<<<<< HEAD
 	public void setShots(List<BattleReportShot> shots) {
 		this.shots = shots;
 	}
-=======
-//	public void setShots(List<BattleReportShot> shots) {
-//		this.shots = shots;
-//	}
->>>>>>> 0a2b5803f1647c144316a43ab7f44f24efce65b8
 	public long getId() {
 		return id;
 	}
