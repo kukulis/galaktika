@@ -1,10 +1,11 @@
 package lt.gt.sgalaktika.construction;
 
 public class Technologies {
-	private double attack;
-	private double cargo;
-	private double defence;
-	private double engine;
+	private double attack=1;
+	private double cargo=1;
+	private double defence=1;
+	private double engine=1;
+	
 	public double getAttack() {
 		return attack;
 	}

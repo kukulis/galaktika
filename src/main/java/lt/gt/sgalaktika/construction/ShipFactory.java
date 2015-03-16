@@ -3,6 +3,7 @@ package lt.gt.sgalaktika.construction;
 import lt.gt.math.Utils;
 import lt.gt.sgalaktika.Fleet;
 import lt.gt.sgalaktika.Ship;
+import lt.gt.sgalaktika.ShipGroup;
 
 public class ShipFactory {
 	public Ship buildShip(ShipBuildSpecification buildSpecification,
@@ -30,6 +31,16 @@ public class ShipFactory {
 	
 	public Fleet buildFleet ( FleetBuildSpecification fbS ) {
 		Fleet fleet = new Fleet();
+		
+		int nr = 0;
+		for (  ShipGroupBuildSpecification gspec : fbS.getShipGroupBSpecifications() ) {
+			nr ++;
+			Ship ship = buildShip(gspec.getShipBSpecification(), ""+nr );
+			ShipGroup group = new ShipGroup( ship );
+			group.setAmount( gspec.getShipAmount());
+			
+			fleet.addShipGroup( group );
+		}
 		
 		return fleet;
 	}

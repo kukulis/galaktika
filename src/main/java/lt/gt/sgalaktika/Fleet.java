@@ -101,21 +101,8 @@ public class Fleet {
 		
 	}
 	
-//	/**
-//	 * @deprecated
-//	 * 
-//	 * @param shipNumber
-//	 * @param attacker
-//	 * @return
-//	 */
-//	private ShipGroup innerSelectGroup ( int shipNumber, boolean attacker ) {
-//	}
-//	public ShipGroup selectGroup ( int shipNumber ) {
-//		int i = 0;
-//		while ( shipNumber > 0 && groups.size() > i  ) {
-//			ShipGroup group = groups.get( i );
-//			shipNumber = shipNumber - group
-//		}
-//	}
+	public List <ShipGroup> getShipGroups () {
+		return groups;
+	}
 	
 }

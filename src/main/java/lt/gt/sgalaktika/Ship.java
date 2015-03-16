@@ -1,5 +1,8 @@
 package lt.gt.sgalaktika;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +17,8 @@ import org.hibernate.annotations.GenericGenerator;
 		name="ships",
 		uniqueConstraints=@UniqueConstraint ( name="uniqueShipSerie", columnNames={"shipSerie" } ))
 public class Ship {
+	
+	private static NumberFormat format=new DecimalFormat("##0.00");
 	
 	private long id;
 	
@@ -113,4 +118,15 @@ public class Ship {
 	public void setLoadAmount(double loadAmount) {
 		this.loadAmount = loadAmount;
 	}
+
+	@Override
+	public String toString() {
+		
+		return shipSerie + ":["+format.format(attack)+"x"+guns+";"
+				+format.format(deffence)+";"
+				+format.format(enginePower) +";"
+				+format.format(cargo) + "|"
+				+format.format(brutoMass) + "]";  
+	}
+	
 }

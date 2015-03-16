@@ -5,6 +5,9 @@ public class ShipBuildSpecification {
 	private ShipModel model;
 	private Technologies technologies;
 	
+	public ShipBuildSpecification ( ShipModel m ) {
+		model = m;
+	}
 	
 	public Technologies getTechnologies() {
 		return technologies;

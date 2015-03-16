@@ -8,6 +8,9 @@ public class ShipGroupBuildSpecification {
 	
 	private double _resourcesNeeded=0;
 	
+	public ShipGroupBuildSpecification ( ShipBuildSpecification shipSpec ) {
+		shipBSpecification = shipSpec;
+	}
 
 	public ShipBuildSpecification getShipBSpecification() {
 		return shipBSpecification;
