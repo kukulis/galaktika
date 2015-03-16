@@ -69,11 +69,13 @@ public class TestLoadAndStore {
 
 		BattleReportRound round = new BattleReportRound() ;
 		round.setRoundNumber( 10 );
-		round.getShots().add ( shot );
-		round.getShots().add ( shot2 );
+		round.addShot ( shot );
+		round.addShot ( shot2 );
 		
 		Storage storage = new Storage ();
 		storage.storeBattleReportRound( round );
+		
+//		storage.storeBattleReportShot( shot );
 		
 		log.trace ( "------- finished ----------" );
 	}

@@ -97,7 +97,7 @@ public class BattleEngine {
 					
 					boolean destroyed =  shoot ( aad.attackerShipGroup.getShip(), defenderShipGroup.getShip() );
 					
-					currentRound.getShots().add( new BattleReportShot(
+					currentRound.addShot( new BattleReportShot(
 							aad.attackerShipGroup.getShip().getShipSerie(),
 							defenderShipGroup.getShip().getShipSerie(), 
 							destroyed) );

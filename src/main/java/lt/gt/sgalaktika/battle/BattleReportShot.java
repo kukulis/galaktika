@@ -1,20 +1,47 @@
 package lt.gt.sgalaktika.battle;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class BattleReportShot {
 	private long id;
-	private long round_id;
 	
 	private String attackerShip;
 	private String defenderShip;
 	private boolean destroyed;
+	private int number;
+	/**
+	 * parent round
+	 */
+	private BattleReportRound round;
 	
 	
 	public BattleReportShot() {
 		
 	}
+
+	@Id @GeneratedValue
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	@ManyToOne
+	public BattleReportRound getRound() {
+		return round;
+	}
+	public void setRound(BattleReportRound round) {
+		this.round = round;
+	}
+
 	public BattleReportShot(String attackerShip, String defenderShip,
 			boolean destroyed) {
-		super();
+		
 		this.attackerShip = attackerShip;
 		this.defenderShip = defenderShip;
 		this.destroyed = destroyed;
@@ -37,18 +64,13 @@ public class BattleReportShot {
 	public void setDestroyed(boolean destroyed) {
 		this.destroyed = destroyed;
 	}
-	public long getId() {
-		return id;
+
+	public int getNumber() {
+		return number;
 	}
-	public void setId(long id) {
-		this.id = id;
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
-	public long getRound_id() {
-		return round_id;
-	}
-	public void setRound_id(long round_id) {
-		this.round_id = round_id;
-	}
-	
 	
 }
