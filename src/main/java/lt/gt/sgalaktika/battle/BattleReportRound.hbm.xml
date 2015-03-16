@@ -3,13 +3,12 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="lt.gt.sgalaktika.battle">
-	<class name="BattleReportShot" table="battlereportshot">
+	<class name="BattleReportRound" table="battlereportround">
         <id name="id" column="id">
             <generator class="increment"/>
         </id>
         
         <property name="roundNumber" />
-        
         
         <list name="shots" cascade="all" lazy="false">
 		    <key column="round_id"/>
@@ -26,4 +25,5 @@
         <property name="defenderShip" length="32" ></property>
         <property name="destroyed" ></property>
     </class>
+    
 </hibernate-mapping>
