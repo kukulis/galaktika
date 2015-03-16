@@ -22,10 +22,10 @@
 		<!-- <mapping resource="com/mkyong/common/Stock.hbm.xml"></mapping>  -->
         <!-- Names the annotated entity class -->
         <mapping class="lt.gt.sgalaktika.Ship"/>
-        <!-- <mapping class="lt.gt.sgalaktika.Fleet"/> 
-        <mapping resource="lt/gt/sgalaktika/battle/BattleReportShot.hbm.xml"></mapping>
-        -->
-        <mapping resource="lt/gt/sgalaktika/battle/BattleReportRound.hbm.xml"></mapping>
+        <!-- <mapping class="lt.gt.sgalaktika.Fleet"/> --> 
+
+        <!--<mapping resource="lt/gt/sgalaktika/battle/BattleReportShot.hbm.xml"></mapping> -->
+         <mapping resource="lt/gt/sgalaktika/battle/BattleReportRound.hbm.xml"></mapping>  
     </session-factory>
     
 </hibernate-configuration>
