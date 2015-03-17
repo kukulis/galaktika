@@ -22,6 +22,9 @@
 		<!-- <mapping resource="com/mkyong/common/Stock.hbm.xml"></mapping>  -->
         <!-- Names the annotated entity class -->
         <mapping class="lt.gt.sgalaktika.Ship"/>
+        <mapping class="lt.gt.sgalaktika.construction.ShipModel"/>
+        <mapping class="lt.gt.sgalaktika.construction.ShipGroupBuildSpecification"/>
+        
         <!-- <mapping class="lt.gt.sgalaktika.Fleet"/> --> 
 
         <!--<mapping resource="lt/gt/sgalaktika/battle/BattleReportShot.hbm.xml"></mapping> -->

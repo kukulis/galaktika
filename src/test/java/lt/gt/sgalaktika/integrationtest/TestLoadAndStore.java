@@ -6,6 +6,10 @@ import lt.gt.sgalaktika.Utils;
 import lt.gt.sgalaktika.battle.BattleReport;
 import lt.gt.sgalaktika.battle.BattleReportRound;
 import lt.gt.sgalaktika.battle.BattleReportShot;
+import lt.gt.sgalaktika.construction.ShipBuildSpecification;
+import lt.gt.sgalaktika.construction.ShipGroupBuildSpecification;
+import lt.gt.sgalaktika.construction.ShipModel;
+import lt.gt.sgalaktika.construction.Technologies;
 import lt.gt.sgalaktika.persistence.Storage;
 
 import org.apache.log4j.Logger;
@@ -123,12 +127,63 @@ public class TestLoadAndStore {
 		log.trace ( "------- finished ----------" );
 	}
 	
-	@Test
+//	@Test
 	public void loadBattleReport () {
 		Storage storage = new Storage ();
 		
 		BattleReport report = storage.loadBattleReport ( 1 );
 		
 		Utils.printReport( report );
+	}
+	
+
+//	@Test
+	public void saveShipModel () {
+		log.trace ( "------- started ----------" );
+		Storage storage = new Storage ();
+		
+		ShipModel model = new ShipModel ();
+		model.setName( "modelis" );
+		model.setGuns( 1 );
+		model.setAttackMass( 4 );
+		model.setDefenceMass( 4 );
+		model.setEngineMass( 4 );
+		model.setCargoMass( 4 );
+		
+		storage.storeModel( model );
+		
+		log.trace ( "------- finished ---------" );
+	}
+	
+//	@Test
+	public void saveShipGroupBuildSpecification () {
+		log.trace ( "------- started ----------" );
+		Storage storage = new Storage ();
+
+		ShipModel model = new ShipModel ();
+		model.setName( "mod10" );
+		model.setGuns( 1 );
+		model.setAttackMass( 4 );
+		model.setDefenceMass( 4 );
+		model.setEngineMass( 4 );
+		model.setCargoMass( 4 );
+		
+		storage.storeModel( model );
+		
+		ShipBuildSpecification bSpec = new ShipBuildSpecification( model );
+		bSpec.setTechnologies( new Technologies () );
+		
+		ShipGroupBuildSpecification gSpec = new ShipGroupBuildSpecification( bSpec );
+		
+		storage.storeShipGroupBuildSpecification( gSpec );
+		
+		log.trace ( "------- finished ---------" );
+	}
+	
+	@Test
+	public void saveFleetBuildSpecification () {
+		log.trace ( "------- started ----------" );
+		
+		log.trace ( "------- finished ---------" );
 	}
 }

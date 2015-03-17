@@ -2,10 +2,11 @@ package lt.gt.sgalaktika.persistence;
 
 import lt.gt.sgalaktika.Fleet;
 import lt.gt.sgalaktika.Ship;
-import lt.gt.sgalaktika.Utils;
 import lt.gt.sgalaktika.battle.BattleReport;
 import lt.gt.sgalaktika.battle.BattleReportRound;
 import lt.gt.sgalaktika.battle.BattleReportShot;
+import lt.gt.sgalaktika.construction.ShipGroupBuildSpecification;
+import lt.gt.sgalaktika.construction.ShipModel;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -83,5 +84,21 @@ public class Storage {
 		session.close();
 		
 		return report;
+	}
+	
+	public void storeModel (ShipModel shipModel )  {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save( shipModel );
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	public void storeShipGroupBuildSpecification ( ShipGroupBuildSpecification gSpec ) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save( gSpec );
+		session.getTransaction().commit();
+		session.close();
 	}
 }
