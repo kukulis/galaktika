@@ -24,6 +24,7 @@
         <mapping class="lt.gt.sgalaktika.Ship"/>
         <mapping class="lt.gt.sgalaktika.construction.ShipModel"/>
         <mapping class="lt.gt.sgalaktika.construction.ShipGroupBuildSpecification"/>
+        <mapping class="lt.gt.sgalaktika.construction.FleetBuildSpecification"/>
         
         <!-- <mapping class="lt.gt.sgalaktika.Fleet"/> --> 
 

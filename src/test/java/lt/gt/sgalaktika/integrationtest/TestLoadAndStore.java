@@ -6,6 +6,7 @@ import lt.gt.sgalaktika.Utils;
 import lt.gt.sgalaktika.battle.BattleReport;
 import lt.gt.sgalaktika.battle.BattleReportRound;
 import lt.gt.sgalaktika.battle.BattleReportShot;
+import lt.gt.sgalaktika.construction.FleetBuildSpecification;
 import lt.gt.sgalaktika.construction.ShipBuildSpecification;
 import lt.gt.sgalaktika.construction.ShipGroupBuildSpecification;
 import lt.gt.sgalaktika.construction.ShipModel;
@@ -34,6 +35,13 @@ public class TestLoadAndStore {
 		
 		Storage storage = new Storage();
 		storage.storeShip( ship );
+	}
+	
+	@Test
+	public void storeShipGroup () {
+		log.trace ( "------- started ----------" );
+		// TODO
+		log.trace ( "------- finished ---------" );
 	}
 	
 //	@Test
@@ -180,10 +188,31 @@ public class TestLoadAndStore {
 		log.trace ( "------- finished ---------" );
 	}
 	
-	@Test
+//	@Test
 	public void saveFleetBuildSpecification () {
 		log.trace ( "------- started ----------" );
+		Storage storage = new Storage ();
+		FleetBuildSpecification fspec = new FleetBuildSpecification();
+		ShipModel model_ = new ShipModel();
+		ShipBuildSpecification spec_ = new ShipBuildSpecification(model_);
+		spec_.setTechnologies( new Technologies());
+		ShipGroupBuildSpecification gspec_ = new ShipGroupBuildSpecification(spec_);
 		
+		model_.setAttackMass(2);
+		model_.setGuns(1);
+		model_.setDefenceMass(2);
+		model_.setCargoMass(2);
+		model_.setEngineMass(2);
+		
+		storage.storeModel( model_ );
+		
+		gspec_.setShipAmount( 3 );
+		
+		fspec.addShipGroupBS( gspec_ );
+		
+		fspec.calculateResources();
+		
+		storage.storeFleetBS ( fspec );
 		log.trace ( "------- finished ---------" );
 	}
 }

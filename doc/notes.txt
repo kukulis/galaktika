@@ -22,6 +22,8 @@ fleet'o (1ship1) ir ( 2ship2 ) ir bandyti parinkti šaunančią grupę.
 (*) pasidaryti hibernate pavyzdį.
 --> ( ) saugoti fleet'us į db, o testavimui daryti krovimą iš db.
 ( ) saugoti gamybos specifikacijas į db.
-( ) saugoti reportus į db.
+	( ) saugoti fleet gamybos specifikacijas į db.
+
+(*) saugoti reportus į db.
 	(*) prijungtas hibernate'as
 ( ) Prijungti springo freimworką dėl bean'ų.

@@ -34,7 +34,7 @@ public class TestBuildFactory {
 		
 		gspec_.setShipAmount( 3 );
 		
-		fspec.getShipGroupBSpecifications().add( gspec_ );
+		fspec.addShipGroupBS( gspec_ );
 		
 		ShipFactory factory = new ShipFactory();
 		Fleet fleet = factory.buildFleet( fspec );
@@ -107,7 +107,7 @@ public class TestBuildFactory {
 		
 		gspec_.setShipAmount( 3 );
 		
-		fspec.getShipGroupBSpecifications().add( gspec_ );
+		fspec.addShipGroupBS( gspec_ );
 		
 		fspec.calculateResources();
 		

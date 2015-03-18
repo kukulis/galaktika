@@ -5,6 +5,7 @@ import lt.gt.sgalaktika.Ship;
 import lt.gt.sgalaktika.battle.BattleReport;
 import lt.gt.sgalaktika.battle.BattleReportRound;
 import lt.gt.sgalaktika.battle.BattleReportShot;
+import lt.gt.sgalaktika.construction.FleetBuildSpecification;
 import lt.gt.sgalaktika.construction.ShipGroupBuildSpecification;
 import lt.gt.sgalaktika.construction.ShipModel;
 
@@ -98,6 +99,14 @@ public class Storage {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		session.save( gSpec );
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	public void storeFleetBS( FleetBuildSpecification fleetBS ) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save( fleetBS );
 		session.getTransaction().commit();
 		session.close();
 	}

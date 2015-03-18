@@ -5,6 +5,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 @Entity
@@ -19,9 +20,12 @@ public class ShipGroupBuildSpecification {
 	
 	private double resourcesUsed=0;
 	
+	@ManyToOne
+	private FleetBuildSpecification fleetBuildSpecification;
+	private int buildOrder;
+	
 	@Transient
 	private double _resourcesNeeded=0;
-	
 	
 	public ShipGroupBuildSpecification ( ShipBuildSpecification shipSpec ) {
 		shipBSpecification = shipSpec;
@@ -33,6 +37,23 @@ public class ShipGroupBuildSpecification {
 
 	public void setGb_id(long gb_id) {
 		this.gb_id = gb_id;
+	}
+	
+	public int getBuildOrder() {
+		return buildOrder;
+	}
+
+	public void setBuildOrder(int buildOrder) {
+		this.buildOrder = buildOrder;
+	}
+
+	public FleetBuildSpecification getFleetBuildSpecification() {
+		return fleetBuildSpecification;
+	}
+
+	public void setFleetBuildSpecification(
+			FleetBuildSpecification fleetBuildSpecification) {
+		this.fleetBuildSpecification = fleetBuildSpecification;
 	}
 
 	public ShipBuildSpecification getShipBSpecification() {
