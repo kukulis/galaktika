@@ -3,6 +3,7 @@ package lt.gt.sgalaktika.economics;
 public class PlanetCivilisation {
 	private String planetName;
 	private double populationSize;
+	private int currentTurn;
 	
 	public String getPlanetName() {
 		return planetName;
@@ -16,4 +17,23 @@ public class PlanetCivilisation {
 	public void setPopulationSize(double populationSize) {
 		this.populationSize = populationSize;
 	}
+	public int getCurrentTurn() {
+		return currentTurn;
+	}
+	public void setCurrentTurn(int currentTurn) {
+		this.currentTurn = currentTurn;
+	}
+
+	public void executePopulationWork () {
+		
+	}
+	public void executeGrow () {
+		
+	}
+	
+	public void executeConstructionCommands() {
+		// TODO
+	}
+	
+
 }
