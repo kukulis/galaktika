@@ -14,10 +14,19 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class Storage {
-	
+
 	private SessionFactory sessionFactory;
+	private static Storage _instance;
 	
-	public Storage () {
+	public static Storage getInstance () {
+		if ( _instance == null ) {
+			_instance = new Storage ();
+		}
+		
+		return _instance;
+	}
+	
+	private Storage () {
 		
 		  sessionFactory = new Configuration()
           .configure() // configures settings from hibernate.cfg.xml

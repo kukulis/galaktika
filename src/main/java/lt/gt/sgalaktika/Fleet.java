@@ -3,40 +3,24 @@ package lt.gt.sgalaktika;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
 @Table( name="fleets" )
 public class Fleet {
-	@Id
+	@Id @GeneratedValue
 	private long id;
 	
-//	@ElementCollection
-	
-//	@CollectionOfElements(
-//		    targetElement = lt.gt.sgalaktika.ShipGroup.class
-//	)
-//	@JoinTable(
-//	    name = "groups",
-//	    joinColumns = @JoinColumn(name = "fleet_id")
-//	)
-//	@Column(name = "baz", nullable = false)
+	@OneToMany(mappedBy="fleet" , cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST}, fetch=FetchType.EAGER )
+	@OrderBy("numberInFleet")
 	private List <ShipGroup> groups = new ArrayList<ShipGroup> ();
-	
-//	public void removeOneShip ( Ship ship ) {
-//		// find the group
-//		for ( ShipGroup group : groups ) {
-//			if ( group.getShip().getShipSerie().equals( ship.getShipSerie() ) ) {
-//				group.setAmount( group.getAmount() - 1 );
-//			}
-//		}
-//	}
 	
 	/**
 	 * TODO use counter, which will be updated in "add" and "remove" methods.
@@ -60,6 +44,8 @@ public class Fleet {
 
 	public void addShipGroup ( ShipGroup group ) {
 		groups.add(group);
+		group.setFleet( this );
+		group.setNumberInFleet( groups.size());
 	}
 	
 	public void resetShotsAmount () {

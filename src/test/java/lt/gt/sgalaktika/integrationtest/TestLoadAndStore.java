@@ -2,6 +2,7 @@ package lt.gt.sgalaktika.integrationtest;
 
 import lt.gt.sgalaktika.Fleet;
 import lt.gt.sgalaktika.Ship;
+import lt.gt.sgalaktika.ShipGroup;
 import lt.gt.sgalaktika.Utils;
 import lt.gt.sgalaktika.battle.BattleReport;
 import lt.gt.sgalaktika.battle.BattleReportRound;
@@ -19,6 +20,8 @@ import org.junit.Test;
 public class TestLoadAndStore {
 	Logger log = Logger.getLogger( TestLoadAndStore.class );
 	
+	
+	
 //	@Test
 	public void storeTest  () {
 		log.trace ( "started" );
@@ -33,31 +36,39 @@ public class TestLoadAndStore {
 		ship.setEnginePower( 15 );
 		ship.setLoadAmount(1);
 		
-		Storage storage = new Storage();
+		Storage storage = Storage.getInstance();
 		storage.storeShip( ship );
 	}
 	
 	@Test
-	public void storeShipGroup () {
-		log.trace ( "------- started ----------" );
-		// TODO
-		log.trace ( "------- finished ---------" );
-	}
-	
-//	@Test
 	public void storeFleet () {
-		log.trace ( "started" );
+		log.trace ( "----------- started ---------" );
+		Storage storage = Storage.getInstance();
 		Fleet fleet=new Fleet();
 		
-		Storage storage = new Storage ();
+		Ship ship = new Ship("tarakonas3");
+		ship.setAttack(1);
+		ship.setGuns(2);
+		ship.setDeffence(3);
+		ship.setCargo(4);
+		ship.setBrutoMass(15);
+		ship.setEnginePower( 15 );
+		ship.setLoadAmount(1);
+
+		storage.storeShip(ship);
+		
+		ShipGroup sGroup = new ShipGroup(ship);
+		
+		fleet.addShipGroup( sGroup );
+		
 		storage.storeFleet (fleet);
-		log.trace ( "finished" );
+		log.trace ( "----------- finished --------" );
 	}
 	
 //	@Test
 	public void storeShot () {
 		log.trace ( "------- started ----------" );
-		Storage storage = new Storage ();
+		Storage storage = Storage.getInstance();
 		
 		BattleReportShot shot = new BattleReportShot();
 		shot.setAttackerShip( "ship1" );
@@ -86,7 +97,7 @@ public class TestLoadAndStore {
 		round.addShot ( shot );
 		round.addShot ( shot2 );
 		
-		Storage storage = new Storage ();
+		Storage storage = Storage.getInstance();
 		storage.storeBattleReportRound( round );
 		
 //		storage.storeBattleReportShot( shot );
@@ -126,7 +137,7 @@ public class TestLoadAndStore {
 		report.addRound ( round );
 		report.addRound ( round2 );
 		
-		Storage storage = new Storage ();
+		Storage storage = Storage.getInstance();
 		storage.storeBattleReport( report );
 		
 		log.trace( "report id=" + report.getId() );
@@ -137,7 +148,7 @@ public class TestLoadAndStore {
 	
 //	@Test
 	public void loadBattleReport () {
-		Storage storage = new Storage ();
+		Storage storage = Storage.getInstance();
 		
 		BattleReport report = storage.loadBattleReport ( 1 );
 		
@@ -148,7 +159,7 @@ public class TestLoadAndStore {
 //	@Test
 	public void saveShipModel () {
 		log.trace ( "------- started ----------" );
-		Storage storage = new Storage ();
+		Storage storage = Storage.getInstance();
 		
 		ShipModel model = new ShipModel ();
 		model.setName( "modelis" );
@@ -166,7 +177,7 @@ public class TestLoadAndStore {
 //	@Test
 	public void saveShipGroupBuildSpecification () {
 		log.trace ( "------- started ----------" );
-		Storage storage = new Storage ();
+		Storage storage = Storage.getInstance();
 
 		ShipModel model = new ShipModel ();
 		model.setName( "mod10" );
@@ -191,7 +202,7 @@ public class TestLoadAndStore {
 //	@Test
 	public void saveFleetBuildSpecification () {
 		log.trace ( "------- started ----------" );
-		Storage storage = new Storage ();
+		Storage storage = Storage.getInstance();
 		FleetBuildSpecification fspec = new FleetBuildSpecification();
 		ShipModel model_ = new ShipModel();
 		ShipBuildSpecification spec_ = new ShipBuildSpecification(model_);

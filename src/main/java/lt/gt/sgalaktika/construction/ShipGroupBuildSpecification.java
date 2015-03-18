@@ -5,6 +5,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
@@ -20,7 +21,7 @@ public class ShipGroupBuildSpecification {
 	
 	private double resourcesUsed=0;
 	
-	@ManyToOne
+	@ManyToOne @JoinColumn(name="fb_id" )
 	private FleetBuildSpecification fleetBuildSpecification;
 	private int buildOrder;
 	
