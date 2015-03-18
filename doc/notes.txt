@@ -37,6 +37,7 @@ fleet'o (1ship1) ir ( 2ship2 ) ir bandyti parinkti šaunančią grupę.
 	( ) Spausdinti reportą. 
 
 
+( ) sukurti erdvę ir planetas, rases.
 
 
 
