@@ -1,10 +1,31 @@
 package lt.gt.sgalaktika;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table ( name="shipgroups" )
 public class  ShipGroup {
+	
+	@Id @GeneratedValue
+	private int group_id;
+
+	// not sure if needed
 	private String name;
+	
+	@ManyToOne @JoinColumn(name="ship_id")
 	private Ship ship;
 	private int amount=1;
 	private int shotedShips = 0;
+	
+	@ManyToOne @JoinColumn(name="fleet_id")
+	private Fleet fleet;
+	
+	private int numberInFleet;
 	
 	public ShipGroup ( String groupName, Ship ship ) {
 		name=groupName;
@@ -15,6 +36,25 @@ public class  ShipGroup {
 		this.ship = ship;
 	}
 	
+	public int getGroup_id() {
+		return group_id;
+	}
+	public void setGroup_id(int group_id) {
+		this.group_id = group_id;
+	}
+	
+	public int getNumberInFleet() {
+		return numberInFleet;
+	}
+	public void setNumberInFleet(int numberInFleet) {
+		this.numberInFleet = numberInFleet;
+	}
+	public Fleet getFleet() {
+		return fleet;
+	}
+	public void setFleet(Fleet fleet) {
+		this.fleet = fleet;
+	}
 	public Ship getShip() {
 		return ship;
 	}

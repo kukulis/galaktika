@@ -7,7 +7,7 @@ Ar iš kart daryti, turint omeny, kad bus duombazė, ar pradžioje mėginti su o
 (*) Įvesti tokį dalyką, kaip raundas mūšyje.
 ( ) Optimizuoti laivų skaičiavimą ( su counter'iais ).
 
-( ) Padaryti log'ą 
+(*) Padaryti log'ą 
 	(*) įtraukti loginimo biblioteką
 		(*) sukurti maven'o projektą
 		(*) perkelti klases į maven'o projektą
@@ -20,10 +20,24 @@ fleet'o (1ship1) ir ( 2ship2 ) ir bandyti parinkti šaunančią grupę.
 -- projektas galaktikam
 
 (*) pasidaryti hibernate pavyzdį.
---> ( ) saugoti fleet'us į db, o testavimui daryti krovimą iš db.
-( ) saugoti gamybos specifikacijas į db.
-( ) saugoti reportus į db.
+(*) saugoti fleet'us į db, o testavimui daryti krovimą iš db.
+--> ( ) dar padaryti eskadrilių saugojimo testavimą
+(*) saugoti gamybos specifikacijas į db.
+	(*) saugoti fleet gamybos specifikacijas į db.
+
+(*) saugoti reportus į db.
 	(*) prijungtas hibernate'as
 ( ) Prijungti springo freimworką dėl bean'ų.
 
-asdfasf
+( ) Daryti integracinį testą:
+	( ) Sukurti dvi gamybos specifikacijas ir išsaugoti į DB. 
+	( ) Sugeneruoti dvi eskadriles pagal specifikacijas 
+	    ir išsaugoti į DB.
+	( ) Imituoti mūšį tarp eskadrilių, reportą išsaugoti į DB.
+	( ) Spausdinti reportą. 
+
+
+( ) sukurti erdvę ir planetas, rases.
+
+
+

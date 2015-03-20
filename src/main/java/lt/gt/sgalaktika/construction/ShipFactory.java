@@ -14,15 +14,15 @@ public class ShipFactory {
 		Technologies t = buildSpecification.getTechnologies();
 
 		ship.setGuns(m.getGuns());
-		ship.setAttack(m.getAttackMass() / m.getGuns() * t.getAttack());
-		ship.setCargo(m.getCargoMass() * t.getCargo() );
-		ship.setEnginePower(m.getEngineMass() * t.getEngine());
+		ship.setAttack(m.getAttackMass() / m.getGuns() * t.getAttackTech());
+		ship.setCargo(m.getCargoMass() * t.getCargoTech() );
+		ship.setEnginePower(m.getEngineMass() * t.getEngineTech());
 
 		double mass = m.getAttackMass() + m.getCargoMass() + m.getEngineMass()
 				+ m.getDefenceMass();
 		
 		double radius = Utils.sqrt3( mass );
-		ship.setDeffence( m.getDefenceMass() / radius * t.getDefence() );
+		ship.setDeffence( m.getDefenceMass() / radius * t.getDefenceTech() );
 		
 		ship.setBrutoMass( mass );
 
