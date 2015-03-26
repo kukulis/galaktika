@@ -40,4 +40,8 @@ fleet'o (1ship1) ir ( 2ship2 ) ir bandyti parinkti šaunančią grupę.
 ( ) sukurti erdvę ir planetas, rases.
 
 ( ) Prijungti springo libus ir spring mvc.
-
+	( ) pirmiausia prijungsim spring freimworką. Reikia pabandyti naujausią versiją 4.*
+	http://docs.spring.io/spring/docs/current/spring-framework-reference/html/
+	( ) Tada pasiaiškinti dėl spring+hibernate suderinamumo - ar nereikia hibernate 
+	    konfigūracijos perkelti į springo konfigūraciją?
+	( ) Tada jau jungti spring mvc. Bet pavyzdžius galima ir prieš tai pasibandyti.
