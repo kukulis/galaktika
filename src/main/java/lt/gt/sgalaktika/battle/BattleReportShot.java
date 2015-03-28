@@ -5,8 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table( 
+		name="battlereportshot" )
 public class BattleReportShot {
 	private long id;
 	
@@ -23,7 +26,7 @@ public class BattleReportShot {
 	
 	
 	public BattleReportShot() {
-		
+		 
 	}
 
 	@Id @GeneratedValue

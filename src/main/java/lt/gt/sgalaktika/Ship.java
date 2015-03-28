@@ -10,12 +10,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table( 
 		name="ships",
 		uniqueConstraints=@UniqueConstraint ( name="uniqueShipSerie", columnNames={"shipSerie" } ))
+@NamedQueries({
+	@NamedQuery(name = "ships.findAll", query ="from Ship"),
+	@NamedQuery(name = "ships.findById", query ="from Ship where id = :id")
+})
+@NoArgsConstructor
 public class Ship {
 	
 	private static NumberFormat format=new DecimalFormat("##0.00");
@@ -35,16 +44,13 @@ public class Ship {
 	private double brutoMass;
 	private double loadAmount;
 	
-	public Ship () {
-		
-	}
 	
 	public Ship ( String serie ) {
 		this.shipSerie = serie;
 	}
 	
 	@Id
-	@GeneratedValue(generator="increment")
+	@GeneratedValue
 	@GenericGenerator(name="increment", strategy = "increment")
 	public long getId() {
 		return id;

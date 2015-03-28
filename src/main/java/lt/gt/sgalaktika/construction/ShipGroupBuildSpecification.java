@@ -11,7 +11,9 @@ import javax.persistence.Transient;
 
 @Entity
 public class ShipGroupBuildSpecification {
-	
+	public ShipGroupBuildSpecification() {
+		// TODO Auto-generated constructor stub
+	}
 	@Id @GeneratedValue
 	private long gb_id;
 	

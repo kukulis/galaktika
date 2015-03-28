@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table( 
 		name="battlereportround" )
-public class BattleReportRound {
+public class BattleReportRound { 
 	private long id;
 	private int roundNumber;
 	private List < BattleReportShot> shots = new ArrayList<BattleReportShot>();
@@ -25,7 +25,7 @@ public class BattleReportRound {
 	
 	public BattleReportRound() {
 	}
-	
+	 
 	@Id @GeneratedValue
 	public long getId() {
 		return id;
@@ -34,7 +34,7 @@ public class BattleReportRound {
 		this.id = id;
 	}
 	
-	@ManyToOne
+	@ManyToOne()
 	public BattleReport getReport() {
 		return report;
 	}

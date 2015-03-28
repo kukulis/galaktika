@@ -7,9 +7,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table ( name="shipgroups" )
 public class  ShipGroup {
+	public ShipGroup() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	@Id @GeneratedValue
 	private int group_id;
@@ -49,6 +54,7 @@ public class  ShipGroup {
 	public void setNumberInFleet(int numberInFleet) {
 		this.numberInFleet = numberInFleet;
 	}
+	@JsonIgnore
 	public Fleet getFleet() {
 		return fleet;
 	}
@@ -73,7 +79,7 @@ public class  ShipGroup {
 	public void setShotedShips(int shotsAmount) {
 		this.shotedShips = shotsAmount;
 	}
-	
+	@JsonIgnore
 	public int getAbleShotAmount () {
 		if ( getShip().getGuns() > 0 ) {
 			int ableShot = amount - shotedShips;

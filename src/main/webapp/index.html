@@ -1,0 +1,144 @@
+<!doctype html>
+<html ng-app="mymodal">
+
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <!-- Scripts -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+
+    <!-- App -->
+    <script>
+        var mymodal = angular.module('mymodal', []);
+
+mymodal.controller('MainCtrl', function ($scope, $http) {
+	 $scope.formdata = {};
+    $scope.showModal = false;
+    $scope.buttonClicked = "";
+    $scope.toggleModal = function(btnClicked){
+        $scope.buttonClicked = btnClicked;
+        $scope.showModal = !$scope.showModal;
+    };
+    
+ 
+	$scope.processForm = function() {
+		$http({
+		method : 'POST',
+		url : 'mvc/ships',
+		data : $scope.formdata
+		}).
+        success(function() {
+            console.log("send successfuly");
+           
+       		 $http.get("mvc/ships")
+       		    .success(function (response) {$scope.ships = response;});
+       		
+          }).
+          error(function(data, status, headers, config) {
+            console.log("It is failed" + data);
+          });
+		};
+
+		
+		$scope.deleteShip = function(ship) {
+			$http({
+			method : 'delete',
+			url : 'mvc/ships/'+ship.id
+			}).
+	        success(function() {
+	            console.log("send successfuly");
+	           
+	       		 $http.get("mvc/ships")
+	       		    .success(function (response) {$scope.ships = response;});
+	       		
+	          }).
+	          error(function() {
+	            console.log("It is failed");
+	          });
+			};
+			
+			
+	   
+		 $http.get("mvc/ships")
+		    .success(function (response) {$scope.ships = response;});
+		
+  });
+
+mymodal.directive('modal', function () {
+    return {
+      template: '<div class="modal fade">' + 
+          '<div class="modal-dialog">' + 
+            '<div class="modal-content">' + 
+              '<div class="modal-header">' + 
+                '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' + 
+                '<h4 class="modal-title">New Ship Form</h4>' + 
+              '</div>' + 
+              '<div class="modal-body" ng-transclude></div>' + 
+            '</div>' + 
+          '</div>' + 
+        '</div>',
+      restrict: 'E',
+      transclude: true,
+      replace:true,
+      scope:true,
+      link: function postLink(scope, element, attrs) {
+          scope.$watch(attrs.visible, function(value){
+          if(value == true)
+            $(element).modal('show');
+          else
+            $(element).modal('hide');
+        });
+
+        $(element).on('shown.bs.modal', function(){
+          scope.$apply(function(){
+            scope.$parent[attrs.visible] = true;
+          });
+        });
+
+        $(element).on('hidden.bs.modal', function(){
+          scope.$apply(function(){
+            scope.$parent[attrs.visible] = false;
+          });
+        });
+      }
+    };
+  });
+
+
+    </script>
+</head>
+<body>
+
+<div ng-controller="MainCtrl" class="container">
+  <button ng-click="toggleModal()" class="btn btn-default">Create new Ship</button>
+  <modal visible="showModal">
+       <form ng-submit="processForm()">
+
+      <div class="form-group">
+        <label for="shipSerie">shipSerie</label>
+        <input class="form-control" id="shipSerie" ng-model="formdata.shipSerie" />
+      </div>
+       <div class="form-group">
+        <label for="attack">attack</label>
+        <input class="form-control" id="attack" ng-model="formdata.attack" />
+      </div>
+     <button type="submit" class="btn btn-success"> Add new Ship
+</button>
+    </form>
+  </modal>
+  
+  
+<table cellspacing="10">
+  <tr ng-repeat="x in ships">
+  <td> <button ng-click="deleteShip(x)" class="glyphicon glyphicon-remove"/></td>
+    <td>{{ x.shipSerie }}</td>
+    <td>{{ x.attack }}</td>
+  </tr>
+</table>
+  
+</div>
+
+</body>
+</html>

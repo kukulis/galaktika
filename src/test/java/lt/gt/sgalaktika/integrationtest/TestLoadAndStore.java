@@ -22,7 +22,7 @@ public class TestLoadAndStore {
 	
 	
 	
-//	@Test
+	@Test
 	public void storeTest  () {
 		log.trace ( "started" );
 		
