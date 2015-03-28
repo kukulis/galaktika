@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!--
+		<property name="hibernate.hbm2ddl.auto">create-drop-update</property>
+		<property name="hbmdl.auto">update</property>
+		-->
+		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.password">hib</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hib</property>
+		<property name="hibernate.connection.username">hib</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="show_sql">true</property>
+		<property name="hbm2ddl.auto">update</property>
+		<!-- <mapping resource="com/mkyong/common/Stock.hbm.xml"></mapping> -->
+		<!-- Names the annotated entity class -->
+		<mapping class="lt.gt.sgalaktika.Ship"/>
+		<mapping class="lt.gt.sgalaktika.ShipGroup"/>
+		<mapping class="lt.gt.sgalaktika.Fleet"/>
+		<mapping class="lt.gt.sgalaktika.construction.ShipModel"/>
+		<mapping class="lt.gt.sgalaktika.construction.ShipGroupBuildSpecification"/>
+		<mapping class="lt.gt.sgalaktika.construction.FleetBuildSpecification"/>
+		<!-- <mapping class="lt.gt.sgalaktika.Fleet"/> -->
+		<!--<mapping resource="lt/gt/sgalaktika/battle/BattleReportShot.hbm.xml"></mapping> -->
+		<!-- <mapping resource="lt/gt/sgalaktika/battle/BattleReportRound.hbm.xml"></mapping> -->
+		<mapping class="lt.gt.sgalaktika.battle.BattleReport"/>
+		<mapping class="lt.gt.sgalaktika.battle.BattleReportRound"/>
+		<mapping class="lt.gt.sgalaktika.battle.BattleReportShot"/>
+	</session-factory>
+</hibernate-configuration>
