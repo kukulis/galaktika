@@ -40,4 +40,7 @@ fleet'o (1ship1) ir ( 2ship2 ) ir bandyti parinkti šaunančią grupę.
 ( ) sukurti erdvę ir planetas, rases.
 
 
-
+( ) konvertuoti į web projektą,
+( ) pasidaryti springo konfigą.
+( ) pasidaryti springo bean'ą testavimui .
+( ) prijungti tomcat'ą
