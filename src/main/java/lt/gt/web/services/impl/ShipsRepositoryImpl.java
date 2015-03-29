@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class ShipsRepositoryImpl implements ShipsRepository {
 	
-	 @PersistenceContext
-	 private EntityManager em;
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
 	public List<Ship> getShips() {
@@ -33,6 +33,17 @@ public class ShipsRepositoryImpl implements ShipsRepository {
 	@Override
 	public void deleteShip(Long id) {
 		em.createQuery("delete from Ship s where s.id = :id").setParameter("id", id).executeUpdate();	
+	}
+	
+	@Transactional
+	@Override
+	public void updateShip(Ship ship) {
+		em.merge(ship);
+	}
+
+	@Override
+	public Ship getShip(long id) {
+		return em.find(Ship.class, id);
 	}
 
 }

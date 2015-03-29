@@ -1,144 +1,155 @@
 <!doctype html>
-<html ng-app="mymodal">
+<html>
 
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-        <!-- Scripts -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-
-    <!-- App -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
+<script src="ng-grid-2.0.14.min.js"></script>
+<link rel="stylesheet" href="ng-grid.min.css"> 
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-resource.js  "></script>
     <script>
-        var mymodal = angular.module('mymodal', []);
-
-mymodal.controller('MainCtrl', function ($scope, $http) {
-	 $scope.formdata = {};
-    $scope.showModal = false;
-    $scope.buttonClicked = "";
-    $scope.toggleModal = function(btnClicked){
-        $scope.buttonClicked = btnClicked;
-        $scope.showModal = !$scope.showModal;
-    };
+    var app = angular.module('app', ['ngResource','ngGrid']);
+    app.factory("shipsService", function ($resource){
+	   var resource = $resource("mvc/ships/:id",null,
+			   {
+           "update": {method: "PUT"}
+       }	   
+	   );
+	 
+	   return resource;
+   	}).controller("mainController", function ($scope, $resource, shipsService)
+   		  {
+   			$scope.listShips = function () {
+	   	     shipsService.query();
+	   	    };
+	   	    
+			$scope.edit = function (row) {
+				$scope.showModal = true;
+				$scope.ship = row.entity;
+				$scope.editMode = true;  
+		   	};
+		   		
+		   	$scope.storeShip = function () {
+		   		  if(!$scope.editMode)
+		   	    	shipsService.save(this.ship, function(data) {
+		   	    		$scope.myData =  shipsService.query();
+			   	  		$scope.showModal = false;
+		   	    	}, function(error) {
+		   	    	    // error handler
+		   	    	})
+		   	    	else shipsService.update({ id:this.ship.id },this.ship, function(data) {
+		   	    		$scope.myData =  shipsService.query();
+			   	  		$scope.showModal = false;
+		   	    	}, function(error) {
+		   	    	    // error handler
+		   	    	});
+		   	  };
+		  
+	   	    
+	   	  $scope.delete = function (row) {
+	   		shipsService.delete(row.entity, function(data) {
+   	    		$scope.myData =  shipsService.query();
+   	    	}, function(error) {
+   	    	    // error handler
+   	    	});
+	   	  };
+		   	    
+		  $scope.ship = {}
+				   	    
+		  $scope.showModal = false;
+		  $scope.toggleModal = function(){
+			  $scope.showModal = !$scope.showModal;	  
+			  $scope.ship = {}
+			  $scope.editMode = false;
+		  };
+		      
+		  $scope.myData =  shipsService.query();
+		  $scope.myOptions = { data: 'myData', multiSelect: false,
+		    	        columnDefs: [
+		    	                     { field: '', cellTemplate: '<button ng-click="delete(row)" class="glyphicon glyphicon-remove"></button>', width: 60 },
+		    	                     { field: '', cellTemplate: '<button ng-click="edit(row)" class="glyphicon glyphicon-edit"></button>', width: 60 },
+			    	                 { field: 'shipSerie', displayName: 'shipSerie label' },
+		    	                     { field: 'attack', displayName: 'attack label' }
+		    	                    ] };
+   		  });
     
- 
-	$scope.processForm = function() {
-		$http({
-		method : 'POST',
-		url : 'mvc/ships',
-		data : $scope.formdata
-		}).
-        success(function() {
-            console.log("send successfuly");
-           
-       		 $http.get("mvc/ships")
-       		    .success(function (response) {$scope.ships = response;});
-       		
-          }).
-          error(function(data, status, headers, config) {
-            console.log("It is failed" + data);
-          });
-		};
-
-		
-		$scope.deleteShip = function(ship) {
-			$http({
-			method : 'delete',
-			url : 'mvc/ships/'+ship.id
-			}).
-	        success(function() {
-	            console.log("send successfuly");
-	           
-	       		 $http.get("mvc/ships")
-	       		    .success(function (response) {$scope.ships = response;});
-	       		
-	          }).
-	          error(function() {
-	            console.log("It is failed");
-	          });
-			};
-			
-			
-	   
-		 $http.get("mvc/ships")
-		    .success(function (response) {$scope.ships = response;});
-		
-  });
-
-mymodal.directive('modal', function () {
-    return {
-      template: '<div class="modal fade">' + 
-          '<div class="modal-dialog">' + 
-            '<div class="modal-content">' + 
-              '<div class="modal-header">' + 
-                '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' + 
-                '<h4 class="modal-title">New Ship Form</h4>' + 
+    
+    app.directive('modal', function () {
+        return {
+          template: '<div class="modal fade">' + 
+              '<div class="modal-dialog">' + 
+                '<div class="modal-content">' + 
+                  '<div class="modal-header">' + 
+                    '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' + 
+                    '<h4 class="modal-title">{{ title }}</h4>' + 
+                  '</div>' + 
+                  '<div class="modal-body" ng-transclude></div>' + 
+                '</div>' + 
               '</div>' + 
-              '<div class="modal-body" ng-transclude></div>' + 
-            '</div>' + 
-          '</div>' + 
-        '</div>',
-      restrict: 'E',
-      transclude: true,
-      replace:true,
-      scope:true,
-      link: function postLink(scope, element, attrs) {
-          scope.$watch(attrs.visible, function(value){
-          if(value == true)
-            $(element).modal('show');
-          else
-            $(element).modal('hide');
-        });
+            '</div>',
+          restrict: 'E',
+          transclude: true,
+          replace:true,
+          scope:true,
+          link: function postLink(scope, element, attrs) {
+              scope.title = attrs.title;
 
-        $(element).on('shown.bs.modal', function(){
-          scope.$apply(function(){
-            scope.$parent[attrs.visible] = true;
-          });
-        });
+              scope.$watch(attrs.visible, function(value){
+                if(value == true)
+                  $(element).modal('show');
+                else
+                  $(element).modal('hide');
+              });
 
-        $(element).on('hidden.bs.modal', function(){
-          scope.$apply(function(){
-            scope.$parent[attrs.visible] = false;
-          });
-        });
-      }
-    };
-  });
+              $(element).on('shown.bs.modal', function(){
+                scope.$apply(function(){
+                  scope.$parent[attrs.visible] = true;
+                });
+              });
 
-
+              $(element).on('hidden.bs.modal', function(){
+                scope.$apply(function(){
+                  scope.$parent[attrs.visible] = false;
+                });
+              });
+            }
+        };
+      });
     </script>
+    <style type="text/css">
+    .gridStyle {
+    border: 1px solid rgb(212,212,212);
+    width: 700px; 
+    height: 300px;
+}</style>
 </head>
 <body>
+		<div ng-app="app">
+			<div ng-controller="mainController">
+				
+				<modal title="New Ship Form" visible="showModal">
+				 
+				      <div class="form-group">
+				        <label for="shipSerie">shipSerie</label>
+				        <input type="text" class="form-control" ng-model="ship.shipSerie" id="shipSerie" placeholder="shipSerie" />
+				      </div>
+				      <div class="form-group">
+				        <label for="attack">attack</label>
+				        <input type="text" class="form-control" ng-model="ship.attack" id="attack" placeholder="attack" />
+				      </div>
+				      <button type="submit"  ng-click = "storeShip()" class="btn btn-default">Submit</button>
+				     
+		  		</modal>
+		  		
+		  		 <div class="gridStyle" ng-grid="myOptions"></div>
+		  		 
+		  		 <button ng-click="toggleModal()" class="btn btn-default">New Ship</button>
+				
+			</div>
+		</div>
 
-<div ng-controller="MainCtrl" class="container">
-  <button ng-click="toggleModal()" class="btn btn-default">Create new Ship</button>
-  <modal visible="showModal">
-       <form ng-submit="processForm()">
-
-      <div class="form-group">
-        <label for="shipSerie">shipSerie</label>
-        <input class="form-control" id="shipSerie" ng-model="formdata.shipSerie" />
-      </div>
-       <div class="form-group">
-        <label for="attack">attack</label>
-        <input class="form-control" id="attack" ng-model="formdata.attack" />
-      </div>
-     <button type="submit" class="btn btn-success"> Add new Ship
-</button>
-    </form>
-  </modal>
-  
-  
-<table cellspacing="10">
-  <tr ng-repeat="x in ships">
-  <td> <button ng-click="deleteShip(x)" class="glyphicon glyphicon-remove"/></td>
-    <td>{{ x.shipSerie }}</td>
-    <td>{{ x.attack }}</td>
-  </tr>
-</table>
-  
-</div>
 
 </body>
 </html>

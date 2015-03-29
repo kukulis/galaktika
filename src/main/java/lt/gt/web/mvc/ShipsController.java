@@ -14,15 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/ships")
-public class ShipstController {
+public class ShipsController {
 	
 	@Autowired
 	private ShipsRepository shipsRepository;
 
-	
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Ship> listFleets(){
+	public List<Ship> listShips(){
 		return shipsRepository.getShips();
+	}
+	
+	@RequestMapping(value="/{id}",method = RequestMethod.GET)
+	public Ship getShip(@PathVariable("id") long id){
+		return shipsRepository.getShip(id);
 	}
 	
 	@RequestMapping( method = RequestMethod.POST)
@@ -30,8 +34,13 @@ public class ShipstController {
 		shipsRepository.storeShip(ship);
 	}
 	
+	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
+	public void update(@RequestBody Ship ship){
+		shipsRepository.updateShip(ship);
+	}
+	
 	@RequestMapping(value="/{id}",  method = RequestMethod.DELETE)
 	public void delete(@PathVariable("id") long id){
 		shipsRepository.deleteShip(id);
-	}
+	}  
 }
