@@ -2,3 +2,9 @@
 /.settings
 /.project
 /.classpath
+/bin/doc
+/bin/README.md
+/bin/src
+/bin/target
+/bin/LICENSE
+/bin/pom.xml
