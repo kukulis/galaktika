@@ -44,6 +44,9 @@ public class Ship {
 	private double brutoMass;
 	private double loadAmount;
 	
+	public Ship () {
+		
+	}
 	
 	public Ship ( String serie ) {
 		this.shipSerie = serie;

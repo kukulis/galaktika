@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -22,6 +23,7 @@ public class BattleReportShot {
 	/**
 	 * parent round
 	 */
+	@ManyToOne @JoinColumn(name="round_id")
 	private BattleReportRound round;
 	
 	
@@ -37,7 +39,7 @@ public class BattleReportShot {
 		this.id = id;
 	}
 	
-	@ManyToOne
+	
 	public BattleReportRound getRound() {
 		return round;
 	}

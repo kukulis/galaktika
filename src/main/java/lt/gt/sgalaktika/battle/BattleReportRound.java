@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -34,7 +35,7 @@ public class BattleReportRound {
 		this.id = id;
 	}
 	
-	@ManyToOne()
+	@ManyToOne @JoinColumn(name="report_id")
 	public BattleReport getReport() {
 		return report;
 	}
