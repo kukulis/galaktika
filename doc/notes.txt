@@ -38,6 +38,51 @@ fleet'o (1ship1) ir ( 2ship2 ) ir bandyti parinkti šaunančią grupę.
 
 
 ( ) sukurti erdvę ir planetas, rases.
+---
 
+Komandų programavimas
+( ) Išskirti komandas į šias sritis
+	* gamyba
+		- laivų gamyba ir upgreidai
+		- laivų pakrovimas / iškrovimas
+		- technologijų upgreidai
+		- kapitalo gamyba
+	* laivynai
+		- skrydžiai
+		- mūšiai
+		- bombardavimai
+		 
+	* diplomatija
+		- aliansų/taikos/karo paskelbimai
+		
+	( ) pirmiausia suprogramuoti po vieną sritį, po to tas sritis apjungti
+	* Vienoks gali būti suprogramavimo eiliškumas, o kitoks vykdymo eiliškumas.
+	* Vykdymas
+		- diplomatija
+		- laivų pakrovimas ir iškrovimas
+		- mūšiai erdvėje
+		- skrydžiai
+		- mūšiai planetų orbitoje.
+		- bombardavimai
+		- laivų gamyba ir upgreidai
+		- technologijų upgreidai
+		- kapitalo gamyba
+	* Programuoti galima nuo skrydžių.
+	* Galaktikos laivynų aprašymai:
+	Laivai gali būti:
+		a) Planetoje
+		b) Skrydyje
+	Laivų komandų aprašymas:
+		a) Nieko nedaryti
+		b) Skristi į paskirties vietą
+		c) Pratęsti skrydyje esančio laivyno poziciją
+	Mūšių generavimas:
+		a) Kai laivynai po skrydžio susitinka toje pačioje planetoje
+			* Planetoje esančius mūšius reikia sugeneruoti po skrydžių įvykdymą.
+		b) Kai laivynai susitinka erdvėje.
+			* Erdvėje esančius mūšius būtina sugeneruoti prieš skrydžių įvykdymą.
+	Bombardavimo generavimas:
+	Bombardavimo komanda galima tik tada, 
+	kai laivynas praitą ėjimą buvo tos pačios planetos orbitoje.
 
 
