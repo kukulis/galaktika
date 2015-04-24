@@ -1,9 +1,12 @@
 package lt.gt.sgalaktika.economics;
 
+import lt.gt.sgalaktika.space.Race;
+
 public class PlanetCivilisation {
 	private String planetName;
 	private double populationSize;
 	private int currentTurn;
+	private Race ownerRace;
 	
 	public String getPlanetName() {
 		return planetName;
@@ -33,6 +36,13 @@ public class PlanetCivilisation {
 	
 	public void executeConstructionCommands() {
 		// TODO
+	}
+	
+	public Race getOwnerRace() {
+		return ownerRace;
+	}
+	public void setOwnerRace(Race ownerRace) {
+		this.ownerRace = ownerRace;
 	}
 	
 
