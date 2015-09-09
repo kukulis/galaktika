@@ -14,27 +14,23 @@ public class FleetServiceMock implements IFleetService
 		dataHolder = dh;
 	}
 
-	@Override
 	public IFleet getFleet ( long fleetId )
 	{
 		return dataHolder.getFleetsMap().get(fleetId);
 	}
 
-	@Override
 	public IFullFleet getFullFleet ( long fleetId, byte mode )
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public IShipContainerFleet getShipContainerFleet ( long fleetId )
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public ISpaceTravelerFleet getSpaceTravelerFleet ( long fleetId )
 	{
 		// TODO Auto-generated method stub

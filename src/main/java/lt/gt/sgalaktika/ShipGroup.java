@@ -20,6 +20,9 @@ public class  ShipGroup {
 	@ManyToOne @JoinColumn(name="ship_id")
 	private Ship ship;
 	private int amount=1;
+	/**
+	 * Ships that already made shots in the given turn
+	 */
 	private int shotedShips = 0;
 	
 	@ManyToOne @JoinColumn(name="fleet_id")
