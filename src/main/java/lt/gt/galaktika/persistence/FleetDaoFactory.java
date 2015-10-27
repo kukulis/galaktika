@@ -7,7 +7,7 @@ public class FleetDaoFactory
 	private static FleetDaoFactory _instance;
 	private FleetDaoFactory () {}
 	
-	private FleetDaoType defaultType = FleetDaoType.MEMORY;
+	private DaoType defaultType = DaoType.MEMORY;
 	
 	public static FleetDaoFactory getInstance () {
 		if ( _instance == null ) {
@@ -20,20 +20,20 @@ public class FleetDaoFactory
 		return createFleetDao( defaultType ); 
 	}
 	
-	public IFleetDAO createFleetDao ( FleetDaoType daoType ) {
-		if ( daoType == FleetDaoType.MEMORY ) {
+	public IFleetDAO createFleetDao ( DaoType daoType ) {
+		if ( daoType == DaoType.MEMORY ) {
 			return new MemoryFleetDao();
 		}
 		assert false : "Unimplemented database dao type "+daoType;
 		return null;
 	}
 
-	public FleetDaoType getDefaultType ()
+	public DaoType getDefaultType ()
 	{
 		return defaultType;
 	}
 
-	public void setDefaultType ( FleetDaoType defaultType )
+	public void setDefaultType ( DaoType defaultType )
 	{
 		this.defaultType = defaultType;
 	}

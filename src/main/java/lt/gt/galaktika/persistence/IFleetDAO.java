@@ -6,7 +6,7 @@ import lt.gt.galaktika.data.IFleet;
 
 public interface IFleetDAO
 {   
-	public <T extends IFleet>  Collection <T> findAllFleets(Class <T> c);
+	public Collection <IFleet> findAllFleets();
 	public void create (IFleet fleet);
 	public void delete (IFleet fleet);
 	public void update (IFleet fleet);
@@ -20,5 +20,5 @@ public interface IFleetDAO
 	 */
 	public <T extends IFleet> T findById ( IFleet fleet, Class <T>  c );
 	
-	// TODO other finds
+
 }

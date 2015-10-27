@@ -1,5 +1,10 @@
 package lt.gt.galaktika.persistence;
 
-public enum FleetDaoType {
+/**
+ * 
+ * @author giedrius
+ *
+ */
+public enum DaoType {
 	MEMORY, DATABASE;
 }

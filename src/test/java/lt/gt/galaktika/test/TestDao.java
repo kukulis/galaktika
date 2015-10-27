@@ -8,14 +8,19 @@ import lt.gt.galaktika.data.IShipContainerFleet;
 import lt.gt.galaktika.data.impl.Fleet;
 import lt.gt.galaktika.data.impl.FullFleet;
 import lt.gt.galaktika.persistence.FleetDaoFactory;
-import lt.gt.galaktika.persistence.FleetDaoType;
+import lt.gt.galaktika.persistence.DaoType;
 import lt.gt.galaktika.persistence.IFleetDAO;
 
+/**
+ * 
+ * @author giedrius
+ *
+ */
 public class TestDao
 {
 	@Test
 	public void testCreateFleetDao () {
-		IFleetDAO fleetDao = FleetDaoFactory.getInstance().createFleetDao( FleetDaoType.MEMORY );
+		IFleetDAO fleetDao = FleetDaoFactory.getInstance().createFleetDao( DaoType.MEMORY );
 		fleetDao.create( new Fleet () );
 		
 		IFleet fleet = fleetDao.findById( new Fleet(), Fleet.class );
