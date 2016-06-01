@@ -1,0 +1,91 @@
+Reikia rinkti laivus, turinčius ginklus, kad per ėjimą visi galėtų bent po kartą iššauti.
+
+Ar iš kart daryti, turint omeny, kad bus duombazė, ar pradžioje mėginti su objektais?
+
+
+(*) Pakoreguoti atakuojančio išrinkimą tik tarp tų laivų, kurie turi ginklus.
+(*) Įvesti tokį dalyką, kaip raundas mūšyje.
+( ) Optimizuoti laivų skaičiavimą ( su counter'iais ).
+
+(*) Padaryti log'ą 
+	(*) įtraukti loginimo biblioteką
+		(*) sukurti maven'o projektą
+		(*) perkelti klases į maven'o projektą
+	(*) suformuoti konfigą
+	(*) sudėlioti loginimo sakinius
+	
+( ) testuoti grupės parinkimą iš laivyno.
+( ) per anksti užsibaigia roundas, aiškintis: sukurti situaciją, kai būna šovę du laivai iš kiekvieno
+fleet'o (1ship1) ir ( 2ship2 ) ir bandyti parinkti šaunančią grupę.
+-- projektas galaktikam
+
+(*) pasidaryti hibernate pavyzdį.
+(*) saugoti fleet'us į db, o testavimui daryti krovimą iš db.
+--> ( ) dar padaryti eskadrilių saugojimo testavimą
+(*) saugoti gamybos specifikacijas į db.
+	(*) saugoti fleet gamybos specifikacijas į db.
+
+(*) saugoti reportus į db.
+	(*) prijungtas hibernate'as
+( ) Prijungti springo freimworką dėl bean'ų.
+
+( ) Daryti integracinį testą:
+	( ) Sukurti dvi gamybos specifikacijas ir išsaugoti į DB. 
+	( ) Sugeneruoti dvi eskadriles pagal specifikacijas 
+	    ir išsaugoti į DB.
+	( ) Imituoti mūšį tarp eskadrilių, reportą išsaugoti į DB.
+	( ) Spausdinti reportą. 
+
+
+( ) sukurti erdvę ir planetas, rases.
+---
+
+Komandų programavimas
+( ) Išskirti komandas į šias sritis
+	* gamyba
+		- laivų gamyba ir upgreidai
+		- laivų pakrovimas / iškrovimas
+		- technologijų upgreidai
+		- kapitalo gamyba
+	* laivynai
+		- skrydžiai
+		- mūšiai
+		- bombardavimai
+		 
+	* diplomatija
+		- aliansų/taikos/karo paskelbimai
+		
+	( ) pirmiausia suprogramuoti po vieną sritį, po to tas sritis apjungti
+	* Vienoks gali būti suprogramavimo eiliškumas, o kitoks vykdymo eiliškumas.
+	* Vykdymas
+		- diplomatija
+		- laivų pakrovimas ir iškrovimas
+		- mūšiai erdvėje
+		- skrydžiai
+		- mūšiai planetų orbitoje.
+		- bombardavimai
+		- laivų gamyba ir upgreidai
+		- technologijų upgreidai
+		- kapitalo gamyba
+	* Programuoti galima nuo skrydžių.
+	* Galaktikos laivynų aprašymai:
+	Laivai gali būti:
+		a) Planetoje
+		b) Skrydyje
+	Laivų komandų aprašymas:
+		a) Nieko nedaryti
+		b) Skristi į paskirties vietą
+		c) Pratęsti skrydyje esančio laivyno poziciją
+	Mūšių generavimas:
+		a) Kai laivynai po skrydžio susitinka toje pačioje planetoje
+			* Planetoje esančius mūšius reikia sugeneruoti po skrydžių įvykdymą.
+		b) Kai laivynai susitinka erdvėje.
+			* Erdvėje esančius mūšius būtina sugeneruoti prieš skrydžių įvykdymą.
+	Bombardavimo generavimas:
+	Bombardavimo komanda galima tik tada, 
+	kai laivynas praitą ėjimą buvo tos pačios planetos orbitoje.
+------------------------------
+
+2016-01-03
+
+

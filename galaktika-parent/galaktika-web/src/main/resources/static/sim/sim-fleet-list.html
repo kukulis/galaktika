@@ -1,0 +1,20 @@
+<p>sim fleet list</p>
+<input type="hidden" id="showPagesCount" ng-model="showPagesCount" ng-init="showPagesCount=5" />
+<p><a href="#/sim-edit-fleet?id=0">new Fleet</a></p>
+<table>
+  <tr ng-repeat="fleet in controller.fleetsResult.records">
+    <td>{{ fleet.fleetId }}</td>
+    <td>{{ fleet.name }}</td>
+    <td><a href="#/sim-edit-fleet?id={{ fleet.fleetId }}">edit</a></td> 
+    <td><a ng-click="controller.deleteFleet(fleet.fleetId)">delete</a></td> 
+  </tr>
+</table>
+<p>
+<select name="pageSize" id="pageSize" ng-model="pageSize"  ng-init="pageSize=10">
+	<option value="2">2</option>
+	<option value="10">10</option>
+	<option value="20">20</option>
+</select>
+<button ng-repeat="page in controller.pages" ng-click="controller.setCurrentPage(page)" style="margin: 0 2px;">{{page + 1}}</button>
+</p>
+<p>Einamas puslapis: {{controller.currentPage + 1}}</p>
