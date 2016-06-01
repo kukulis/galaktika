@@ -18,3 +18,6 @@ My purpose is to make it a web based game. A bit simpler than the original one, 
 Next step is to make graphics, implement possibility to communicate between players in the site, to make alliances and so on.
 
 And after that start to make some additions in to the game, like artifacts, different weapons and various events in to the galaxy.
+
+# build notes
+When you import maven project in to eclipse, you must add target/generated-resources as the source folder in the project properties -> java build path -> source.
