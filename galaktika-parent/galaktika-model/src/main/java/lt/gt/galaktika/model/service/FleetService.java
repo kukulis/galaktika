@@ -23,7 +23,7 @@ public class FleetService
 	@Autowired
 	private IFleetDao fleetDao;
 
-	public long save ( Fleet fleet )
+	public long save ( Fleet fleet, long nationId )
 	{
 		DFleet dFleet = new DFleet();
 		try
@@ -33,6 +33,8 @@ public class FleetService
 		{
 			throw new GalaktikaRuntimeException("Problems copying fleet bean", e);
 		}
+		
+		dFleet.setNationId( nationId );
 		return fleetDao.save(dFleet);
 	}
 
@@ -51,8 +53,6 @@ public class FleetService
 	{
 		DFleetFilter dFleetFilter = new DFleetFilter();
 		dFleetFilter.setFilterNationId(nationId);
-		// TODO select
-
 		DataSearchResult<DFleet> dResults = fleetDao.loadPortion(dsl, dFleetFilter);
 		DataSearchResult<Fleet> results = new DataSearchResult<>();
 		results.setRecords(dResults.getRecords().stream().map(f -> createFleet(f)).collect(Collectors.toList()));
@@ -67,7 +67,7 @@ public class FleetService
 	 * @param f
 	 * @return
 	 */
-	public Fleet createFleet ( DFleet f )
+	public static Fleet createFleet ( DFleet f )
 	{
 		Fleet fleet = new Fleet();
 		if (f != null)
@@ -86,6 +86,10 @@ public class FleetService
 		DFleet dFleet = fleetDao.getFleet(id, nationId);
 		return createFleet(dFleet);
 	}
+	
+	public boolean isFleet( long id, long nationId) {
+		return fleetDao.getFleet(id, nationId) != null;
+	}
 
 	public long storeFleet ( Fleet fleet )
 	{
@@ -99,5 +103,10 @@ public class FleetService
 		{
 			throw new GalaktikaRuntimeException("Problems copying fleet bean", e);
 		}
+	}
+	
+	
+	public boolean deleteFleet( long fleetId ) {
+		return fleetDao.updateDeletedFlag(fleetId, true );
 	}
 }

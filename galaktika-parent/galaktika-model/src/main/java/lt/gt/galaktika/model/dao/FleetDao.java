@@ -30,8 +30,17 @@ public class FleetDao implements IFleetDao
 
 	public long save ( DFleet fleet )
 	{
-		Long id = (Long) getSession().save(fleet);
-		return Utils.value(id, 0);
+		if (fleet.getFleetId() == 0)
+		{
+			Long id = (Long) getSession().save(fleet);
+			return Utils.value(id, 0);
+		}
+		else
+		{ // TODO ? move to different object, the id check condition to outside
+			// from this method
+			fleet = (DFleet) getSession().merge(fleet);
+			return fleet.getFleetId();
+		}
 	}
 
 	public DataSearchResult<DFleet> loadPortion ( DataSearchLimits pi, DFleetFilter filter )
@@ -53,16 +62,27 @@ public class FleetDao implements IFleetDao
 	private Criteria createDFleetCriteria ( DFleetFilter filter )
 	{
 		Criteria c = getSession().createCriteria(DFleet.class);
-		if ( filter.getFilterNationId() != 0 ) {
-			c.add( Restrictions.eq( "nationId" , filter.getFilterNationId() ));
-		}
+		if (filter.getFilterNationId() != 0)
+			c.add(Restrictions.eq("nationId", filter.getFilterNationId()));
+
+		if (filter.isHideDeletedFleets())
+			c.add(Restrictions.eqOrIsNull("deleted", false));
+
 		return c;
 	}
 
 	public DFleet getFleet ( long id, long nationId )
 	{
-		Query query = getSession().createQuery("from DFleet where id = :id and ( nationId=:nationId or :nationId=0)").setParameter("id", id).setParameter( "nationId", nationId);
+		Query query = getSession().createQuery("from DFleet where id = :id and ( nationId=:nationId or :nationId=0)")
+				.setParameter("id", id).setParameter("nationId", nationId);
 		return (DFleet) query.uniqueResult();
 	}
 
+	@Override
+	public boolean updateDeletedFlag ( long fleetId, boolean value )
+	{
+		Query query = getSession().createSQLQuery("update fleets set deleted=:deleted where fleetId=:fleetId")
+				.setBoolean("deleted", value).setLong("fleetId", fleetId);
+		return query.executeUpdate() > 0;
+	}
 }

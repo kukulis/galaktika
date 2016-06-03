@@ -27,10 +27,10 @@ public class GenerateTestFleets
 		Fleet fleetAtletas=new Fleet("Atletas");
 		Fleet fleetNevezis=new Fleet("Nevėžis");
 	
-		System.out.println ( "Zalgiris id="+ fleetService.save( fleetZalgiris ));
-		System.out.println ( "Lietuvos Rytas id="+ fleetService.save( fleetLietuvosRytas ));
-		System.out.println ( "Atletas id="+ fleetService.save( fleetAtletas ));
-		System.out.println ( "Nevėžis id="+ fleetService.save( fleetNevezis ));
+		System.out.println ( "Zalgiris id="+ fleetService.save( fleetZalgiris, 0 ));
+		System.out.println ( "Lietuvos Rytas id="+ fleetService.save( fleetLietuvosRytas, 0 ));
+		System.out.println ( "Atletas id="+ fleetService.save( fleetAtletas, 0 ));
+		System.out.println ( "Nevėžis id="+ fleetService.save( fleetNevezis, 0 ));
 		
 	}
 }

@@ -13,6 +13,8 @@ angularObj
 							$scope.test="testas";
 							
 							var self = this;
+							
+							self.responseData={};
 
 							
 							self.fleetsPages = function (showPagesCount) {
@@ -70,8 +72,14 @@ angularObj
 								self.reloadFleets();
 							});
 							
-							self.deleteFleet=function(fleetId) {
-								console.log("fleetsController.deleteFleet called, fleetId="+fleetId );
+							self.deleteFleet=function(pFleetId) {
+								console.log("fleetsController.deleteFleet called, pFleetId="+pFleetId );
+								$http.delete('/deleteFleet', {params:{fleetId:pFleetId}}).then( function(response) {
+									self.responseData = response.data;
+									console.log ("fleetsController.http.delete responsas "+response.data);
+									if ( response.data )
+										self.reloadFleets();
+								});
 								return false;
 							}
 

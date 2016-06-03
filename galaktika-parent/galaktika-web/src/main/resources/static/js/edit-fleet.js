@@ -1,7 +1,9 @@
 angularObj.controller('fleetEditController', function($scope, $http, $location, $routeParams) {
 	console.log("fleetEditController called id="+$routeParams.id);
 	var self = this;
-	self.id=$routeParams.id;
+	self.id=0;
+	if ( $routeParams.id != null )
+		self.id=$routeParams.id;
 	self.postResponse={};
 	self.showStoreFleet= ($routeParams.id == 0 || $routeParams.id == null );
 	
@@ -13,9 +15,10 @@ angularObj.controller('fleetEditController', function($scope, $http, $location, 
 	self.storeFleet = function () {
 		console.log ( "storeFleet called" );
 		$http.post (
-				"/storeFleet", {name: self.fleet.name}
+				"/storeFleet", self.fleet
 				).then(function(response) {
-					self.postResponse=response.data;
+					self.postResponse=response.data; 
+					self.fleet.fleetId=response.data;
 				});
 	}
 });

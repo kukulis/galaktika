@@ -27,14 +27,25 @@ public class TestFleetsDao
 		dfleet.setName( "fleetas2" );
 		long rezId = fleetDao.save( dfleet );
 		System.out.println ( "stored with id="+rezId);
+		rezId = fleetDao.save( dfleet );
+		System.out.println ( "second time stored with id="+rezId);
 	}
 	
 	@Test
+	@Ignore
 	public  void testGetFleetWithNation () {
 		DFleet fleet11 =  fleetDao.getFleet( 11, 2 );
 		DFleet fleet12 =  fleetDao.getFleet( 12, 2 );
 		
 		System.out.println ( "fleet11="+fleet11 ); 
 		System.out.println ( "fleet12="+fleet12 ); 
+	}
+	
+	@Test
+	public void testDeleteFleet() {
+		// TODO
+		System.out.println ( "testDeleteFleet called" );
+		boolean result = fleetDao.updateDeletedFlag(21, true);
+		System.out.println ( "result="+result );
 	}
 }

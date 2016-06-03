@@ -66,9 +66,7 @@ public class TestFleets
 //	@Test
 	public void testStoreFleet () {
 		System.out.println ( "testStoreFleet called" );
-		long id = fleetService.save( new Fleet ("Naujas fleetas"));
-		System.out.println ( "fleet saved with id="+id);
-		
+		long id = fleetService.save( new Fleet ("Naujas fleetas"), 0 );
 	}
 
 }

@@ -23,6 +23,8 @@ public class DFleet
 	private long nationId;
 	private long turnId;
 	
+	private boolean deleted;
+	
 	public long getFleetId ()
 	{
 		return fleetId;
@@ -56,6 +58,13 @@ public class DFleet
 	{
 		this.nationId = nationId;
 	}
-	
+	public boolean isDeleted ()
+	{
+		return deleted;
+	}
+	public void setDeleted ( boolean deleted )
+	{
+		this.deleted = deleted;
+	}
 	
 }
