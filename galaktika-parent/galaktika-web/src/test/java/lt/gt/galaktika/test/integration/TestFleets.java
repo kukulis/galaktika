@@ -13,6 +13,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
+import lt.gt.galaktika.model.ESortMethods;
+import lt.gt.galaktika.model.FleetSortData;
 import lt.gt.galaktika.model.dao.DFleetFilter;
 import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.entity.DFleet;
@@ -37,7 +39,7 @@ public class TestFleets
 		System.out.println("loadFleetsPage called");
 		DataSearchLimits pi = new DataSearchLimits();
 		pi.setLimitAmount(2);
-		DataSearchResult<DFleet> fleetsPage = fleetDao.loadPortion(pi, new DFleetFilter() );
+		DataSearchResult<DFleet> fleetsPage = fleetDao.loadPortion(pi, new DFleetFilter(), new FleetSortData() );
 		fleetsPage.getRecords().stream().forEach(f -> System.out.println(f.getFleetId() + " " + f.getName()));
 	}
 	
@@ -56,9 +58,11 @@ public class TestFleets
 		// TODO
 		System.out.println ( "testLoadFleetList called" );
 		DataSearchLimits pi = new DataSearchLimits();
-		pi.setLimitAmount(2);
+		pi.setLimitAmount(10);
 		
-		DataSearchResult<Fleet> fleetsR = fleetService.getFleets(pi, 2);
+		FleetSortData fsd=new FleetSortData();
+		fsd.setNameSort( ESortMethods.ASC);
+		DataSearchResult<Fleet> fleetsR = fleetService.getFleets(pi, null, 2, false, fsd );
 		System.out.println ( "Total amount : " + fleetsR.getTotalAmount() );
 		fleetsR.getRecords().stream().forEach(f -> System.out.println(f.getFleetId() + " " + f.getName()));
 	}

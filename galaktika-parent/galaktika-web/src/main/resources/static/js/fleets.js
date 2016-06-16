@@ -41,10 +41,28 @@ angularObj
 								return pages;
 							}
 							
+							self.fleetFilter={
+									name: "",
+									showDeleted: false,
+									showAllUsers: false,
+									sortId: "none",
+									sortName: "none"
+							}
+							
+							self.sortTypes=["none","asc","desc"];
+							
 							self.reloadFleets=function () {
 								console.log("reloadFleets called" );
 								var fromRecord = self.currentPage * self.pageSize;
-								$http.get('/fleets', {params:{from:fromRecord, amount:self.pageSize}}).then(function(response) {
+								$http.get('/fleets', {params:{
+									from:fromRecord, 
+									amount:self.pageSize,
+									name:self.fleetFilter.name,
+									showDeleted: self.fleetFilter.showDeleted,
+									showAllUsers: self.fleetFilter.showAllUsers,
+									sortId: self.fleetFilter.sortId,
+									sortName: self.fleetFilter.sortName
+									}}).then(function(response) {
 									console.log ("fleetsController.http.get responsas");
 									self.fleetsResult = response.data;
 									self.fleetsTotalAmount = response.data.totalAmount;
@@ -54,6 +72,16 @@ angularObj
 								});	
 							}
 							
+							self.filterFleets= function () {
+								console.log ( "filter fields - name:"+self.fleetFilter.name
+										+"  showDeleted:"+self.fleetFilter.showDeleted
+										+"  showAllUsers:"+self.fleetFilter.showAllUsers
+										+"  sortId:"+self.fleetFilter.sortId
+										+"  sortName:"+self.fleetFilter.sortName
+										);
+								
+								self.reloadFleets();
+							}
 							
 							// load fleets the first time
 							// self.reloadFleets();
@@ -82,6 +110,12 @@ angularObj
 								});
 								return false;
 							}
+							
+							self.test=function() {
+								console.log("fleets controller test called");
+							}
+							
+							
 
 				});
 						

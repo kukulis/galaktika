@@ -14,6 +14,8 @@ import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
+import lt.gt.galaktika.model.ESortMethods;
+import lt.gt.galaktika.model.FleetSortData;
 import lt.gt.galaktika.model.service.FleetService;
 import lt.gt.galaktika.web.various.UserSessionData;
 
@@ -26,8 +28,31 @@ public class FleetListController implements ApplicationContextAware
 	private FleetService fleetService;
 
 	@RequestMapping("/fleets")
-	public DataSearchResult<Fleet> getFleets ( @RequestParam(name = "from", required = false ) Integer from,
-			@RequestParam(name = "amount", required = false) Integer amount)
+	/**
+	 * 
+	 * @param from
+	 *            what record number to begin loading from repository.
+	 * @param amount
+	 *            how many records load from repository.
+	 * @param name
+	 *            filter fleets by fleet name
+	 * @param showDeleted
+	 *            unfilter - show daleted.
+	 * @param showAllUsers
+	 *            unfilter - show all user's fleets.
+	 * @param sortId
+	 *            sort fleets by id.
+	 * @param sortName
+	 *            sort fleets by name.
+	 * @return
+	 */
+	public DataSearchResult<Fleet> getFleets ( @RequestParam(name = "from", required = false) Integer from,
+			@RequestParam(name = "amount", required = false) Integer amount,
+			@RequestParam(name = "name", required = false) String name,
+			@RequestParam(name = "showDeleted", required = false) boolean showDeleted,
+			@RequestParam(name = "showAllUsers", required = false) boolean showAllUsers,
+			@RequestParam(name = "sortId", required = false) String sortId,
+			@RequestParam(name = "sortName", required = false) String sortName )
 	{
 		System.out.println("from=" + from + " amount=" + amount);
 
@@ -37,11 +62,32 @@ public class FleetListController implements ApplicationContextAware
 
 		DataSearchLimits dsl = new DataSearchLimits(from, amount);
 		System.out.println("dsl.from=" + dsl.getLimitFrom() + "  dsl.amount=" + dsl.getLimitAmount());
-		return fleetService.getFleets(dsl, usd.getNation().getNationId());
+
+		long nationId = 0;
+		if (!showAllUsers)
+			nationId = usd.getNation().getNationId();
+
+		FleetSortData fsd = new FleetSortData();
+		try
+		{
+			fsd.setIdSort(ESortMethods.valueOf(sortId != null ? sortId.toUpperCase() : "NONE"));
+		} catch (IllegalArgumentException iae)
+		{
+			iae.printStackTrace();
+		}
+		try
+		{
+			fsd.setNameSort(ESortMethods.valueOf(sortName != null ? sortName.toUpperCase() : "NONE"));
+		} catch (IllegalArgumentException iae)
+		{
+			iae.printStackTrace();
+		}
+
+		return fleetService.getFleets(dsl, name, nationId, showDeleted, fsd);
 	}
 
 	@RequestMapping("/fleet")
-	public Fleet getFleet ( @RequestParam(name = "id" ) long id)
+	public Fleet getFleet ( @RequestParam(name = "id") long id )
 	{
 		UserSessionData usd = getUserSessionData();
 		return fleetService.getFleet(id, usd.getNation().getNationId());
@@ -73,12 +119,12 @@ public class FleetListController implements ApplicationContextAware
 	}
 
 	@RequestMapping(path = "/deleteFleet", method = RequestMethod.DELETE)
-	public boolean deleteFleet ( @RequestParam(name = "fleetId" ) long fleetId)
+	public boolean deleteFleet ( @RequestParam(name = "fleetId") long fleetId )
 	{
 		System.out.println("FleetListController deleteFleet called, fleetId=" + fleetId);
 
 		if (isMyFleet(fleetId))
-			return fleetService.deleteFleet( fleetId );
+			return fleetService.deleteFleet(fleetId);
 		else
 			throw new GalaktikaRuntimeException("Not my fleet");
 	}

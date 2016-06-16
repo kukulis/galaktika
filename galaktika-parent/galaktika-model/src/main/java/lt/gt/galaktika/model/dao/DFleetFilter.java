@@ -3,8 +3,8 @@ package lt.gt.galaktika.model.dao;
 public class DFleetFilter
 {
 	private boolean hideDeletedFleets=true;
-	
 	private long filterNationId;
+	private String filterName;
 
 	public long getFilterNationId ()
 	{
@@ -24,5 +24,15 @@ public class DFleetFilter
 	public void setHideDeletedFleets ( boolean hideDeletedFleets )
 	{
 		this.hideDeletedFleets = hideDeletedFleets;
+	}
+
+	public String getFilterName ()
+	{
+		return filterName;
+	}
+
+	public void setFilterName ( String filterName )
+	{
+		this.filterName = filterName;
 	}
 }

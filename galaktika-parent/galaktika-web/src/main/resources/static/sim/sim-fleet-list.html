@@ -1,24 +1,55 @@
 <p>sim fleet list</p>
-<input type="hidden" id="showPagesCount" ng-model="showPagesCount" ng-init="showPagesCount=5" />
-<p><a href="#/sim-edit-fleet?id=0">new Fleet</a></p>
+<input type="hidden" id="showPagesCount" ng-model="showPagesCount"
+	ng-init="showPagesCount=5" />
+<p>
+	<a href="#/sim-edit-fleet?id=0">new Fleet</a>
+</p>
+<ul>
+	<li>Laivyno pavadinimas:<input type="text"
+		ng-model="controller.fleetFilter.name" /></li>
+	<li>Rodyti pašalintus:<input type="checkbox"
+		ng-model="controller.fleetFilter.showDeleted" /></li>
+	<li>Rodyti visų naudotojų:<input type="checkbox"
+		ng-model="controller.fleetFilter.showAllUsers" /></li>
+	<li><button ng-click="controller.filterFleets()">Filtruoti</button></li>
+</ul>
 <table>
-  <tr ng-repeat="fleet in controller.fleetsResult.records">
-    <td>{{ fleet.fleetId }}</td>
-    <td>{{ fleet.name }}</td>
-    <td><a href="#/sim-edit-fleet?id={{ fleet.fleetId }}">edit</a></td> 
-    <td><a mw-confirm-click="controller.deleteFleet(fleet.fleetId)" mw-confirm-click-message="Jūs ištrinsite flotilę {{fleet.name}}! Ar tikrai to norite?" >delete</a></td> 
-  </tr>
+	<thead>
+		<tr>
+			<td><select ng-model="controller.fleetFilter.sortId" ng-init="controller.fleetFilter.sortId='none'">
+					<option ng-repeat="sortType in controller.sortTypes"
+						value="{{sortType}}">{{sortType}}</option>
+			</select></td>
+			<td><select type="text"
+				ng-model="controller.fleetFilter.sortName" ng-init="controller.fleetFilter.sortName='none'">
+					<option ng-repeat="sortType in controller.sortTypes"
+						value="{{sortType}}">{{sortType}}</option>
+			</select></td>
+		</tr>
+	</thead>
+	<tr ng-repeat="fleet in controller.fleetsResult.records">
+		<td>{{ fleet.fleetId }}</td>
+		<td>{{ fleet.name }}</td>
+		<td><a href="#/sim-edit-fleet?id={{ fleet.fleetId }}">edit</a></td>
+		<td><a mw-confirm-click="controller.deleteFleet(fleet.fleetId)"
+			mw-confirm-click-message="Jūs ištrinsite flotilę {{fleet.name}}! Ar tikrai to norite?">delete</a></td>
+	</tr>
 </table>
 <p>
-<select name="pageSize" id="pageSize" ng-model="pageSize"  ng-init="pageSize=10">
-	<option value="2">2</option>
-	<option value="10">10</option>
-	<option value="20">20</option>
-</select>
-<button ng-repeat="page in controller.pages" ng-click="controller.setCurrentPage(page)" style="margin: 0 2px;">{{page + 1}}</button>
+	<select name="pageSize" id="pageSize" ng-model="pageSize"
+		ng-init="pageSize=10">
+		<option value="2">2</option>
+		<option value="10">10</option>
+		<option value="20">20</option>
+	</select>
+	<button ng-repeat="page in controller.pages"
+		ng-click="controller.setCurrentPage(page)" style="margin: 0 2px;">{{page
+		+ 1}}</button>
 </p>
 <p>Einamas puslapis: {{controller.currentPage + 1}}</p>
 <p>Response data: {{controller.responseData}}</p>
-<button mw-confirm-click="alert('valio valio Australija');" mw-confirm-click-message="You are about to overwrite your PUBLISHED content!! Are you SURE you want to publish?">
-  Publish
-</button>
+<button mw-confirm-click="alert('valio valio Australija');"
+	mw-confirm-click-message="You are about to overwrite your PUBLISHED content!! Are you SURE you want to publish?">
+	Publish</button>
+	<button ng-click="controller.test()">test button</button>	
+	<button ng-click="controller.Test()">TSest button</button>

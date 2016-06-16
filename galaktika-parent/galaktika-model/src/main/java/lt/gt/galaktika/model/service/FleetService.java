@@ -12,6 +12,7 @@ import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
+import lt.gt.galaktika.model.FleetSortData;
 import lt.gt.galaktika.model.dao.DFleetFilter;
 import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.entity.DFleet;
@@ -45,15 +46,17 @@ public class FleetService
 	 */
 	public List<Fleet> getPage ( int pageNo )
 	{
-		DataSearchResult<DFleet> results = fleetDao.loadPortion(new DataSearchLimits(), new DFleetFilter());
+		DataSearchResult<DFleet> results = fleetDao.loadPortion(new DataSearchLimits(), new DFleetFilter(), new FleetSortData());
 		return results.getRecords().stream().map(f -> createFleet(f)).collect(Collectors.toList());
 	}
 
-	public DataSearchResult<Fleet> getFleets ( DataSearchLimits dsl, long nationId )
+	public DataSearchResult<Fleet> getFleets ( DataSearchLimits dsl, String filterName, long nationId, boolean showDeleted, FleetSortData fsd )
 	{
 		DFleetFilter dFleetFilter = new DFleetFilter();
+		dFleetFilter.setHideDeletedFleets( !showDeleted );
 		dFleetFilter.setFilterNationId(nationId);
-		DataSearchResult<DFleet> dResults = fleetDao.loadPortion(dsl, dFleetFilter);
+		dFleetFilter.setFilterName( filterName);
+		DataSearchResult<DFleet> dResults = fleetDao.loadPortion(dsl, dFleetFilter, fsd);
 		DataSearchResult<Fleet> results = new DataSearchResult<>();
 		results.setRecords(dResults.getRecords().stream().map(f -> createFleet(f)).collect(Collectors.toList()));
 		results.setTotalAmount(dResults.getTotalAmount());

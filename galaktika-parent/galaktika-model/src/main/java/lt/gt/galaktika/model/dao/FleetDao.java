@@ -1,11 +1,15 @@
 package lt.gt.galaktika.model.dao;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,8 @@ import org.springframework.stereotype.Repository;
 
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
+import lt.gt.galaktika.model.FleetSortData;
+import lt.gt.galaktika.model.GalaktikaModelUtils;
 import lt.gt.galaktika.model.entity.DFleet;
 import lt.gt.galaktika.utils.Utils;
 
@@ -43,10 +49,20 @@ public class FleetDao implements IFleetDao
 		}
 	}
 
-	public DataSearchResult<DFleet> loadPortion ( DataSearchLimits pi, DFleetFilter filter )
+	public DataSearchResult<DFleet> loadPortion ( DataSearchLimits pi, DFleetFilter filter, FleetSortData fsd )
 	{
 		DataSearchResult<DFleet> result = new DataSearchResult<>();
 		Criteria c = createDFleetCriteria(filter);
+
+		// Stream.of(new SimpleEntry<>("fleetId", fsd.getIdSort()), new
+		// SimpleEntry<>("name", fsd.getNameSort()))
+		// .map(e -> Optional.of(GalaktikaModelUtils.createOrder(e.getKey(),
+		// e.getValue())))
+		// .forEach(opt -> opt.ifPresent(o -> c.addOrder(o)));
+		//
+		Optional.ofNullable(GalaktikaModelUtils.createOrder("fleetId", fsd.getIdSort())).ifPresent(o -> c.addOrder(o));
+		Optional.ofNullable(GalaktikaModelUtils.createOrder("name", fsd.getNameSort())).ifPresent(o -> c.addOrder(o));
+
 		c.setFirstResult(pi.getLimitFrom());
 		c.setMaxResults(pi.getLimitAmount());
 		result.setRecords(c.list());
@@ -67,6 +83,10 @@ public class FleetDao implements IFleetDao
 
 		if (filter.isHideDeletedFleets())
 			c.add(Restrictions.eqOrIsNull("deleted", false));
+
+		if (!StringUtils.isEmpty(filter.getFilterName()))
+			c.add(Restrictions.ilike("name", filter.getFilterName(), MatchMode.ANYWHERE));
+		
 
 		return c;
 	}
