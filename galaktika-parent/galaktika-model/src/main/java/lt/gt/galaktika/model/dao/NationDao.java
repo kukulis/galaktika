@@ -29,4 +29,17 @@ public class NationDao implements INationDao
 		Query query = getSession().createQuery("from DNation where userId = :userId").setParameter("userId", userId);
 		return query.list();
 	}
+
+	@Override
+	public DNation getNation ( long nationId )
+	{
+		
+		// TODO Auto-generated method stub
+//		Query query = getSession().createQuery("from DNation where nationId = :nationId").setParameter("nationId", nationId);
+//		return (DNation) query.uniqueResult();
+//		
+		return (DNation) getSession().get( DNation.class, nationId );
+	}
+	
+	
 }

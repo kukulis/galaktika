@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.core.Fleet;
+import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
 import lt.gt.galaktika.model.FleetSortData;
 import lt.gt.galaktika.model.dao.DFleetFilter;
 import lt.gt.galaktika.model.dao.IFleetDao;
+import lt.gt.galaktika.model.dao.INationDao;
 import lt.gt.galaktika.model.entity.DFleet;
 
 @Service
@@ -23,7 +25,11 @@ public class FleetService
 
 	@Autowired
 	private IFleetDao fleetDao;
+	
+	@Autowired
+	private INationDao nationDao;
 
+	
 	public long save ( Fleet fleet, long nationId )
 	{
 		DFleet dFleet = new DFleet();
@@ -35,7 +41,7 @@ public class FleetService
 			throw new GalaktikaRuntimeException("Problems copying fleet bean", e);
 		}
 		
-		dFleet.setNationId( nationId );
+		dFleet.setNation( nationDao.getNation ( nationId ) );
 		return fleetDao.save(dFleet);
 	}
 
@@ -77,10 +83,15 @@ public class FleetService
 			try
 			{
 				BeanUtils.copyProperties(fleet, f);
+				if ( f.getNation() != null ) {
+					BeanUtils.copyProperties( fleet.getOwner(), f.getNation() );
+				}
+				
 			} catch (InvocationTargetException | IllegalAccessException e)
 			{
 				throw new GalaktikaRuntimeException("Problems copying fleet bean", e);
 			}
+		
 		return fleet;
 	}
 

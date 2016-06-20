@@ -30,6 +30,7 @@
 	<tr ng-repeat="fleet in controller.fleetsResult.records">
 		<td>{{ fleet.fleetId }}</td>
 		<td>{{ fleet.name }}</td>
+		<td>{{ fleet.owner.nationName }}</td>
 		<td><a href="#/sim-edit-fleet?id={{ fleet.fleetId }}">edit</a></td>
 		<td><a mw-confirm-click="controller.deleteFleet(fleet.fleetId)"
 			mw-confirm-click-message="Jūs ištrinsite flotilę {{fleet.name}}! Ar tikrai to norite?">delete</a></td>

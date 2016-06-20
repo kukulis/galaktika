@@ -32,16 +32,28 @@ public class TestFleetsDao
 	}
 	
 	@Test
-	@Ignore
+//	@Ignore
 	public  void testGetFleetWithNation () {
-		DFleet fleet11 =  fleetDao.getFleet( 11, 2 );
-		DFleet fleet12 =  fleetDao.getFleet( 12, 2 );
+		DFleet fleet1 =  fleetDao.getFleet( 3, 0 );
+		DFleet fleet2 =  fleetDao.getFleet( 2, 0 );
 		
-		System.out.println ( "fleet11="+fleet11 ); 
-		System.out.println ( "fleet12="+fleet12 ); 
+		System.out.println ( "fleet11="+fleet1 ); 
+		System.out.println ( "fleet12="+fleet2 );
+		
+		System.out.println( "fleet1 owner="+fleet1.getNation().getNationId() );
+		System.out.println( "fleet2 owner="+(fleet2.getNation() != null ? fleet2.getNation().getNationId(): "nulas") );
 	}
 	
 	@Test
+	@Ignore
+	public void testGetFleetById() {
+		DFleet fleet1=fleetDao.getFleet( 1 );
+		System.out.println ( "fleet1="+fleet1.getName() ); 
+		
+	}
+	
+	@Test
+	@Ignore
 	public void testDeleteFleet() {
 		// TODO
 		System.out.println ( "testDeleteFleet called" );

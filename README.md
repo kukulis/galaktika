@@ -21,3 +21,6 @@ And after that start to make some additions in to the game, like artifacts, diff
 
 # build notes
 When you import maven project in to eclipse, you must add target/generated-resources as the source folder in the project properties -> java build path -> source.
+
+# running notes
+You must create some users in to the "users" table, to be able to login from GUI.

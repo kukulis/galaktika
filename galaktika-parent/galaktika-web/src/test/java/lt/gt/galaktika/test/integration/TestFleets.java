@@ -50,21 +50,18 @@ public class TestFleets
 		fleets.stream().forEach( f -> System.out.println (f) );
 	}
 	
-	// TODO test fleetService.getFleets
-	
 	@Test
 //	@Ignore
 	public void testLoadFleetList () {
-		// TODO
 		System.out.println ( "testLoadFleetList called" );
 		DataSearchLimits pi = new DataSearchLimits();
 		pi.setLimitAmount(10);
 		
 		FleetSortData fsd=new FleetSortData();
 		fsd.setNameSort( ESortMethods.ASC);
-		DataSearchResult<Fleet> fleetsR = fleetService.getFleets(pi, null, 2, false, fsd );
+		DataSearchResult<Fleet> fleetsR = fleetService.getFleets(pi, null, 0, false, fsd );
 		System.out.println ( "Total amount : " + fleetsR.getTotalAmount() );
-		fleetsR.getRecords().stream().forEach(f -> System.out.println(f.getFleetId() + " " + f.getName()));
+		fleetsR.getRecords().stream().forEach(f -> System.out.println(f.getFleetId() + " " + f.getName()+" owner="+f.getOwner().getNationName() ));
 	}
 	
 //	@Test

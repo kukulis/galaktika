@@ -4,6 +4,9 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lt.gt.galaktika.core.Fleet;
+import lt.gt.galaktika.core.exception.EErrorCodes;
 import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
 import lt.gt.galaktika.model.ESortMethods;
 import lt.gt.galaktika.model.FleetSortData;
 import lt.gt.galaktika.model.service.FleetService;
+import lt.gt.galaktika.web.various.ResponseErrorBody;
 import lt.gt.galaktika.web.various.UserSessionData;
 
 @RestController
@@ -126,7 +131,7 @@ public class FleetListController implements ApplicationContextAware
 		if (isMyFleet(fleetId))
 			return fleetService.deleteFleet(fleetId);
 		else
-			throw new GalaktikaRuntimeException("Not my fleet");
+			throw new GalaktikaRuntimeException( EErrorCodes.DELETE_UNOWN_FLEET, "Not my fleet");
 	}
 
 	@Override
@@ -144,4 +149,26 @@ public class FleetListController implements ApplicationContextAware
 	{
 		return applicationContext.getBean("userSessionData", UserSessionData.class);
 	}
+	
+	/**
+	 * Method, which throws exception.
+	 * @return
+	 */
+	@RequestMapping("/testerror")
+	public String test() {
+		throw new GalaktikaRuntimeException("Tipo klaida");
+	}
+	
+	@ExceptionHandler(GalaktikaRuntimeException.class)
+    public ResponseEntity<ResponseErrorBody> handleIOException(GalaktikaRuntimeException ex) {
+        // prepare responseEntity
+		
+		
+		ResponseErrorBody errorBody = new ResponseErrorBody(ex.getErrorCode().getCode(), ex.getMessage());
+		ResponseEntity <ResponseErrorBody> responseEntity = new ResponseEntity<ResponseErrorBody>(errorBody,
+				HttpStatus.EXPECTATION_FAILED
+//				HttpStatus.INTERNAL_SERVER_ERROR 
+				);
+        return responseEntity;
+    }
 }

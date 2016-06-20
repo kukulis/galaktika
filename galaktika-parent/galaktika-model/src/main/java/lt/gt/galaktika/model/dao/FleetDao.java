@@ -1,7 +1,5 @@
 package lt.gt.galaktika.model.dao;
 
-import java.util.Optional;
-
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,8 +8,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -60,8 +60,11 @@ public class FleetDao implements IFleetDao
 		// e.getValue())))
 		// .forEach(opt -> opt.ifPresent(o -> c.addOrder(o)));
 		//
-		Optional.ofNullable(GalaktikaModelUtils.createOrder("fleetId", fsd.getIdSort())).ifPresent(o -> c.addOrder(o));
-		Optional.ofNullable(GalaktikaModelUtils.createOrder("name", fsd.getNameSort())).ifPresent(o -> c.addOrder(o));
+		Order o = GalaktikaModelUtils.createOrder("fleetId", fsd.getIdSort()); 
+		if ( o != null )  c.addOrder(o) ;
+		
+		o = GalaktikaModelUtils.createOrder("name", fsd.getNameSort());
+		if ( o != null ) c.addOrder(o) ;
 
 		c.setFirstResult(pi.getLimitFrom());
 		c.setMaxResults(pi.getLimitAmount());
@@ -78,8 +81,10 @@ public class FleetDao implements IFleetDao
 	private Criteria createDFleetCriteria ( DFleetFilter filter )
 	{
 		Criteria c = getSession().createCriteria(DFleet.class);
+		c = c.createAlias("nation", "n", JoinType.LEFT_OUTER_JOIN );
+
 		if (filter.getFilterNationId() != 0)
-			c.add(Restrictions.eq("nationId", filter.getFilterNationId()));
+			c.add(Restrictions.eq("n.nationId", filter.getFilterNationId()));
 
 		if (filter.isHideDeletedFleets())
 			c.add(Restrictions.eqOrIsNull("deleted", false));
@@ -93,16 +98,29 @@ public class FleetDao implements IFleetDao
 
 	public DFleet getFleet ( long id, long nationId )
 	{
-		Query query = getSession().createQuery("from DFleet where id = :id and ( nationId=:nationId or :nationId=0)")
-				.setParameter("id", id).setParameter("nationId", nationId);
-		return (DFleet) query.uniqueResult();
+		Query query = getSession().createQuery("select f from DFleet f left join fetch f.nation as na where fleetId = :fleetId and ( na.nationId=:nationId or :nationId=0)");
+				query.setParameter("fleetId", id);
+				query.setParameter("nationId", nationId);
+				Object result = query.uniqueResult();
+//				System.out.println ( "result class="+result.getClass().getName() );
+				
+				return (DFleet) result;
 	}
 
 	@Override
 	public boolean updateDeletedFlag ( long fleetId, boolean value )
 	{
-		Query query = getSession().createSQLQuery("update fleets set deleted=:deleted where fleetId=:fleetId")
-				.setBoolean("deleted", value).setLong("fleetId", fleetId);
+		Query query = getSession().createSQLQuery("update fleets set deleted=:deleted where fleetId=:fleetId");
+				query.setBoolean("deleted", value);
+				query.setLong("fleetId", fleetId);
 		return query.executeUpdate() > 0;
 	}
+
+	@Override
+	public DFleet getFleet ( long id )
+	{
+		return (DFleet) getSession().get( DFleet.class, id );
+	}
+	
+	
 }

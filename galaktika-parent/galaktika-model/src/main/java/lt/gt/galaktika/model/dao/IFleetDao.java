@@ -10,6 +10,7 @@ public interface IFleetDao
 	public long save (DFleet fleet);
 	public DataSearchResult <DFleet> loadPortion(DataSearchLimits li, DFleetFilter filter, FleetSortData fsd );
 	
+	public DFleet getFleet ( long id );
 	public DFleet getFleet ( long id, long nationId );
 	public boolean updateDeletedFlag ( long fleetId, boolean value );
 }

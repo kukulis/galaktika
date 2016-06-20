@@ -66,6 +66,7 @@ angularObj
 									console.log ("fleetsController.http.get responsas");
 									self.fleetsResult = response.data;
 									self.fleetsTotalAmount = response.data.totalAmount;
+									// self.responseData=response.data;
 									
 									// calculate pages
 									self.pages=self.fleetsPages ($scope.showPagesCount); 
@@ -107,12 +108,34 @@ angularObj
 									console.log ("fleetsController.http.delete responsas "+response.data);
 									if ( response.data )
 										self.reloadFleets();
-								});
+								},
+								function (response) {
+									self.responseData = response.data;
+								}
+								);
 								return false;
 							}
 							
 							self.test=function() {
 								console.log("fleets controller test called");
+								
+								$http.get('/testerror').then(
+								function(response) {
+									console.log("success response" );
+									self.responseData = response.data;
+								},
+								function (response) {
+									console.log("error response" );
+									if ( response.data ) {
+										// var data = response.data;
+										// console.log(data);
+										// angular.copy ( data, self.responseData );
+										self.responseData=response.data;
+										// console.log(data);
+								    } 
+									console.log("response.status="+ response.status);
+								}
+								);	
 							}
 							
 							

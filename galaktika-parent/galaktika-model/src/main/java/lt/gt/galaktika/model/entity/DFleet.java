@@ -1,9 +1,12 @@
 package lt.gt.galaktika.model.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size; 
 
@@ -18,9 +21,14 @@ public class DFleet
 	
 	@Size(max = 32)
 	private String name; // optional ?
-	
+		
 	// relations
-	private long nationId;
+//	private long nationId;
+	@ManyToOne (fetch=FetchType.LAZY)
+	@JoinColumn(name = "nationId", nullable = true)
+	private DNation nation;
+	
+	// @Column ( nullable=true)
 	private long turnId;
 	
 	private boolean deleted;
@@ -50,14 +58,14 @@ public class DFleet
 	{
 		this.turnId = turnId;
 	}
-	public long getNationId ()
-	{
-		return nationId;
-	}
-	public void setNationId ( long nationId )
-	{
-		this.nationId = nationId;
-	}
+//	public long getNationId ()
+//	{
+//		return nationId;
+//	}
+//	public void setNationId ( long nationId )
+//	{
+//		this.nationId = nationId;
+//	}
 	public boolean isDeleted ()
 	{
 		return deleted;
@@ -65,6 +73,14 @@ public class DFleet
 	public void setDeleted ( boolean deleted )
 	{
 		this.deleted = deleted;
+	}
+	public DNation getNation ()
+	{
+		return nation;
+	}
+	public void setNation ( DNation nation )
+	{
+		this.nation = nation;
 	}
 	
 }
