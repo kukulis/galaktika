@@ -110,7 +110,7 @@ angularObj
 										self.reloadFleets();
 								},
 								function (response) {
-									self.responseData = response.data;
+									self.showErrorMessage(response.data.message);
 								}
 								);
 								return false;
@@ -130,13 +130,65 @@ angularObj
 										// var data = response.data;
 										// console.log(data);
 										// angular.copy ( data, self.responseData );
-										self.responseData=response.data;
+//										self.responseData=response.data;
+										self.showErrorMessage(response.data.message);
+										
 										// console.log(data);
 								    } 
+									else {
+										self.showErrorMessage("unknown error");
+									}
 									console.log("response.status="+ response.status);
+									$('#warningBlock').show(); 
+
 								}
 								);	
 							}
+							
+							self.testLodash=function() {
+//								function square(n) {
+//								        return n * n;
+//								}
+//								var squares=_.map([4, 8], square);
+//								console.log ( squares );
+								
+								var output = document.querySelector("#messagesDiv");
+								
+								var messageElement = document.createElement("div");
+								messageElement.setAttribute( "class","alert alert-warning");
+								
+								var closeLink = document.createElement("a");
+								closeLink.setAttribute ( "class", "close" );
+								closeLink.setAttribute ( "data-dismiss", "alert" );
+								closeLink.setAttribute ( "aria-label", "close" );
+								closeLink.appendChild ( document.createTextNode("X") );
+								closeLink.setAttribute ( "onclick", "removeThisMessageBlock.call(this,event);" );
+								messageElement.appendChild ( closeLink );
+								
+								messageElement.appendChild(document.createTextNode("some message"));
+								output.appendChild(messageElement);
+							}
+							
+							
+							// TODO move to service ?
+							self.showErrorMessage = function ( message ) {
+								var output = document.querySelector("#messagesDiv");
+								
+								var messageElement = document.createElement("div");
+								messageElement.setAttribute( "class","alert alert-warning");
+								
+								var closeLink = document.createElement("a");
+								closeLink.setAttribute ( "class", "close" );
+								closeLink.setAttribute ( "data-dismiss", "alert" );
+								closeLink.setAttribute ( "aria-label", "close" );
+								closeLink.appendChild ( document.createTextNode("X") );
+								closeLink.setAttribute ( "onclick", "removeThisMessageBlock.call(this,event);" );
+								messageElement.appendChild ( closeLink );
+								
+								messageElement.appendChild(document.createTextNode(message));
+								output.appendChild(messageElement);
+							}
+							
 							
 							
 
