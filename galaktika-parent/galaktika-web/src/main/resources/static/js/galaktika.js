@@ -19,6 +19,10 @@ var angularObj = angular
 						templateUrl : '/sim/sim-edit-fleet.html',
 						controller : 'fleetEditController',
 						controllerAs : 'controller'
+					}).when('/sim-ships', {
+						templateUrl : '/sim/sim-ships.html',
+						controller : 'fleetShipsController',
+						controllerAs : 'controller'
 					}).otherwise('/');
 
 					$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
