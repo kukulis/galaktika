@@ -21,6 +21,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -174,6 +176,35 @@ public class GalaktikaApplication
 
 			return sessionFactoryBean;
 		}
+		
+		@Bean
+		public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean ()
+		{
+
+			LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
+
+			lcemfb.setDataSource(this.dataSource());
+//			lcemfb.setPackagesToScan(new String[] { "com.jverstry" });
+			lcemfb.setPackagesToScan(ENTITYMANAGER_PACKAGES_TO_SCAN);
+//			lcemfb.setPersistenceUnitName("MyTestPU");
+
+			HibernateJpaVendorAdapter va = new HibernateJpaVendorAdapter();
+			lcemfb.setJpaVendorAdapter(va);
+
+			Properties ps = new Properties();
+//			ps.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+//			ps.put("hibernate.hbm2ddl.auto", "create");
+			ps.put("hibernate.dialect", HIBERNATE_DIALECT);
+			ps.put("hibernate.show_sql", HIBERNATE_SHOW_SQL);
+			ps.put("hibernate.hbm2ddl.auto", HIBERNATE_HBM2DDL_AUTO);
+			lcemfb.setJpaProperties(ps);
+
+			lcemfb.afterPropertiesSet();
+
+			return lcemfb;
+
+		}
+
 
 		@Bean
 		public HibernateTransactionManager transactionManager ()
