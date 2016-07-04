@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import lt.gt.galaktika.model.dao.FleetDao;
+import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
 import lt.gt.galaktika.model.dao.ShipGroupDao;
 
@@ -20,5 +22,8 @@ public class TestConfig {
     public IShipGroupDao getShipGroupDao() {
         return new ShipGroupDao();
     }
-
+    @Bean
+    public IFleetDao getFleetDao() {
+        return new FleetDao();
+    }
 }

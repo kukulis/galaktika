@@ -1,18 +1,18 @@
 package lt.gt.galaktika.model.dao;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import lt.gt.galaktika.model.DataSearchLimits;
@@ -26,12 +26,13 @@ import lt.gt.galaktika.utils.Utils;
 @Transactional
 public class FleetDao implements IFleetDao
 {
-	@Autowired
-	private SessionFactory _sessionFactory;
+	@PersistenceContext
+	private EntityManager em;	
+
 
 	private Session getSession ()
 	{
-		return _sessionFactory.getCurrentSession();
+		return em.unwrap(Session.class);
 	}
 
 	public long save ( DFleet fleet )
@@ -121,6 +122,43 @@ public class FleetDao implements IFleetDao
 	{
 		return (DFleet) getSession().get( DFleet.class, id );
 	}
-	
+
+	@Override
+	public DFleet getFleetWithShips ( long id )
+	{
+		Query query = getSession().createQuery("select f from DFleet f "
+				+ "left join fetch f.nation as na "
+				+ "join fetch f.shipGroups as gr "
+				+ "join fetch gr.ship as sh " 
+				+ "where f.fleetId = :fleetId"
+				);
+		query.setParameter("fleetId", id);
+//		query.setParameter("nationId", nationId);
+		Object result = query.uniqueResult();
+//		System.out.println ( "result class="+result.getClass().getName() );
+//		em.detach( result );
+		
+		return (DFleet) result;
+	}
+
+	@Override
+	/**
+	 * Stores fleet ships by creating only
+	 */
+	public int storeFleetShips ( DFleet fleet )
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	/**
+	 * Stores fleet ships by creating, deleting and updating.
+	 */
+	public int updateFleetShips ( DFleet fleet )
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

@@ -1,5 +1,8 @@
 package lt.gt.galaktika.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size; 
 
@@ -32,6 +36,10 @@ public class DFleet
 	private long turnId;
 	
 	private boolean deleted;
+	
+	@OneToMany (fetch=FetchType.LAZY )
+	@JoinColumn(name="fleetId")
+	private List<DShipGroup> shipGroups=new ArrayList<>();
 	
 	public long getFleetId ()
 	{
@@ -82,5 +90,12 @@ public class DFleet
 	{
 		this.nation = nation;
 	}
-	
+	public List<DShipGroup> getShipGroups ()
+	{
+		return shipGroups;
+	}
+	public void setShipGroups ( List<DShipGroup> shipGroups )
+	{
+		this.shipGroups = shipGroups;
+	}
 }

@@ -21,5 +21,8 @@
 	<logger name="lt.gt.galaktika.model.test.DShipServiceTest" level="TRACE" additivity="false">
             <appender-ref ref="STDOUT" />
 	</logger>
+	<logger name="lt.gt.galaktika.model.test.DFleetServiceTest" level="TRACE" additivity="false">
+            <appender-ref ref="STDOUT" />
+	</logger>
 	
 </configuration>
