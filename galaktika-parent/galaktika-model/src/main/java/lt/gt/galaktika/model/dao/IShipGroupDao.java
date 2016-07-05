@@ -19,6 +19,8 @@ public interface IShipGroupDao
 	public DShip getShip ( long shipId );
 	public long saveShip ( DShip ship );
 	public DataSearchResult <DShip> loadShipsPortion(DataSearchLimits li);
+	public void flush();
 	
+//	public 
 //	public 
 }

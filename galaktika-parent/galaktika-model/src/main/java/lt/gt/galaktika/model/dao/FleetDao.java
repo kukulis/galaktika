@@ -36,6 +36,7 @@ public class FleetDao implements IFleetDao
 		return em.unwrap(Session.class);
 	}
 
+	@Transactional
 	public long save ( DFleet fleet )
 	{
 		if (fleet.getFleetId() == 0)
@@ -51,6 +52,14 @@ public class FleetDao implements IFleetDao
 		}
 	}
 
+	@Override
+	@Transactional
+	public DFleet update ( DFleet fleet )
+	{
+		return em.merge( fleet );
+	}
+
+	@Transactional
 	public DataSearchResult<DFleet> loadPortion ( DataSearchLimits pi, DFleetFilter filter, FleetSortData fsd )
 	{
 		DataSearchResult<DFleet> result = new DataSearchResult<>();
@@ -80,6 +89,7 @@ public class FleetDao implements IFleetDao
 		return result;
 	}
 
+	@Transactional
 	private Criteria createDFleetCriteria ( DFleetFilter filter )
 	{
 		Criteria c = getSession().createCriteria(DFleet.class);
@@ -98,6 +108,7 @@ public class FleetDao implements IFleetDao
 		return c;
 	}
 
+	@Transactional
 	public DFleet getFleet ( long id, long nationId )
 	{
 		Query query = getSession().createQuery("select f from DFleet f left join fetch f.nation as na where fleetId = :fleetId and ( na.nationId=:nationId or :nationId=0)");
@@ -110,6 +121,7 @@ public class FleetDao implements IFleetDao
 	}
 
 	@Override
+	@Transactional
 	public boolean updateDeletedFlag ( long fleetId, boolean value )
 	{
 		Query query = getSession().createSQLQuery("update fleets set deleted=:deleted where fleetId=:fleetId");
@@ -119,6 +131,7 @@ public class FleetDao implements IFleetDao
 	}
 
 	@Override
+	@Transactional
 	public DFleet getFleet ( long id )
 	{
 //		return (DFleet) getSession().get( DFleet.class, id );
@@ -128,6 +141,7 @@ public class FleetDao implements IFleetDao
 	}
 
 	@Override
+	@Transactional
 	public DFleet getFleetWithShips ( long id )
 	{
 		Query query = getSession().createQuery("select f from DFleet f "
@@ -144,5 +158,11 @@ public class FleetDao implements IFleetDao
 		
 		return (DFleet) result;
 	}
-	
+
+	@Override
+	@Transactional
+	public void flush ()
+	{
+		em.flush();
+	}
 }

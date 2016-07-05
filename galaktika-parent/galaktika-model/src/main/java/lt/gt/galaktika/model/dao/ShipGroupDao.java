@@ -46,7 +46,8 @@ public class ShipGroupDao implements IShipGroupDao
 	{
 		em.persist(shipGroup);
 		long id = shipGroup.getShipGroupId();
-		em.detach(shipGroup);
+//		em.detach(shipGroup);
+//		em.fl
 		return id;
 	}
 	
@@ -61,7 +62,7 @@ public class ShipGroupDao implements IShipGroupDao
 	@Transactional
 	public void deleteShipGroup ( DShipGroup shipGroup )
 	{
-		em.remove( shipGroup );
+		em.remove( em.merge(shipGroup) );
 	}
 
 	@Override
@@ -113,6 +114,13 @@ public class ShipGroupDao implements IShipGroupDao
 		Session session = em.unwrap(Session.class);
 		Criteria c = session.createCriteria(DShip.class);
 		return c;
+	}
+
+	@Override
+	@Transactional
+	public void flush ()
+	{
+		em.flush();
 	}
 	
 }

@@ -8,6 +8,7 @@ import lt.gt.galaktika.model.entity.DFleet;
 public interface IFleetDao
 {
 	public long save (DFleet fleet);
+	public DFleet update (DFleet fleet);
 	public DataSearchResult <DFleet> loadPortion(DataSearchLimits li, DFleetFilter filter, FleetSortData fsd );
 	
 	public DFleet getFleet ( long id );
@@ -15,6 +16,8 @@ public interface IFleetDao
 	public boolean updateDeletedFlag ( long fleetId, boolean value );
 	
 	public DFleet getFleetWithShips ( long id );
+	
+	public void flush();
 	
 	
 }

@@ -27,7 +27,7 @@ public class DShipGroup
 	
 	private long turnId;
 
-	private int count = 1;
+	private int shipsCount = 1;
 	
 	public DShipGroup()
 	{
@@ -45,6 +45,13 @@ public class DShipGroup
 		this.shipGroupId = shipGroupId;
 		this.ship = ship;
 	}
+	
+	public DShipGroup(DFleet fleet, DShip ship)
+	{
+		super();
+		this.fleet = fleet;
+		this.ship = ship;
+	}
 
 	public long getShipGroupId ()
 	{
@@ -56,14 +63,14 @@ public class DShipGroup
 		this.shipGroupId = shipGroupId;
 	}
 
-	public int getCount ()
+	public int getShipsCount ()
 	{
-		return count;
+		return shipsCount;
 	}
 
-	public void setCount ( int count )
+	public void setShipsCount ( int count )
 	{
-		this.count = count;
+		this.shipsCount = count;
 	}
 
 	public DFleet getFleet ()
@@ -138,6 +145,6 @@ public class DShipGroup
 	}
 	
 	public void updateValues ( DShipGroup source ) {
-		this.count = source.getCount();
+		this.shipsCount = source.getShipsCount();
 	}
 }

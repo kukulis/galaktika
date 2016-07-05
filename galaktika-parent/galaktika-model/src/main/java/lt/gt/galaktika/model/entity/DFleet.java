@@ -41,6 +41,14 @@ public class DFleet
 	@JoinColumn(name="fleetId")
 	private List<DShipGroup> shipGroups=new ArrayList<>();
 	
+	public DFleet()
+	{
+	}
+	public DFleet(String name)
+	{
+		this.name = name;
+	}
+
 	public long getFleetId ()
 	{
 		return fleetId;

@@ -24,11 +24,11 @@ public class MyPersistenceDAOTest {
         // This operation should not throw an Exception
         shipGroupDao.test();
         DShipGroup dShipGroup = new DShipGroup();
-        dShipGroup.setCount( 10 );
+        dShipGroup.setShipsCount( 10 );
         long id = shipGroupDao.saveShipGroup( dShipGroup );
         
         DShipGroup storedShipGroup =  shipGroupDao.getShipGroup( id );
-        LOG.info( "count of the group id "+id+" is " + storedShipGroup.getCount() );
+        LOG.info( "count of the group id "+id+" is " + storedShipGroup.getShipsCount() );
     }
 
 

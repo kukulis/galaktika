@@ -43,7 +43,7 @@ public class DFleetServiceTest
 		DFleet fleet= fleetDao.getFleetWithShips( 6 );
 		Assert.assertNotNull( fleet );
 		LOG.trace( "name="+ fleet.getName() );
-		fleet.getShipGroups().forEach( g -> LOG.trace( g.getShip().getName()+" count="+g.getCount() ));
+		fleet.getShipGroups().forEach( g -> LOG.trace( g.getShip().getName()+" count="+g.getShipsCount() ));
 	}
 	
 	@Test

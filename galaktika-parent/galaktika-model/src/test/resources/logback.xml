@@ -28,5 +28,8 @@
 	<logger name="lt.gt.galaktika.model.dao.DFleetService" level="TRACE" additivity="false">
             <appender-ref ref="STDOUT" />
 	</logger>
+	<logger name="lt.gt.galaktika.model.test.memory.ShipGroupsMemoryTest" level="TRACE" additivity="false">
+            <appender-ref ref="STDOUT" />
+	</logger>
 	
 </configuration>

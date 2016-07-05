@@ -43,22 +43,22 @@ public class DFleetService
 	{
 		LOG.trace("updateFleetShips called");
 		// load fleet from database
-		DFleet dbFleet = fleetDao.getFleet(fleet.getFleetId());
+		DFleet dbFleet = fleetDao.getFleetWithShips(fleet.getFleetId());
 		// make differences
 		Diff<DShipGroup> gDiff = new Diff<DShipGroup>().diff(fleet.getShipGroups(), dbFleet.getShipGroups());
 
 		// add, update and delete different objects
 		
-		gDiff.getFirstOnly().forEach( g -> shipGroupDao.saveShipGroup( g ) );
-		gDiff.getSecondOnly().forEach( g -> shipGroupDao.deleteShipGroup( g ) );
+		gDiff.getFirstOnly().forEach( g -> { long id = shipGroupDao.saveShipGroup( g ); LOG.trace( "stored ship group for ship id="+g.getShip().getId()+"  stored group id="+id ); } );
+//		gDiff.getSecondOnly().forEach( g -> shipGroupDao.deleteShipGroup( g ) );
 		
-		Map<DShipGroup,DShipGroup> secondMap = Utils.createMap( gDiff.getBothSecond() );
-		
-		gDiff.getBothFirst().forEach( g -> { 
-			DShipGroup dbG = secondMap.get(g);
-			dbG.updateValues( g );
-			shipGroupDao.updateShipGroup( dbG );
-		}); 
+//		Map<DShipGroup,DShipGroup> secondMap = Utils.createMap( gDiff.getBothSecond() );
+//		
+//		gDiff.getBothFirst().forEach( g -> { 
+//			DShipGroup dbG = secondMap.get(g);
+//			dbG.updateValues( g );
+//			shipGroupDao.updateShipGroup( dbG );
+//		}); 
 		
 		
 		return gDiff.getFirstOnly().size() + gDiff.getBothFirst().size() + gDiff.getSecondOnly().size() ;
