@@ -11,7 +11,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
+import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
+import lt.gt.galaktika.model.entity.DFleet;
 import lt.gt.galaktika.model.entity.DShip;
 import lt.gt.galaktika.model.entity.DShipGroup;
 
@@ -23,6 +25,9 @@ public class DShipServiceTest
 
 	@Autowired
 	private IShipGroupDao shipGroupDao;
+	
+	@Autowired
+	private IFleetDao fleetDao;
 
 	@Test
 	@Ignore
@@ -54,8 +59,10 @@ public class DShipServiceTest
 	@Test
 	public void testStoreShipGroup () {
 		LOG.trace( "testStoreShipGroup called" );
-		DShip storedShip=shipGroupDao.getShip( 1 );
-		DShipGroup shipGroup = new DShipGroup(storedShip); 
+		DShip storedShip=shipGroupDao.getShip( 2 );
+		DShipGroup shipGroup = new DShipGroup(storedShip);
+		DFleet fleet = fleetDao.getFleet( 6 ) ;
+		shipGroup.setFleet( fleet );
 		shipGroupDao.saveShipGroup(shipGroup);
 	}
 

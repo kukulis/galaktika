@@ -15,6 +15,6 @@ public interface IFleetDao
 	public boolean updateDeletedFlag ( long fleetId, boolean value );
 	
 	public DFleet getFleetWithShips ( long id );
-	public int storeFleetShips ( DFleet fleet );
-	public int updateFleetShips ( DFleet fleet );
+	
+	
 }

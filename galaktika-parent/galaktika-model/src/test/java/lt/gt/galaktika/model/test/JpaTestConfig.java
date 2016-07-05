@@ -1,13 +1,13 @@
 package lt.gt.galaktika.model.test;
 
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -18,25 +18,23 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 // čia pas mane
 @Configuration
-//@PropertySource("classpath:application.properties")
+// @PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 public class JpaTestConfig
 {
-	
+
 	/*
 	 * 
-	 * db.driver: com.mysql.jdbc.Driver
-db.url: jdbc:mysql://localhost/galaktika
-db.username: galuser
-db.password: galpass
-
-# Hibernate
-hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
-hibernate.show_sql: true
-hibernate.hbm2ddl.auto: update
-entitymanager.packagesToScan: lt.gt.galaktika.model.entity
+	 * db.driver: com.mysql.jdbc.Driver db.url: jdbc:mysql://localhost/galaktika
+	 * db.username: galuser db.password: galpass
+	 * 
+	 * # Hibernate hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+	 * hibernate.show_sql: true hibernate.hbm2ddl.auto: update
+	 * entitymanager.packagesToScan: lt.gt.galaktika.model.entity
 	 * 
 	 */
+
+	private ResourceBundle applicationProperties;
 
 	@Value("com.mysql.jdbc.Driver")
 	private String DB_DRIVER;
@@ -50,7 +48,6 @@ entitymanager.packagesToScan: lt.gt.galaktika.model.entity
 	@Value("galpass")
 	private String DB_PASSWORD;
 
-
 	@Value("org.hibernate.dialect.MySQL5Dialect")
 	private String HIBERNATE_DIALECT;
 
@@ -63,19 +60,35 @@ entitymanager.packagesToScan: lt.gt.galaktika.model.entity
 	@Value("lt.gt.galaktika.model.entity")
 	private String[] ENTITYMANAGER_PACKAGES_TO_SCAN;
 
+	public JpaTestConfig()
+	{
+		// for some reason application.properties is not loaded automaticaly in
+		// the test.
+		applicationProperties = ResourceBundle.getBundle("application");
+		DB_DRIVER = applicationProperties.getString("db.driver");
+		DB_PASSWORD = applicationProperties.getString("db.password");
+		DB_URL = applicationProperties.getString("db.url");
+		DB_USERNAME = applicationProperties.getString("db.username");
+		HIBERNATE_DIALECT = applicationProperties.getString("hibernate.dialect");
+		HIBERNATE_SHOW_SQL = applicationProperties.getString("hibernate.show_sql");
+		HIBERNATE_HBM2DDL_AUTO = applicationProperties.getString("hibernate.hbm2ddl.auto");
+		ENTITYMANAGER_PACKAGES_TO_SCAN = applicationProperties.getString("entitymanager.packagesToScan").split(",\\s*");
+
+	}
+
 	@Bean
 	public DataSource dataSource ()
 	{
 
-//		DriverManagerDataSource ds = new DriverManagerDataSource();
-//
-//		ds.setDriverClassName("org.hsqldb.jdbcDriver");
-//		ds.setUrl("jdbc:hsqldb:mem:testdb");
-//		ds.setUsername("sa");
-//		ds.setPassword("");
-//
-//		return ds;
-		
+		// DriverManagerDataSource ds = new DriverManagerDataSource();
+		//
+		// ds.setDriverClassName("org.hsqldb.jdbcDriver");
+		// ds.setUrl("jdbc:hsqldb:mem:testdb");
+		// ds.setUsername("sa");
+		// ds.setPassword("");
+		//
+		// return ds;
+
 		System.out.println("--- DatabaseConfig.dataSource DB_DRIVER=" + DB_DRIVER);
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(DB_DRIVER);
@@ -93,7 +106,7 @@ entitymanager.packagesToScan: lt.gt.galaktika.model.entity
 		LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
 
 		lcemfb.setDataSource(this.dataSource());
-//		lcemfb.setPackagesToScan(new String[] { "com.jverstry" });
+		// lcemfb.setPackagesToScan(new String[] { "com.jverstry" });
 		lcemfb.setPackagesToScan(ENTITYMANAGER_PACKAGES_TO_SCAN);
 		lcemfb.setPersistenceUnitName("MyTestPU");
 
@@ -101,8 +114,8 @@ entitymanager.packagesToScan: lt.gt.galaktika.model.entity
 		lcemfb.setJpaVendorAdapter(va);
 
 		Properties ps = new Properties();
-//		ps.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-//		ps.put("hibernate.hbm2ddl.auto", "create");
+		// ps.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+		// ps.put("hibernate.hbm2ddl.auto", "create");
 		ps.put("hibernate.dialect", HIBERNATE_DIALECT);
 		ps.put("hibernate.show_sql", HIBERNATE_SHOW_SQL);
 		ps.put("hibernate.hbm2ddl.auto", HIBERNATE_HBM2DDL_AUTO);
@@ -122,6 +135,7 @@ entitymanager.packagesToScan: lt.gt.galaktika.model.entity
 		return tm;
 
 	}
+
 	@Bean
 	public PersistenceExceptionTranslationPostProcessor exceptionTranslation ()
 	{

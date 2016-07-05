@@ -49,6 +49,20 @@ public class ShipGroupDao implements IShipGroupDao
 		em.detach(shipGroup);
 		return id;
 	}
+	
+	@Override
+	@Transactional
+	public DShipGroup updateShipGroup ( DShipGroup shipGroup )
+	{
+		return em.merge( shipGroup );
+	}
+	
+	@Override
+	@Transactional
+	public void deleteShipGroup ( DShipGroup shipGroup )
+	{
+		em.remove( shipGroup );
+	}
 
 	@Override
 	@Transactional

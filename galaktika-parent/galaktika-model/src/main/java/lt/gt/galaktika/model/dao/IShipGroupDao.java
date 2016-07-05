@@ -12,6 +12,8 @@ public interface IShipGroupDao
 	
 	public DShipGroup getShipGroup ( long shipGroupId );
 	public long saveShipGroup (DShipGroup shipGroup);
+	public DShipGroup updateShipGroup (DShipGroup shipGroup );
+	public void deleteShipGroup (DShipGroup shipGroup );
 	public DataSearchResult <DShipGroup> loadShipGroupPortion(DataSearchLimits li);
 	
 	public DShip getShip ( long shipId );

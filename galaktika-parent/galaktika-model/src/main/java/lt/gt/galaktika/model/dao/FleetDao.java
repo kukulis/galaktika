@@ -20,6 +20,7 @@ import lt.gt.galaktika.model.DataSearchResult;
 import lt.gt.galaktika.model.FleetSortData;
 import lt.gt.galaktika.model.GalaktikaModelUtils;
 import lt.gt.galaktika.model.entity.DFleet;
+import lt.gt.galaktika.model.entity.DShip;
 import lt.gt.galaktika.utils.Utils;
 
 @Repository
@@ -120,7 +121,10 @@ public class FleetDao implements IFleetDao
 	@Override
 	public DFleet getFleet ( long id )
 	{
-		return (DFleet) getSession().get( DFleet.class, id );
+//		return (DFleet) getSession().get( DFleet.class, id );
+		DFleet fleet = em.find(DFleet.class, id );
+//		em.detach( fleet );
+		return fleet;
 	}
 
 	@Override
@@ -128,8 +132,8 @@ public class FleetDao implements IFleetDao
 	{
 		Query query = getSession().createQuery("select f from DFleet f "
 				+ "left join fetch f.nation as na "
-				+ "join fetch f.shipGroups as gr "
-				+ "join fetch gr.ship as sh " 
+				+ "left join fetch f.shipGroups as gr "
+				+ "left join fetch gr.ship as sh " 
 				+ "where f.fleetId = :fleetId"
 				);
 		query.setParameter("fleetId", id);
@@ -139,26 +143,6 @@ public class FleetDao implements IFleetDao
 //		em.detach( result );
 		
 		return (DFleet) result;
-	}
-
-	@Override
-	/**
-	 * Stores fleet ships by creating only
-	 */
-	public int storeFleetShips ( DFleet fleet )
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	/**
-	 * Stores fleet ships by creating, deleting and updating.
-	 */
-	public int updateFleetShips ( DFleet fleet )
-	{
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	
 }
