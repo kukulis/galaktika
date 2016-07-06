@@ -10,6 +10,7 @@ public class Ship
 	private double defence;
 	private double cargo;
 	private String name;
+	private long buildTurnId; // should not reference to turn, use as informative field only
 	
 	public Ship ( String name ) {
 		this.name=name;
@@ -78,5 +79,19 @@ public class Ship
 	public void setName ( String name )
 	{
 		this.name = name;
+	}
+
+	public long getBuildTurnId ()
+	{
+		return buildTurnId;
+	}
+
+	public void setBuildTurnId ( long buildTurnId )
+	{
+		this.buildTurnId = buildTurnId;
+	}
+	
+	public String toString () {
+		return "["+id+":"+name+"]"+"{"+attack+"x"+guns+ ";"+defence+";"+speed+";"+cargo+ "}"+"("+totalMass+")";
 	}
 }

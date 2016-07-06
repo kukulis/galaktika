@@ -11,6 +11,6 @@ public class Utils {
 	
 	public static double pow ( double d, double p ) {
 		double log =   Math.log( d );
-		return Math.exp( log / p );
+		return Math.exp( log * p );
 	}
 }
