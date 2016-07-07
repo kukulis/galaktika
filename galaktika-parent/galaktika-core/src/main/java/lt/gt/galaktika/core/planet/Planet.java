@@ -3,8 +3,22 @@ package lt.gt.galaktika.core.planet;
 public class Planet
 {
 	private double x,y;
-	private double planetSize;
+	private double planetSize=100;
 	private double richness=1;
+	
+	public Planet()
+	{
+	}
+	
+	public Planet(double x, double y, double planetSize, double richness)
+	{
+		this.x = x;
+		this.y = y;
+		this.planetSize = planetSize;
+		this.richness = richness;
+	}
+
+
 	public double getX ()
 	{
 		return x;

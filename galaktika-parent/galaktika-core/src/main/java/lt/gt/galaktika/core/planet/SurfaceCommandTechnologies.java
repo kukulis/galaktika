@@ -2,9 +2,18 @@ package lt.gt.galaktika.core.planet;
 
 import lt.gt.galaktika.core.TechnologyType;
 
-public class SurfaceCommandUpgrade implements SurfaceCommand
+public class SurfaceCommandTechnologies implements SurfaceCommand
 {
 	private TechnologyType technologyToUpgrade;
+	
+	public SurfaceCommandTechnologies()
+	{
+	}
+	
+	public SurfaceCommandTechnologies(TechnologyType technologyToUpgrade)
+	{
+		this.technologyToUpgrade = technologyToUpgrade;
+	}
 
 	public TechnologyType getTechnologyToUpgrade ()
 	{
@@ -19,8 +28,7 @@ public class SurfaceCommandUpgrade implements SurfaceCommand
 	@Override
 	public SurfaceActivities getActivityType ()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return SurfaceActivities.TECHNOLOGIES;
 	}
 	
 	

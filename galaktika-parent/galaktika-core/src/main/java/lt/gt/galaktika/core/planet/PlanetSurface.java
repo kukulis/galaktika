@@ -12,6 +12,21 @@ public class PlanetSurface
 	
 	private SurfaceCommand surfaceCommand;
 	
+	public PlanetSurface()
+	{
+	}
+	
+	public PlanetSurface(String name, Nation nation, double population, double industry, double capital,
+			SurfaceCommand surfaceCommand)
+	{
+		this.name = name;
+		this.nation = nation;
+		this.population = population;
+		this.industry = industry;
+		this.capital = capital;
+		this.surfaceCommand = surfaceCommand;
+	}
+
 	public Nation getNation ()
 	{
 		return nation;

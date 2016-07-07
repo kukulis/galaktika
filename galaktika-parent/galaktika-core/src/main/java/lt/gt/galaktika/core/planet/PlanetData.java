@@ -6,6 +6,17 @@ public class PlanetData
 	private PlanetOrbit orbit;
 	private Planet planet;
 	
+	public PlanetData()
+	{
+	}
+
+	public PlanetData(Planet planet, PlanetSurface surface, PlanetOrbit orbit )
+	{
+		this.surface = surface;
+		this.orbit = orbit;
+		this.planet = planet;
+	}
+	
 	public PlanetSurface getSurface ()
 	{
 		return surface;
@@ -30,5 +41,6 @@ public class PlanetData
 	{
 		this.planet = planet;
 	}
+	
 	
 }

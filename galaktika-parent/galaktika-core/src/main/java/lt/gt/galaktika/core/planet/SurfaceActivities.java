@@ -8,7 +8,7 @@ public enum SurfaceActivities {
 	/**
 	 * Upgrade technologies.
 	 */
-	UPGRADE,
+	TECHNOLOGIES,
 	/**
 	 * Build ships.
 	 */

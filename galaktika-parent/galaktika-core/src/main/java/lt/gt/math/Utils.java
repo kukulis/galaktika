@@ -13,4 +13,9 @@ public class Utils {
 		double log =   Math.log( d );
 		return Math.exp( log * p );
 	}
+	
+	public static double avg(double x, double y) {
+		return (x+y) / 2;
+	}
+	
 }

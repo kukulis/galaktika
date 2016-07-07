@@ -43,4 +43,12 @@ public class Technologies
 	{
 		this.engines = engines;
 	}
+
+	@Override
+	public String toString ()
+	{
+		return "["+attack+";"+defence+";"+engines+";"+cargo + "]";
+	}
+	
+	
 }
