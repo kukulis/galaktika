@@ -11,6 +11,7 @@ public class PlanetSurface
 	private double capital;
 	
 	private SurfaceCommand surfaceCommand;
+	private ShipFactory shipFactory;
 	
 	public PlanetSurface()
 	{
@@ -75,4 +76,15 @@ public class PlanetSurface
 	{
 		this.name = name;
 	}
+
+	public ShipFactory getShipFactory ()
+	{
+		return shipFactory;
+	}
+
+	public void setShipFactory ( ShipFactory shipFactory )
+	{
+		this.shipFactory = shipFactory;
+	}
+	
 }

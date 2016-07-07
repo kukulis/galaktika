@@ -18,4 +18,10 @@ public class Utils {
 		return (x+y) / 2;
 	}
 	
+	public static double limit ( double given, double limit ) {
+		if ( given < limit )
+			return given;
+		else
+			return limit;
+	}
 }

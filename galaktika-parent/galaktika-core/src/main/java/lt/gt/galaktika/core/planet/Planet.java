@@ -1,6 +1,8 @@
 package lt.gt.galaktika.core.planet;
 
-public class Planet
+import lt.gt.galaktika.core.GalaxyLocation;
+
+public class Planet implements GalaxyLocation
 {
 	private double x,y;
 	private double planetSize=100;

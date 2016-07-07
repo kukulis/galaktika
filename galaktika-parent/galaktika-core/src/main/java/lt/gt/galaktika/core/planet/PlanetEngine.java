@@ -3,20 +3,52 @@ package lt.gt.galaktika.core.planet;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
+
+import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.Ship;
+import lt.gt.galaktika.core.ShipGroup;
 import lt.gt.galaktika.core.Technologies;
 import lt.gt.galaktika.core.TechnologyType;
+import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
 import lt.gt.math.Utils;
 
+// TODO split class to increase cohesion
+// SPLIT depending on Surface command
 public class PlanetEngine
 {
 	public final static int RESEARH_POWER_FOR_UNIT = 100;
+	public final static double POPULATION_GROWTH = 1.3;
+	public final static double EPSILON = 0.001;
 
 	public PlanetData excecute ( PlanetData planetData )
 	{
+		PlanetData result = clonePlanetData(planetData);
+		executePopulation(result);
 		// TODO big method
-		return planetData;
+		return result;
+	}
+
+	public static PlanetData clonePlanetData ( PlanetData pd )
+	{
+		PlanetData result = new PlanetData();
+		// setting planet same as original
+		result.setPlanet(pd.getPlanet());
+
+		// orbit and surface are new, and copied from original
+		result.setOrbit(new PlanetOrbit());
+		result.setSurface(new PlanetSurface());
+		try
+		{
+			BeanUtils.copyProperties(result.getOrbit(), pd.getOrbit());
+			BeanUtils.copyProperties(result.getSurface(), pd.getSurface());
+		} catch (Exception e)
+		{
+			throw new GalaktikaRuntimeException(e);
+		}
+
+		return result;
 	}
 
 	public Ship makeShip ( ShipDesign design, Technologies t )
@@ -35,18 +67,158 @@ public class PlanetEngine
 		return ship;
 	}
 
-	public PlanetSurface executeIndustry ( PlanetSurface ps )
+	public void executeIndustry ( PlanetData pd )
 	{
-		PlanetSurface resultPs = new PlanetSurface();
-		// TODO
-		return resultPs;
+		double unepmloyedPopulation = pd.getSurface().getPopulation();
+		double unusedCapital = pd.getSurface().getCapital();
+		double unusedIndustry = pd.getSurface().getIndustry();
+		double requiredIndustry = pd.getPlanet().getPlanetSize() - pd.getSurface().getIndustry();
+
+		if (requiredIndustry > 0)
+		{
+			// try to make industry from capital
+			double industryFromCapital = Math.min(Math.min(unepmloyedPopulation, unusedCapital), requiredIndustry);
+			pd.getSurface().setIndustry(
+					Utils.limit(pd.getSurface().getIndustry() + industryFromCapital, pd.getPlanet().getPlanetSize()));
+
+			unepmloyedPopulation -= industryFromCapital;
+			unusedCapital -= industryFromCapital;
+			requiredIndustry -= industryFromCapital;
+		}
+
+		// still not enough industry
+		if (requiredIndustry > 0)
+		{
+			// industry power depends on planet richness
+			double industryFromIndustry = Math.min(
+					Math.min(unusedIndustry, unepmloyedPopulation) * pd.getPlanet().getRichness(), requiredIndustry);
+			pd.getSurface().setIndustry(
+					Utils.limit(pd.getSurface().getIndustry() + industryFromIndustry, pd.getPlanet().getPlanetSize()));
+			unepmloyedPopulation -= industryFromIndustry;
+			unusedIndustry -= industryFromIndustry;
+			requiredIndustry -= industryFromIndustry;
+		}
+
+		// now let remaining population and industry build some capital
+		if (requiredIndustry <= EPSILON)
+		{ // virtual zero
+			double remainingCapital = Math.min(unepmloyedPopulation, unusedIndustry) * pd.getPlanet().getRichness();
+			double totalCapital = unusedCapital + remainingCapital;
+
+			pd.getSurface().setCapital(totalCapital);
+		}
+
 	}
 
-	public PlanetData executeProduction ( PlanetData pd )
+	// TODO split to smaller methods
+	/**
+	 * 
+	 * @param pd
+	 * @param t
+	 */
+	public void executeProduction ( PlanetData pd, Technologies t )
 	{
-		PlanetData resultPd = new PlanetData();
-		// TODO
-		return resultPd;
+		double unepmloyedPopulation = pd.getSurface().getPopulation();
+		double unusedCapital = pd.getSurface().getCapital();
+		double unusedIndustry = pd.getSurface().getIndustry();
+
+		SurfaceCommandProduction productionCommand = (SurfaceCommandProduction) pd.getSurface().getSurfaceCommand();
+
+		Ship ship = null;
+		if (pd.getSurface().getShipFactory().getDonePart() > EPSILON
+				&& productionCommand.getShipDesign().equals(pd.getSurface().getShipFactory().getShipDesign()))
+		{
+			// if there is unfinished ship, then
+			// continue the same ship
+			ship = pd.getSurface().getShipFactory().getShip();
+		}
+		else
+		{
+			// create new ship
+			ship = makeShip(productionCommand.getShipDesign(), t);
+			pd.getSurface().getShipFactory().setShip(ship);
+			pd.getSurface().getShipFactory().setShipDesign(productionCommand.getShipDesign());
+			pd.getSurface().getShipFactory().setTechnologies(t);
+			pd.getSurface().getShipFactory().setDonePart(0);
+		}
+
+		int shipsToBuild = productionCommand.getMaxShips();
+		int shipsMade = 0;
+		while (shipsToBuild > 0 && unepmloyedPopulation > 0 && unusedIndustry > 0)
+		{
+			// to build a ship you first need make capital, equal of the
+			// half of the mass of the ship.
+			double capitalNeededFor1Ship = ship.getTotalMass() / 2;
+			double capitalMissing = capitalNeededFor1Ship - unusedCapital;
+			if (capitalMissing > 0)
+			{
+				// build missing capital
+				// building capital depends on planet richness
+				double resourcesRequiredForCapital = capitalMissing / pd.getPlanet().getRichness();
+				double resourcesUsedToBuildCapital = Math.min(Math.min(unepmloyedPopulation, unusedIndustry),
+						resourcesRequiredForCapital);
+				double capitalProduced = resourcesUsedToBuildCapital * pd.getPlanet().getRichness();
+				unusedCapital += capitalProduced;
+				unepmloyedPopulation -= resourcesUsedToBuildCapital;
+				unusedIndustry -= resourcesRequiredForCapital;
+			}
+
+			// building ship itself requires resources (population and
+			// industry), equal
+			// to the half of the total ship mass
+			if (unepmloyedPopulation > EPSILON && unusedIndustry > EPSILON)
+			{
+				// start building ship.
+				// take all the capital, it requires to build
+				unusedCapital -= capitalNeededFor1Ship;
+
+				// also finish the previously started ship if there is one.
+				double requiredWorkPower = (ship.getTotalMass() / 2)
+						* (1 - pd.getSurface().getShipFactory().getDonePart());
+
+				// building ship does not depend on planet richness
+				double availableWorkPower = Math.min(Math.min(unusedIndustry, unusedIndustry), requiredWorkPower);
+
+				// build ship
+				unusedIndustry -= availableWorkPower;
+				unepmloyedPopulation -= availableWorkPower;
+
+				if (requiredWorkPower <= availableWorkPower - EPSILON)
+				{
+					// there is enough building power to finish a ship
+					shipsToBuild--;
+					shipsMade++;
+					pd.getSurface().getShipFactory().setDonePart(0);
+				}
+				else // there is not enough power to finish a ship
+					pd.getSurface().getShipFactory().setDonePart(availableWorkPower / requiredWorkPower);
+
+			}
+		}
+
+		// build capital from remaining work power
+		double remainingWorkPower = Math.min(unusedIndustry, unusedIndustry);
+		if (remainingWorkPower > EPSILON)
+		{
+			double builtCapital = remainingWorkPower * pd.getPlanet().getRichness();
+			unusedCapital += builtCapital;
+			pd.getSurface().setCapital(unusedCapital);
+		}
+
+		// add the build ships to the orbit
+		if (shipsMade > 0)
+		{
+			Fleet fleet = pd.getOrbit().findNationFleet(pd.getSurface().getNation());
+			if (fleet == null)
+			{
+				fleet = new Fleet(ship.getName() + " fleet");
+				fleet.setOwner(pd.getSurface().getNation());
+				pd.getOrbit().getFleets().add(fleet);
+			}
+
+			fleet.addShipGroup(new ShipGroup(ship, shipsMade));
+		}
+
 	}
 
 	/**
@@ -79,9 +251,19 @@ public class PlanetEngine
 		return resultMap;
 	}
 
+	/**
+	 * The research power is average of industry and population, divided by
+	 * coefficient. But only if population is enough.
+	 * 
+	 * @param ps
+	 * @return
+	 */
 	public static double getResearchPower ( PlanetSurface ps )
 	{
-		return Utils.avg(ps.getPopulation(), ps.getIndustry()) / RESEARH_POWER_FOR_UNIT;
+		if (ps.getPopulation() > ps.getIndustry())
+			return Utils.avg(ps.getPopulation(), ps.getIndustry()) / RESEARH_POWER_FOR_UNIT;
+		else
+			return ps.getPopulation() / RESEARH_POWER_FOR_UNIT;
 	}
 
 	public static void addReasearchPower ( Technologies t, double researchPower, TechnologyType tt )
@@ -94,6 +276,12 @@ public class PlanetEngine
 			t.setDefence(t.getDefence() + researchPower);
 		else if (TechnologyType.ENGINE == tt)
 			t.setEngines(t.getEngines());
+	}
+
+	public void executePopulation ( PlanetData pd )
+	{
+		pd.getSurface().setPopulation(
+				Utils.limit(pd.getSurface().getPopulation() * POPULATION_GROWTH, pd.getPlanet().getPlanetSize()));
 	}
 
 }

@@ -6,10 +6,6 @@ public class ShipGroup
 	private Ship ship;
 	private int count=1;
 	
-	// TODO relations
-	private long turnId;
-	private long userId;
-	
 	/**
 	 * How many ships did a shot.
 	 */
@@ -18,6 +14,13 @@ public class ShipGroup
 	public ShipGroup ( Ship ship ) {
 		this.ship=ship;
 	}
+	
+	public ShipGroup(Ship ship, int count)
+	{
+		this.ship = ship;
+		this.count = count;
+	}
+
 	public Fleet getFleet ()
 	{
 		return fleet;
@@ -72,21 +75,5 @@ public class ShipGroup
 //		if ( shotedShips > amount ) {
 //			shotedShips = amount;
 //		}
-	}
-	public long getTurnId ()
-	{
-		return turnId;
-	}
-	public void setTurnId ( long turnId )
-	{
-		this.turnId = turnId;
-	}
-	public long getUserId ()
-	{
-		return userId;
-	}
-	public void setUserId ( long userId )
-	{
-		this.userId = userId;
 	}
 }

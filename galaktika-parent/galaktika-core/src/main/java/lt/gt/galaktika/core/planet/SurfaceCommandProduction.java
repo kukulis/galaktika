@@ -11,9 +11,10 @@ public class SurfaceCommandProduction implements SurfaceCommand
 	 * 0.4 - 40% done
 	 * 1 - 100% done. Should not happen, because, when it is 100% then it is removed from production queue.
 	 */
-	private double done=0; // when value is 1 then it is finished
+//	private double done=0; // when value is 1 then it is finished
 	private ShipDesign shipDesign;
 	private Technologies technologies;
+	private int maxShips=1; 
 	
 	@Override
 	public SurfaceActivities getActivityType ()
@@ -21,15 +22,15 @@ public class SurfaceCommandProduction implements SurfaceCommand
 		return SurfaceActivities.PRODUCTION;
 	}
 
-	public double getDone ()
-	{
-		return done;
-	}
-
-	public void setDone ( double done )
-	{
-		this.done = done;
-	}
+//	public double getDone ()
+//	{
+//		return done;
+//	}
+//
+//	public void setDone ( double done )
+//	{
+//		this.done = done;
+//	}
 
 	public ShipDesign getShipDesign ()
 	{
@@ -49,5 +50,15 @@ public class SurfaceCommandProduction implements SurfaceCommand
 	public void setTechnologies ( Technologies technologies )
 	{
 		this.technologies = technologies;
+	}
+
+	public int getMaxShips ()
+	{
+		return maxShips;
+	}
+
+	public void setMaxShips ( int maxShips )
+	{
+		this.maxShips = maxShips;
 	}
 }
