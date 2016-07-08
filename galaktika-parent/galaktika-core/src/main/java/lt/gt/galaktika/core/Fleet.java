@@ -11,6 +11,7 @@ public class Fleet
 
 	private List<ShipGroup> shipGroups = new ArrayList<>();
 	private GalaxyLocation galaxyLocation;
+	private GalaxyLocation targetLocation;
 	
 	private Nation owner = new Nation();
 	
@@ -164,5 +165,13 @@ public class Fleet
 		this.owner = owner;
 	}
 
+	public GalaxyLocation getTargetLocation ()
+	{
+		return targetLocation;
+	}
 
+	public void setTargetLocation ( GalaxyLocation targetLocation )
+	{
+		this.targetLocation = targetLocation;
+	}
 }

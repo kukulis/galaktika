@@ -22,14 +22,6 @@ public class PlanetEngine
 	public final static double POPULATION_GROWTH = 1.3;
 	public final static double EPSILON = 0.001;
 
-	public PlanetData excecute ( PlanetData planetData )
-	{
-		PlanetData result = clonePlanetData(planetData);
-		executePopulation(result);
-		// TODO big method
-		return result;
-	}
-
 	public static PlanetData clonePlanetData ( PlanetData pd )
 	{
 		PlanetData result = new PlanetData();

@@ -24,4 +24,8 @@ public class Utils {
 		else
 			return limit;
 	}
+	
+	public static boolean same ( double a, double b, double epsilon ) {
+		return Math.abs( a-b ) < epsilon;
+	}
 }

@@ -7,8 +7,8 @@ import lt.gt.galaktika.core.planet.PlanetData;
 
 public class GalaxyEngine
 {
-	public Fleet executeMovement ( Fleet fleet ) {
-		return fleet;
+	public void executeMovement ( Fleet fleet ) {
+		// TODO
 	}
 	
 	public List<Fleet> findBattles ( List<Fleet> fleets, Set<Aggreement> aggreements ) {
@@ -21,4 +21,5 @@ public class GalaxyEngine
 		// TODO
 		return null;
 	}
+	
 }

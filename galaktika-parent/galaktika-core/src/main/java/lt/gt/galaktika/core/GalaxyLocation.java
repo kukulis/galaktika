@@ -1,5 +1,7 @@
 package lt.gt.galaktika.core;
 
-public interface GalaxyLocation
+import lt.gt.math.PlanePoint;
+
+public interface GalaxyLocation extends PlanePoint
 {
 }
