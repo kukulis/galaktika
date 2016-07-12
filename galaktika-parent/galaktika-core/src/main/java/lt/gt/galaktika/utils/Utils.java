@@ -14,6 +14,7 @@ import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
 
 public class Utils
 {
+	public final static double EPSILON = 0.000_001;
 	public static void printReport ( BattleReport report )
 	{
 		for (BattleReportRound round : report.getRounds())

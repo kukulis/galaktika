@@ -1,7 +1,5 @@
 package lt.gt.math;
 
-import java.security.GeneralSecurityException;
-
 public class PlaneVector
 {
 	public final static double EPSILON=0.000001;

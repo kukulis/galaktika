@@ -3,15 +3,29 @@ package lt.gt.galaktika.core;
 public class Ship
 {
 	private long id;
-	private double totalMass;
-	private double speed;
+	private String name;
 	private double attack;
 	private int guns;
 	private double defence;
+	private double speed;
 	private double cargo;
-	private String name;
+	private double totalMass;
 	private long buildTurnId; // should not reference to turn, use as informative field only
 	
+	public Ship()
+	{
+	}
+	
+	public Ship( String name, double attack, int guns, double defence, double speed, double cargo)
+	{
+		this.speed = speed;
+		this.attack = attack;
+		this.guns = guns;
+		this.defence = defence;
+		this.cargo = cargo;
+		this.name = name;
+	}
+
 	public Ship ( String name ) {
 		this.name=name;
 	}

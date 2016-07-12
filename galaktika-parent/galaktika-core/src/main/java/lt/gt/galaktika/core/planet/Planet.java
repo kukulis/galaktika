@@ -1,6 +1,7 @@
 package lt.gt.galaktika.core.planet;
 
 import lt.gt.galaktika.core.GalaxyLocation;
+import lt.gt.math.Utils;
 
 public class Planet implements GalaxyLocation
 {
@@ -52,5 +53,25 @@ public class Planet implements GalaxyLocation
 	public void setRichness ( double richness )
 	{
 		this.richness = richness;
+	}
+	
+	
+	public boolean equals ( Object obj ) {
+		GalaxyLocation gl = null;
+		if (obj instanceof GalaxyLocation)
+			gl = (GalaxyLocation) obj;
+		else
+			return false;
+
+		return Utils.same(gl.getX(), x, lt.gt.galaktika.utils.Utils.EPSILON)
+				&& Utils.same(gl.getY(), y, lt.gt.galaktika.utils.Utils.EPSILON);
+	}
+	
+	public int hashCode() {
+		return Double.hashCode(x*1000+y);
+	}
+	
+	public String toString () {
+		return "Planet ["+x+";"+y+"]";
 	}
 }

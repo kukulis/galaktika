@@ -8,6 +8,16 @@ import lt.gt.math.PlaneVector;
 public class Galaxy
 {
 	private double sizeX, sizeY;
+	
+	public Galaxy(double sizeX, double sizeY)
+	{
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
+	}
+	
+	public Galaxy()
+	{
+	}
 
 	public double getSizeX ()
 	{
@@ -64,7 +74,7 @@ public class Galaxy
 		return result;
 	}
 
-	public GalaxyLocation fixX ( boolean greater, GalaxyLocation orig, double fixAmount )
+	private GalaxyLocation fixX ( boolean greater, GalaxyLocation orig, double fixAmount )
 	{
 		if (greater)
 			return new SpaceLocation(orig.getX() - fixAmount, orig.getY());
@@ -72,11 +82,29 @@ public class Galaxy
 			return new SpaceLocation(orig.getX() + fixAmount, orig.getY());
 	}
 
-	public GalaxyLocation fixY ( boolean greater, GalaxyLocation orig, double fixAmount )
+	private GalaxyLocation fixY ( boolean greater, GalaxyLocation orig, double fixAmount )
 	{
 		if (greater)
 			return new SpaceLocation(orig.getX(), orig.getY() - fixAmount);
 		else
 			return new SpaceLocation(orig.getX(), orig.getY() + fixAmount);
+	}
+	
+	public GalaxyLocation normalize( double x, double y) {
+		if ( x > sizeX )
+			x -= sizeX;
+		if ( y > sizeY )
+			y -= sizeY;
+		
+		if ( x < 0 )
+			x += sizeX;
+		if ( y < 0 )
+			y += sizeY;
+		
+		return new SpaceLocation( x, y );
+	}
+	
+	public GalaxyLocation normalize ( GalaxyLocation orig ) {
+		return new SpaceLocation( orig.getX(), orig.getY() );
 	}
 }

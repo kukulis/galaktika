@@ -11,7 +11,8 @@ public class Fleet
 
 	private List<ShipGroup> shipGroups = new ArrayList<>();
 	private GalaxyLocation galaxyLocation;
-	private GalaxyLocation targetLocation;
+	
+	private FlightCommand flightCommand;
 	
 	private Nation owner = new Nation();
 	
@@ -24,17 +25,12 @@ public class Fleet
 		this.name = name;
 	}
 
-	// TODO move to  model projeject DFleet class
-//	public Fleet(DFleet f)
-//	{
-//		try
-//		{
-//			BeanUtils.copyProperties(this, f);
-//		} catch (InvocationTargetException | IllegalAccessException e)
-//		{
-//			throw new GalaktikaRuntimeException("Problems copying fleet bean", e);
-//		}
-//	}
+	public Fleet(long fleetId, String name)
+	{
+		super();
+		this.fleetId = fleetId;
+		this.name = name;
+	}
 
 	public long getFleetId ()
 	{
@@ -165,13 +161,54 @@ public class Fleet
 		this.owner = owner;
 	}
 
-	public GalaxyLocation getTargetLocation ()
-	{
-		return targetLocation;
+//	public GalaxyLocation getTargetLocation ()
+//	{
+//		return targetLocation;
+//	}
+//
+//	public void setTargetLocation ( GalaxyLocation targetLocation )
+//	{
+//		this.targetLocation = targetLocation;
+//	}
+	
+	public double calculateSpeed() {
+		return shipGroups.stream().map( g -> g.getShip().getSpeed() ).min(Double::compare).get();
 	}
 
-	public void setTargetLocation ( GalaxyLocation targetLocation )
+	public FlightCommand getFlightCommand ()
 	{
-		this.targetLocation = targetLocation;
+		return flightCommand;
 	}
+
+	public void setFlightCommand ( FlightCommand flightCommand )
+	{
+		this.flightCommand = flightCommand;
+	}
+	
+	public GalaxyLocation getFlightSource ( ) {
+		return flightCommand.getSource();
+	}
+	
+	public GalaxyLocation getFlightDestination() {
+		return flightCommand.getDestination();
+	}
+
+	@Override
+	public int hashCode ()
+	{
+		return Long.hashCode( fleetId );
+	}
+
+	@Override
+	public boolean equals ( Object obj )
+	{
+		if ( obj instanceof Fleet ) {
+			Fleet f = (Fleet) obj;
+			return f.getFleetId() == fleetId;
+		}
+		else return false;
+	}
+	
+	
+	
 }

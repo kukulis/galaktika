@@ -43,5 +43,20 @@ public class Nation
 	{
 		return "["+nationId+":"+nationName+"]";
 	}
-	
+
+	@Override
+	public int hashCode ()
+	{
+		return Long.hashCode( nationId );
+	}
+
+	@Override
+	public boolean equals ( Object obj )
+	{
+		if ( obj instanceof Nation ) {
+			Nation n =(Nation) obj;
+			return n.getNationId() == nationId;
+		}
+		else return false;
+	}
 }
