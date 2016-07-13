@@ -1,5 +1,6 @@
 package lt.gt.galaktika.core;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -60,5 +61,13 @@ public class AggreementsObject
 	
 	public void setInWar ( Nation nation1, Nation nation2 ) {
 		inWar.add( new TwoNations( nation1, nation2));
+	}
+	
+	public boolean isInWar ( Collection<Fleet> fleets, Fleet fleet ) {
+		for ( Fleet f : fleets )
+			if ( isInWar (f.getOwner(), fleet.getOwner() ) ) 
+				return true;
+		
+		return false;
 	}
 }

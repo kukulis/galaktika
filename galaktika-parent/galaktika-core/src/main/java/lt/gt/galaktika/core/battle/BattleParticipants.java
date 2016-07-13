@@ -1,14 +1,11 @@
 package lt.gt.galaktika.core.battle;
 
-import java.util.Arrays;
-import java.util.List;
-
 import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.GalaxyLocation;
 
 public class BattleParticipants
 {
-	private List<Fleet> participantsA, participantsB;
+	private Fleet participantA, participantB;
 	private GalaxyLocation battleLocation;
 
 	public BattleParticipants()
@@ -17,29 +14,19 @@ public class BattleParticipants
 	
 	public BattleParticipants(Fleet participantA, Fleet participantB, GalaxyLocation battleLocation)
 	{
-		this.participantsA = Arrays.asList(participantA);
-		this.participantsB = Arrays.asList(participantB);
+		this.participantA = participantA;
+		this.participantB = participantB;
 		this.battleLocation = battleLocation;
 	}
 
-	public List<Fleet> getParticipantsA ()
+	public Fleet getParticipantA ()
 	{
-		return participantsA;
+		return participantA;
 	}
 
-	public void setParticipantsA ( List<Fleet> participantsA )
+	public Fleet getParticipantB ()
 	{
-		this.participantsA = participantsA;
-	}
-
-	public List<Fleet> getParticipantsB ()
-	{
-		return participantsB;
-	}
-
-	public void setParticipantsB ( List<Fleet> participantsB )
-	{
-		this.participantsB = participantsB;
+		return participantB;
 	}
 
 	public GalaxyLocation getBattleLocation ()
@@ -47,9 +34,4 @@ public class BattleParticipants
 		return battleLocation;
 	}
 
-	public void setBattleLocation ( GalaxyLocation battleLocation )
-	{
-		this.battleLocation = battleLocation;
-	}
-	
 }

@@ -1,6 +1,7 @@
 package lt.gt.galaktika.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import lt.gt.galaktika.core.battle.BattleParticipants;
+import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.PlanetData;
 import lt.gt.math.PlaneVector;
 
@@ -25,7 +27,6 @@ public class GalaxyEngine
 			// 1 calculate movement vector
 			PlaneVector movementVector = galaxy.getShortestVector(fleet.getGalaxyLocation(),
 					fleet.getFlightCommand().getDestination());
-			// double speed = fleet.calculateSpeed();
 			if (movementVector.mod() > distance)
 			{
 				// calculate intermediate point
@@ -39,22 +40,91 @@ public class GalaxyEngine
 
 			}
 			else
-				return fleet.getFlightCommand().getDestination();
+				return fleet.getFlightCommand().getDestination(); // move to
+																	// destination
 		}
-		return null;
+		return fleet.getGalaxyLocation(); // stay at the same location
 
 	}
 
-	public List<BattleParticipants> findBattles ( List<Fleet> fleets, Set<Aggreement> aggreements )
+	/**
+	 * Find battles in planets. Assume all the fleets already moved.
+	 * 
+	 * @param fleets
+	 * @param aggreementsObject
+	 * @param galaxy
+	 * @return
+	 */
+	public List<BattleParticipants> findPlanetBattles ( List<Fleet> fleets, AggreementsObject aggreementsObject,
+			Galaxy galaxy )
 	{
+		System.out.println("fleets.size=" + fleets.size());
+		// collect fleets in groups by locations
+		Map<GalaxyLocation, List<Fleet>> locationsMap = fleets.stream()
+				.collect(Collectors.groupingBy(Fleet::getGalaxyLocation));
 
-		// TODO
+		System.out.println("locationsMap.size=" + locationsMap.size());
+
+		List<BattleParticipants> result = new ArrayList<>();
+
+		// as many battles, as there are fleets in war one by one
+		locationsMap.forEach( ( l, localFleetsList ) -> {
+			System.out.println("Analyzing location " + l);
+			// battle is each with each
+			for (int i = 0; i < localFleetsList.size() - 1; i++)
+				for (int j = i + 1; j < localFleetsList.size(); j++)
+					// battle between i and j fleet
+					if (aggreementsObject.isInWar(localFleetsList.get(i).getOwner(), localFleetsList.get(j).getOwner()))
+						result.add(new BattleParticipants(localFleetsList.get(i), localFleetsList.get(j), l));
+		});
+
+		return result;
+	}
+
+	/**
+	 * Splits to subsets, which fleets are not in war with other fleet in the
+	 * same set.
+	 * 
+	 * @param fleetsSource
+	 * @return
+	 */
+	public List<List<Fleet>> splitToPeacefulSubsets ( List<Fleet> fleetsSource, AggreementsObject aggreementsObject )
+	{
+		List<List<Fleet>> result = new ArrayList<>();
+		for (Fleet fleet : fleetsSource)
+		{
+			List<Fleet> candidate = findPeacefulSublist(result, fleet, aggreementsObject);
+			if (candidate == null)
+			{
+				candidate = new ArrayList<>();
+				result.add(candidate);
+			}
+			candidate.add(fleet);
+		}
+		return result;
+	}
+
+	public List<Fleet> findPeacefulSublist ( List<List<Fleet>> fleetsLists, Fleet newFleet,
+			AggreementsObject aggreementsObject )
+	{
+		for (List<Fleet> fleetsList : fleetsLists)
+			if (!aggreementsObject.isInWar(fleetsList, newFleet))
+				return fleetsList;
 		return null;
 	}
 
+	/**
+	 * Find battles in space. Assume fleets didn't move yet.
+	 * 
+	 * @param fleets
+	 * @param aggreementsObject
+	 * @param galaxy
+	 * @return
+	 */
 	public List<BattleParticipants> findSpaceBattles ( List<Fleet> fleets, AggreementsObject aggreementsObject,
 			Galaxy galaxy )
 	{
+
 		Set<TwoFleets> analyzedFleetsPairs = new HashSet<>(); // to avoid
 																// duplicates
 		Map<GalaxyLocation, List<Fleet>> movementSourceMap = fleets.stream().filter(f -> f.getFlightCommand() != null)
@@ -63,11 +133,12 @@ public class GalaxyEngine
 		List<BattleParticipants> battleParticipants = new ArrayList<>();
 		fleets.stream().filter(f -> f.getFlightCommand() != null).forEach(fleetA -> {
 			List<Fleet> sourceFleets = movementSourceMap.get(fleetA.getFlightCommand().getDestination());
-			sourceFleets.stream().filter(fleetB -> !analyzedFleetsPairs.contains(new TwoFleets(fleetA, fleetB)) // avoid
-																												// duplicates
-					&& fleetA.getFlightSource().equals(fleetB.getFlightDestination())
-					&& aggreementsObject.isInWar(fleetA.getOwner(), fleetB.getOwner())
-					&& willMeet(fleetA, fleetB, galaxy))
+			sourceFleets.stream()
+					.filter(fleetB -> !analyzedFleetsPairs.contains(new TwoFleets(fleetA, fleetB)) // avoid
+																									// duplicates
+							&& fleetA.getFlightSource().equals(fleetB.getFlightDestination())
+							&& aggreementsObject.isInWar(fleetA.getOwner(), fleetB.getOwner())
+							&& willMeet(fleetA, fleetB, galaxy))
 					.forEach(fleetB -> {
 						battleParticipants.add(new BattleParticipants(fleetA, fleetB,
 								calculateBattleLocation(fleetA, fleetB, galaxy)));
@@ -98,10 +169,39 @@ public class GalaxyEngine
 		return calculateMovement(fleetA, movementA, galaxy);
 	}
 
-	public List<PlanetData> findBombings ( List<Fleet> fleets, List<PlanetData> planets, Set<Aggreement> aggreeements )
+	
+	/**
+	 * Gets fleets which are in war with the planet, they currently are staying in.
+	 * @param fleets
+	 * @param planets
+	 * @param aggreementsObject
+	 * @return
+	 */
+	public List<Fleet> findBombings ( List<Fleet> fleets, List<PlanetData> planets,
+			AggreementsObject aggreementsObject )
 	{
-		// TODO
-		return null;
+		Map<Planet, PlanetData> planetsMap = new HashMap<Planet, PlanetData>();
+		planets.forEach(p -> planetsMap.put(p.getPlanet(), p));
+
+		return fleets.stream().filter(fleet -> isInWar(fleet, fleet.getGalaxyLocation(), planetsMap, aggreementsObject))
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Is the fleet in war with the planet it is currently staying in.
+	 * @param fleet
+	 * @param location
+	 * @param planetsMap
+	 * @param aggreementsObject
+	 * @return
+	 */
+	private boolean isInWar ( Fleet fleet, GalaxyLocation location, Map<Planet, PlanetData> planetsMap,
+			AggreementsObject aggreementsObject )
+	{
+		if (!(location instanceof Planet))
+			return false;
+		PlanetData planetData = planetsMap.get((Planet) location);
+		return aggreementsObject.isInWar(fleet.getOwner(), planetData.getSurface().getNation());
 	}
 
 	public static class TwoFleets
