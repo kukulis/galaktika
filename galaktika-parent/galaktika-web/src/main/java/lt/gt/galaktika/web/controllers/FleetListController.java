@@ -1,5 +1,9 @@
 package lt.gt.galaktika.web.controllers;
 
+import java.util.Arrays;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lt.gt.galaktika.core.Fleet;
+import lt.gt.galaktika.core.Ship;
+import lt.gt.galaktika.core.ShipGroup;
 import lt.gt.galaktika.core.exception.EErrorCodes;
 import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
 import lt.gt.galaktika.model.DataSearchLimits;
@@ -27,6 +33,7 @@ import lt.gt.galaktika.web.various.UserSessionData;
 @RestController
 public class FleetListController implements ApplicationContextAware
 {
+	final static Logger LOG = LoggerFactory.getLogger(FleetListController.class);
 	private ApplicationContext applicationContext;
 
 	@Autowired
@@ -66,29 +73,22 @@ public class FleetListController implements ApplicationContextAware
 		System.out.println("galaktika user id=" + usd.getGalaktikaUser().getUserId());
 
 		DataSearchLimits dsl = new DataSearchLimits(from, amount);
-		System.out.println("dsl.from=" + dsl.getLimitFrom() + "  dsl.amount=" + dsl.getLimitAmount());
+		LOG.info("dsl.from=" + dsl.getLimitFrom() + "  dsl.amount=" + dsl.getLimitAmount());
 
 		long nationId = 0;
 		if (!showAllUsers)
 			nationId = usd.getNation().getNationId();
 
 		FleetSortData fsd = new FleetSortData();
-		try
-		{
-			fsd.setIdSort(ESortMethods.valueOf(sortId != null ? sortId.toUpperCase() : "NONE"));
-		} catch (IllegalArgumentException iae)
-		{
-			iae.printStackTrace();
-		}
-		try
-		{
-			fsd.setNameSort(ESortMethods.valueOf(sortName != null ? sortName.toUpperCase() : "NONE"));
-		} catch (IllegalArgumentException iae)
-		{
-			iae.printStackTrace();
-		}
+		fsd.setIdSort(ESortMethods.valueOf(sortId != null ? sortId.toUpperCase() : "NONE"));
+		fsd.setNameSort(ESortMethods.valueOf(sortName != null ? sortName.toUpperCase() : "NONE"));
 
-		return fleetService.getFleets(dsl, name, nationId, showDeleted, fsd);
+		DataSearchResult<Fleet> fleets = fleetService.getFleets(dsl, name, nationId, showDeleted, fsd);
+		
+		LOG.trace( "before returning data search result, records in the result is "+fleets.getRecords() );
+		// temporarily fake
+//		fleets.setRecords(Arrays.asList( new Fleet("keistas")));
+		return fleets;
 	}
 
 	@RequestMapping("/fleet")
@@ -131,7 +131,7 @@ public class FleetListController implements ApplicationContextAware
 		if (isMyFleet(fleetId))
 			return fleetService.deleteFleet(fleetId);
 		else
-			throw new GalaktikaRuntimeException( EErrorCodes.DELETE_UNOWN_FLEET, "Not my fleet");
+			throw new GalaktikaRuntimeException(EErrorCodes.DELETE_UNOWN_FLEET, "Not my fleet");
 	}
 
 	@Override
@@ -149,26 +149,29 @@ public class FleetListController implements ApplicationContextAware
 	{
 		return applicationContext.getBean("userSessionData", UserSessionData.class);
 	}
-	
+
 	/**
 	 * Method, which throws exception.
+	 * 
 	 * @return
 	 */
 	@RequestMapping("/testerror")
-	public String test() {
+	public String test ()
+	{
 		throw new GalaktikaRuntimeException("Tipo klaida");
 	}
-	
+
 	@ExceptionHandler(GalaktikaRuntimeException.class)
-    public ResponseEntity<ResponseErrorBody> handleIOException(GalaktikaRuntimeException ex) {
-        // prepare responseEntity
-		
-		
+	public ResponseEntity<ResponseErrorBody> handleIOException ( GalaktikaRuntimeException ex )
+	{
+		// prepare responseEntity
+		LOG.info("handleIOException called");
+
 		ResponseErrorBody errorBody = new ResponseErrorBody(ex.getErrorCode().getCode(), ex.getMessage());
-		ResponseEntity <ResponseErrorBody> responseEntity = new ResponseEntity<ResponseErrorBody>(errorBody,
+		ResponseEntity<ResponseErrorBody> responseEntity = new ResponseEntity<ResponseErrorBody>(errorBody,
 				HttpStatus.EXPECTATION_FAILED
-//				HttpStatus.INTERNAL_SERVER_ERROR 
-				);
-        return responseEntity;
-    }
+		// HttpStatus.INTERNAL_SERVER_ERROR
+		);
+		return responseEntity;
+	}
 }

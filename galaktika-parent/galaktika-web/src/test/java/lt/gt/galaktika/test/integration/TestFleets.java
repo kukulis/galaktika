@@ -10,6 +10,9 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
@@ -41,6 +44,17 @@ public class TestFleets
 		pi.setLimitAmount(2);
 		DataSearchResult<DFleet> fleetsPage = fleetDao.loadPortion(pi, new DFleetFilter(), new FleetSortData() );
 		fleetsPage.getRecords().stream().forEach(f -> System.out.println(f.getFleetId() + " " + f.getName()));
+		
+		ObjectMapper mapper = new ObjectMapper();
+
+
+        String s = null;
+        try {
+            s = mapper.writeValueAsString(fleetsPage);
+        }
+        catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	@Test
@@ -62,6 +76,20 @@ public class TestFleets
 		DataSearchResult<Fleet> fleetsR = fleetService.getFleets(pi, null, 0, false, fsd );
 		System.out.println ( "Total amount : " + fleetsR.getTotalAmount() );
 		fleetsR.getRecords().stream().forEach(f -> System.out.println(f.getFleetId() + " " + f.getName()+" owner="+f.getOwner().getNationName() ));
+		
+		ObjectMapper mapper = new ObjectMapper();
+
+
+        String s = null;
+        try {
+            s = mapper.writeValueAsString(fleetsR);
+        }
+        catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        
+        System.out.println ( "json fleets="+s);
+
 	}
 	
 //	@Test

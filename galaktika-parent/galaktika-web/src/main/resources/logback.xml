@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- Send debug messages to System.out -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- By default, encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.javacodegeeks.examples.logbackexample.beans" level="INFO" additivity="false">
+            <appender-ref ref="STDOUT" />
+	</logger>
+
+	<!-- By default, the level of the root level is set to DEBUG -->
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+	
+	<logger name="lt.gt.galaktika.model.test.DShipServiceTest" level="TRACE" additivity="false">
+            <appender-ref ref="STDOUT" />
+	</logger>
+	<logger name="lt.gt.galaktika.model.test.DFleetServiceTest" level="TRACE" additivity="false">
+            <appender-ref ref="STDOUT" />
+	</logger>
+	
+	<logger name="lt.gt.galaktika.model.dao.DFleetService" level="TRACE" additivity="false">
+            <appender-ref ref="STDOUT" />
+	</logger>
+	<logger name="lt.gt.galaktika.model.test.memory.ShipGroupsMemoryTest" level="TRACE" additivity="false">
+            <appender-ref ref="STDOUT" />
+	</logger>
+	
+	
+	<logger name="lt.gt.galaktika.model.service.FleetService" level="TRACE" additivity="false">
+            <appender-ref ref="STDOUT" />
+	</logger>
+	
+	
+	<logger name="lt.gt.galaktika.web.controllers.FleetListController" level="TRACE" additivity="false">
+            <appender-ref ref="STDOUT" />
+	</logger>
+	
+</configuration>

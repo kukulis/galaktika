@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.core.Fleet;
-import lt.gt.galaktika.core.Nation;
+import lt.gt.galaktika.core.Ship;
+import lt.gt.galaktika.core.ShipGroup;
 import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
@@ -18,18 +21,20 @@ import lt.gt.galaktika.model.dao.DFleetFilter;
 import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.dao.INationDao;
 import lt.gt.galaktika.model.entity.DFleet;
+import lt.gt.galaktika.model.entity.DShip;
+import lt.gt.galaktika.model.entity.DShipGroup;
 
 @Service
 public class FleetService
 {
+	final static Logger LOG = LoggerFactory.getLogger(FleetService.class);
 
 	@Autowired
 	private IFleetDao fleetDao;
-	
+
 	@Autowired
 	private INationDao nationDao;
 
-	
 	public long save ( Fleet fleet, long nationId )
 	{
 		DFleet dFleet = new DFleet();
@@ -40,8 +45,8 @@ public class FleetService
 		{
 			throw new GalaktikaRuntimeException("Problems copying fleet bean", e);
 		}
-		
-		dFleet.setNation( nationDao.getNation ( nationId ) );
+
+		dFleet.setNation(nationDao.getNation(nationId));
 		return fleetDao.save(dFleet);
 	}
 
@@ -52,56 +57,81 @@ public class FleetService
 	 */
 	public List<Fleet> getPage ( int pageNo )
 	{
-		DataSearchResult<DFleet> results = fleetDao.loadPortion(new DataSearchLimits(), new DFleetFilter(), new FleetSortData());
-		return results.getRecords().stream().map(f -> createFleet(f)).collect(Collectors.toList());
+		DataSearchResult<DFleet> results = fleetDao.loadPortion(new DataSearchLimits(), new DFleetFilter(),
+				new FleetSortData());
+		return results.getRecords().stream().map(f -> createFleet(f, false)).collect(Collectors.toList());
 	}
 
-	public DataSearchResult<Fleet> getFleets ( DataSearchLimits dsl, String filterName, long nationId, boolean showDeleted, FleetSortData fsd )
+	public DataSearchResult<Fleet> getFleets ( DataSearchLimits dsl, String filterName, long nationId,
+			boolean showDeleted, FleetSortData fsd )
 	{
+		// try
+		// {
+		LOG.trace("getFleets called");
 		DFleetFilter dFleetFilter = new DFleetFilter();
-		dFleetFilter.setHideDeletedFleets( !showDeleted );
+		dFleetFilter.setHideDeletedFleets(!showDeleted);
 		dFleetFilter.setFilterNationId(nationId);
-		dFleetFilter.setFilterName( filterName);
+		dFleetFilter.setFilterName(filterName);
 		DataSearchResult<DFleet> dResults = fleetDao.loadPortion(dsl, dFleetFilter, fsd);
 		DataSearchResult<Fleet> results = new DataSearchResult<>();
-		results.setRecords(dResults.getRecords().stream().map(f -> createFleet(f)).collect(Collectors.toList()));
+		results.setRecords(dResults.getRecords().stream().map(f -> createFleet(f, false)).collect(Collectors.toList()));
 		results.setTotalAmount(dResults.getTotalAmount());
+		LOG.trace("before returning results");
 
 		return results;
+		// } catch (Exception e)
+		// {
+		// throw new GalaktikaRuntimeException(e);
+		// }
 	}
 
 	/**
 	 * Helper method, to convert database fleet to user fleet
 	 * 
 	 * @param f
+	 * @param copyGroups
 	 * @return
 	 */
-	public static Fleet createFleet ( DFleet f )
+	public static Fleet createFleet ( DFleet f, boolean copyGroups )
 	{
 		Fleet fleet = new Fleet();
 		if (f != null)
+		{
+			fleet.setFleetId(f.getFleetId());
+			fleet.setName(f.getName());
 			try
 			{
-				BeanUtils.copyProperties(fleet, f);
-				if ( f.getNation() != null ) {
-					BeanUtils.copyProperties( fleet.getOwner(), f.getNation() );
+				if (copyGroups)
+					for (DShipGroup g : f.getShipGroups())
+					{
+						DShip dShip = g.getShip();
+						Ship ship = new Ship();
+						BeanUtils.copyProperties(ship, dShip);
+						ShipGroup group = new ShipGroup(ship);
+						group.setCount(g.getShipsCount());
+					}
+				;
+				if (f.getNation() != null)
+				{
+					BeanUtils.copyProperties(fleet.getOwner(), f.getNation());
 				}
-				
+
 			} catch (InvocationTargetException | IllegalAccessException e)
 			{
 				throw new GalaktikaRuntimeException("Problems copying fleet bean", e);
 			}
-		
+		}
 		return fleet;
 	}
 
 	public Fleet getFleet ( long id, long nationId )
 	{
 		DFleet dFleet = fleetDao.getFleet(id, nationId);
-		return createFleet(dFleet);
+		return createFleet(dFleet, true);
 	}
-	
-	public boolean isFleet( long id, long nationId) {
+
+	public boolean isFleet ( long id, long nationId )
+	{
 		return fleetDao.getFleet(id, nationId) != null;
 	}
 
@@ -118,9 +148,9 @@ public class FleetService
 			throw new GalaktikaRuntimeException("Problems copying fleet bean", e);
 		}
 	}
-	
-	
-	public boolean deleteFleet( long fleetId ) {
-		return fleetDao.updateDeletedFlag(fleetId, true );
+
+	public boolean deleteFleet ( long fleetId )
+	{
+		return fleetDao.updateDeletedFlag(fleetId, true);
 	}
 }

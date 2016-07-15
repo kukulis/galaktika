@@ -11,11 +11,11 @@ public class Fleet
 
 	private List<ShipGroup> shipGroups = new ArrayList<>();
 	private GalaxyLocation galaxyLocation;
-	
+
 	private FlightCommand flightCommand;
-	
+
 	private Nation owner = new Nation();
-	
+
 	public Fleet()
 	{
 	}
@@ -161,18 +161,19 @@ public class Fleet
 		this.owner = owner;
 	}
 
-//	public GalaxyLocation getTargetLocation ()
-//	{
-//		return targetLocation;
-//	}
-//
-//	public void setTargetLocation ( GalaxyLocation targetLocation )
-//	{
-//		this.targetLocation = targetLocation;
-//	}
-	
-	public double calculateSpeed() {
-		return shipGroups.stream().map( g -> g.getShip().getSpeed() ).min(Double::compare).get();
+	// public GalaxyLocation getTargetLocation ()
+	// {
+	// return targetLocation;
+	// }
+	//
+	// public void setTargetLocation ( GalaxyLocation targetLocation )
+	// {
+	// this.targetLocation = targetLocation;
+	// }
+
+	public double calculateSpeed ()
+	{
+		return shipGroups.stream().map(g -> g.getShip().getSpeed()).min(Double::compare).get();
 	}
 
 	public FlightCommand getFlightCommand ()
@@ -184,31 +185,39 @@ public class Fleet
 	{
 		this.flightCommand = flightCommand;
 	}
-	
-	public GalaxyLocation getFlightSource ( ) {
-		return flightCommand.getSource();
+
+	public GalaxyLocation getFlightSource ()
+	{
+		if (flightCommand != null)
+			return flightCommand.getSource();
+		else
+			return null;
 	}
-	
-	public GalaxyLocation getFlightDestination() {
-		return flightCommand.getDestination();
+
+	public GalaxyLocation getFlightDestination ()
+	{
+		if (flightCommand != null)
+			return flightCommand.getDestination();
+		else
+			return null;
 	}
 
 	@Override
 	public int hashCode ()
 	{
-		return Long.hashCode( fleetId );
+		return Long.hashCode(fleetId);
 	}
 
 	@Override
 	public boolean equals ( Object obj )
 	{
-		if ( obj instanceof Fleet ) {
+		if (obj instanceof Fleet)
+		{
 			Fleet f = (Fleet) obj;
 			return f.getFleetId() == fleetId;
 		}
-		else return false;
+		else
+			return false;
 	}
-	
-	
-	
+
 }
