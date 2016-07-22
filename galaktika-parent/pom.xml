@@ -14,6 +14,7 @@
 		<module>galaktika-core</module>
 		<module>galaktika-model</module>
 		<module>galaktika-web</module>
+		<module>galaktika-ejb</module>
 	</modules>
 
 	<dependencies>
