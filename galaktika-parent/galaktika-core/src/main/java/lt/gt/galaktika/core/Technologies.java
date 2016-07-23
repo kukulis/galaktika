@@ -1,7 +1,13 @@
 package lt.gt.galaktika.core;
 
-public class Technologies
+import java.io.Serializable;
+
+public class Technologies implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -718863270927378084L;
 	private double attack=1, defence=1, cargo=1, engines=1;
 
 	public double getAttack ()

@@ -4,6 +4,10 @@ import lt.gt.math.Utils;
 
 public class SpaceLocation implements GalaxyLocation
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7270372132044813689L;
 	public final static double EPSILON = 0.000001;
 	private double x, y;
 

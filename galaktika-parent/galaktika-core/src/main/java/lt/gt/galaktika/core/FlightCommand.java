@@ -1,7 +1,13 @@
 package lt.gt.galaktika.core;
 
-public class FlightCommand
+import java.io.Serializable;
+
+public class FlightCommand implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6363586219704469424L;
 	private GalaxyLocation source;
 	private GalaxyLocation destination;
 	

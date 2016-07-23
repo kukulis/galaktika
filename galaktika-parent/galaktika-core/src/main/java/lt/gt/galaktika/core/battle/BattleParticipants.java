@@ -1,10 +1,16 @@
 package lt.gt.galaktika.core.battle;
 
+import java.io.Serializable;
+
 import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.GalaxyLocation;
 
-public class BattleParticipants
+public class BattleParticipants implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3364444327763997843L;
 	private Fleet participantA, participantB;
 	private GalaxyLocation battleLocation;
 

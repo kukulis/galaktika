@@ -1,7 +1,13 @@
 package lt.gt.galaktika.core;
 
-public class Ship
+import java.io.Serializable;
+
+public class Ship implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5302270010215839765L;
 	private long id;
 	private String name;
 	private double attack;

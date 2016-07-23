@@ -1,5 +1,6 @@
 package lt.gt.galaktika.model.test;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ public class MyPersistenceDAOTest {
     private IShipGroupDao shipGroupDao;
 
     @Test
+    @Ignore
     public void testSaveShipGroup() {
         // This operation should not throw an Exception
         shipGroupDao.test();

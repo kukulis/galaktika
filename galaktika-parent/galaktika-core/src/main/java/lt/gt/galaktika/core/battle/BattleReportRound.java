@@ -1,9 +1,14 @@
 package lt.gt.galaktika.core.battle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BattleReportRound {
+public class BattleReportRound implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8989420529817835445L;
 	private long id;
 	private int roundNumber;
 	private List < BattleReportShot> shots = new ArrayList<BattleReportShot>();

@@ -1,7 +1,13 @@
 package lt.gt.galaktika.core;
 
-public class ShipGroup
+import java.io.Serializable;
+
+public class ShipGroup implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7426787654165531142L;
 	private Fleet fleet;
 	private Ship ship;
 	private int count=1;
@@ -21,14 +27,14 @@ public class ShipGroup
 		this.count = count;
 	}
 
-	public Fleet getFleet ()
-	{
-		return fleet;
-	}
-	public void setFleet ( Fleet fleet )
-	{
-		this.fleet = fleet;
-	}
+//	public Fleet getFleet ()
+//	{
+//		return fleet;
+//	}
+//	public void setFleet ( Fleet fleet )
+//	{
+//		this.fleet = fleet;
+//	}
 	public Ship getShip ()
 	{
 		return ship;

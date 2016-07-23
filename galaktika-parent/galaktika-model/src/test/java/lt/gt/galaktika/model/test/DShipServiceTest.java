@@ -57,6 +57,7 @@ public class DShipServiceTest
 	}
 	
 	@Test
+	@Ignore
 	public void testStoreShipGroup () {
 		LOG.trace( "testStoreShipGroup called" );
 		DShip storedShip=shipGroupDao.getShip( 2 );

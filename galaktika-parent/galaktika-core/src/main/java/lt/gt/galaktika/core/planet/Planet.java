@@ -5,6 +5,10 @@ import lt.gt.math.Utils;
 
 public class Planet implements GalaxyLocation
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 766320825287232240L;
 	private double x,y;
 	private double planetSize=100;
 	private double richness=1;

@@ -5,13 +5,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import lt.gt.galaktika.model.entity.DFleet;
 import lt.gt.galaktika.model.entity.DNation;
 
-public class SuperHeroRepository1Test
-{
+public class SuperHeroRepository1Test {
 
 	private SessionFactory sessionFactory;
 
@@ -19,8 +19,7 @@ public class SuperHeroRepository1Test
 
 	@Before
 
-	public void before ()
-	{
+	public void before() {
 
 		// setup the session factory
 
@@ -59,9 +58,8 @@ public class SuperHeroRepository1Test
 	}
 
 	@Test
-
-	public void returnsHerosWithMatchingType ()
-	{
+	@Ignore
+	public void returnsHerosWithMatchingType() {
 
 		// TODO change test scenario
 
@@ -115,10 +113,11 @@ public class SuperHeroRepository1Test
 	}
 
 	@After
-	public void after ()
-	{
-		session.flush();
-		session.close();
+	public void after() {
+		if (session != null) {
+			session.flush();
+			session.close();
+		}
 		sessionFactory.close();
 	}
 

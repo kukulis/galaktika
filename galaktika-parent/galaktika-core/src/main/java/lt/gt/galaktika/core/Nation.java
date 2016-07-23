@@ -1,7 +1,13 @@
 package lt.gt.galaktika.core;
 
-public class Nation
+import java.io.Serializable;
+
+public class Nation implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -253086463738009384L;
 	private long nationId;
 	private String nationName;
 	

@@ -1,6 +1,13 @@
 package lt.gt.galaktika.core.battle;
 
-public class BattleReportShot {
+import java.io.Serializable;
+
+public class BattleReportShot implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 739017286578240585L;
+
 	private long id;
 	
 	private String attackerShip;

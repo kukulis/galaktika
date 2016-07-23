@@ -1,7 +1,5 @@
 package lt.gt.galaktika.web.controllers;
 
-import java.util.Arrays;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lt.gt.galaktika.core.Fleet;
-import lt.gt.galaktika.core.Ship;
-import lt.gt.galaktika.core.ShipGroup;
 import lt.gt.galaktika.core.exception.EErrorCodes;
 import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
 import lt.gt.galaktika.model.DataSearchLimits;
