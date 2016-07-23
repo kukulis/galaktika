@@ -33,11 +33,8 @@ public class ShipsRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@PUT
 	public long createShipGroup(@PathParam("fleetId") long fleetId, ShipGroup shipGroup) {
-		Fleet fleet = fleetsService.getById(fleetId);
-		if (fleet == null)
-			return -1;
 
-		return fleetsService.addShipGroup(fleet, shipGroup);
+		return fleetsService.addShipGroup(fleetId, shipGroup);
 	}
 
 	@Path("/{fleetId}/update")

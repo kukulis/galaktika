@@ -20,7 +20,7 @@ public interface FleetsServiceRemote {
 	 * @param group
 	 * @return
 	 */
-	long addShipGroup (Fleet fleet, ShipGroup group );
+	long addShipGroup (long fleetId, ShipGroup group );
 	boolean updateShipGroup(long fleetId, ShipGroup group );
 	boolean deleteShipGroup (long fleetId, long shipId );
 }

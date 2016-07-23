@@ -8,7 +8,7 @@ public class ShipGroup implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = -7426787654165531142L;
-	private Fleet fleet;
+//	private Fleet fleet;
 	private Ship ship;
 	private int count=1;
 	
@@ -16,6 +16,10 @@ public class ShipGroup implements Serializable
 	 * How many ships did a shot.
 	 */
 	private int shotedCount=0;
+	
+	public ShipGroup() {
+		
+	}
 	
 	public ShipGroup ( Ship ship ) {
 		this.ship=ship;

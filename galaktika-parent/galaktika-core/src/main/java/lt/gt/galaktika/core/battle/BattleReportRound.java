@@ -13,7 +13,7 @@ public class BattleReportRound implements Serializable {
 	private int roundNumber;
 	private List < BattleReportShot> shots = new ArrayList<BattleReportShot>();
 	
-	private BattleReport report; 
+//	private BattleReport report; 
 	
 	public BattleReportRound() {
 	}
@@ -25,13 +25,14 @@ public class BattleReportRound implements Serializable {
 		this.id = id;
 	}
 	
-	public BattleReport getReport() {
-		return report;
-	}
-
-	public void setReport(BattleReport report) {
-		this.report = report;
-	}
+////	@JsonIgnore
+//	public BattleReport getReport() {
+//		return report;
+//	}
+//
+//	public void setReport(BattleReport report) {
+//		this.report = report;
+//	}
 
 	public int getRoundNumber() {
 		return roundNumber;
@@ -50,7 +51,7 @@ public class BattleReportRound implements Serializable {
 	
 	public void addShot ( BattleReportShot shot ) {
 		this.shots.add ( shot );
-		shot.setRound( this );
+//		shot.setRound( this );
 		shot.setNumber( this.shots.size() );
 	}
 }

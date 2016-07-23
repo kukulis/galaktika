@@ -33,6 +33,6 @@ public class BattleReport implements Serializable {
 
 	public void addRound ( BattleReportRound round ) {
 		rounds.add( round );
-		round.setReport( this);
+//		round.setReport( this);
 	}
 }

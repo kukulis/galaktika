@@ -1,4 +1,4 @@
-package lt.gt.galaktika.test;
+package lt.gt.galaktika.core.test;
 
 import org.junit.Test;
 
@@ -9,7 +9,7 @@ import lt.gt.galaktika.core.battle.BattleEngine;
 import lt.gt.galaktika.core.battle.BattleReport;
 import lt.gt.galaktika.utils.Utils;
 
-// TODO move to core
+
 public class TestBattle
 {
 	@Test

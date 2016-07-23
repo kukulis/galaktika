@@ -17,7 +17,7 @@ public class BattleReportShot implements Serializable {
 	/**
 	 * parent round
 	 */
-	private BattleReportRound round;
+//	private BattleReportRound round;
 	
 	
 	public BattleReportShot() {
@@ -31,12 +31,12 @@ public class BattleReportShot implements Serializable {
 		this.id = id;
 	}
 	
-	public BattleReportRound getRound() {
-		return round;
-	}
-	public void setRound(BattleReportRound round) {
-		this.round = round;
-	}
+//	public BattleReportRound getRound() {
+//		return round;
+//	}
+//	public void setRound(BattleReportRound round) {
+//		this.round = round;
+//	}
 
 	public BattleReportShot(String attackerShip, String defenderShip,
 			boolean destroyed) {
