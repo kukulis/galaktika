@@ -64,7 +64,7 @@ public class ShipGroup implements Serializable
 		this.shotedCount = shotedCount;
 	}
 	
-	public int getAbleShotAmount () {
+	public int calucalateAbleShotAmount () {
 		if ( getShip().getGuns() > 0 ) {
 			int ableShot = count - shotedCount;
 			if ( ableShot < 0 )
@@ -85,5 +85,8 @@ public class ShipGroup implements Serializable
 //		if ( shotedShips > amount ) {
 //			shotedShips = amount;
 //		}
+	}
+	public String toString() {
+		return ship.toString()+" count:"+count+"  shotedCount:"+shotedCount;
 	}
 }

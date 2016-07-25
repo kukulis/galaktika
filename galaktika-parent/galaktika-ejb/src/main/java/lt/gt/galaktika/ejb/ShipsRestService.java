@@ -11,9 +11,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.ShipGroup;
 
 @Path("/ships")
@@ -26,6 +26,13 @@ public class ShipsRestService {
 	@GET
 	public List<ShipGroup> getAll(@PathParam("fleetId") long fleetId) {
 		return fleetsService.getById(fleetId).getShipGroups();
+	}
+
+	@Path("/{fleetId}/getone")
+	@Produces(MediaType.APPLICATION_JSON)
+	@GET
+	public ShipGroup getOne(@PathParam("fleetId") long fleetId, @QueryParam("shipId") long shipId) {
+		return fleetsService.getShipGroup(fleetId, shipId );
 	}
 
 	@Path("/{fleetId}/create")

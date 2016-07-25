@@ -25,6 +25,16 @@ public class BattleRestService {
 		System.out.println("aFleetId="+aFleetId+"  bFleetId="+bFleetId+"   maxRounds="+maxRounds );
 		Fleet aFleet = fleetsService.getById(aFleetId);
 		Fleet bFleet = fleetsService.getById(bFleetId);
+		if ( aFleet == null ) {
+			BattleReport report=new BattleReport();
+			report.setMessage( "Fleet A was not loaded" );
+			return report;
+		}
+		if ( bFleet == null ) {
+			BattleReport report=new BattleReport();
+			report.setMessage( "Fleet B was not loaded" );
+			return report;
+		}
 
 		BattleEngine battleEngine = new BattleEngine();
 		return battleEngine.doBattle(aFleet, bFleet, maxRounds);

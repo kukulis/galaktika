@@ -4,3 +4,42 @@
 <p>Fleet B:<input type="text" ng-model="controller.bFleet.name" readonly="readonly" /></p>
 <p>Max rounds:<input type="text" ng-model="controller.maxRounds" /></p>
 <button ng-click="controller.doBattle()" >Do battle</button>
+
+
+<div ng-if="controller.battleResponse.rounds != null">
+<div ng-if="controller.battleResponse.wonFleet1">
+	Won fleet <strong>{{controller.aFleet.name}}</strong>!
+</div>
+<div ng-if="controller.battleResponse.wonFleet2">
+	Fleet <strong>{{controller.bFleet.name}}</strong> won!
+</div>
+<table class="table"  >
+	<thead>
+		<tr>
+			<td>Round number</td>
+			<td>Shots</td>
+		</tr>
+	</thead>
+	<tr ng-repeat="round in controller.battleResponse.rounds">
+		<td>{{round.roundNumber}}</td>
+		<td>{{round.shots.length}}:
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+				<td>Shot number</td>
+				<td>Attacker ship</td>
+				<td>Defender ship</td>
+				<td>Destroyed</td>
+				</tr>
+			</thead>
+			<tr ng-repeat="shot in round.shots">
+				<td>{{shot.number}}</td>
+				<td>{{shot.attackerShip.id}}:{{shot.attackerShip.name}}</td>
+				<td>{{shot.defenderShip.id}}:{{shot.defenderShip.name}}</td>
+				<td>{{shot.destroyed}}</td>
+			</tr>		
+		</table>
+		</td>
+	</tr>
+</table>
+</div>

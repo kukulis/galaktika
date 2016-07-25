@@ -12,8 +12,10 @@ public class BattleReport implements Serializable {
 	private static final long serialVersionUID = -1140735103818537426L;
 
 	private long id;
-	
 	private List <BattleReportRound> rounds=new ArrayList<BattleReportRound>();
+	private String message;
+	private boolean wonFleet1=false;
+	private boolean wonFleet2=false;
 
 	public long getId() {
 		return id;
@@ -35,4 +37,30 @@ public class BattleReport implements Serializable {
 		rounds.add( round );
 //		round.setReport( this);
 	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public boolean isWonFleet1() {
+		return wonFleet1;
+	}
+
+	public void setWonFleet1(boolean wonFleet1) {
+		this.wonFleet1 = wonFleet1;
+	}
+
+	public boolean isWonFleet2() {
+		return wonFleet2;
+	}
+
+	public void setWonFleet2(boolean wonFleet2) {
+		this.wonFleet2 = wonFleet2;
+	}
+	
+	
 }

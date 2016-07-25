@@ -77,7 +77,7 @@ public class Fleet implements Serializable {
 	}
 
 	public int calculateAbleShotShipCount() {
-		return shipGroups.stream().mapToInt(g -> g.getAbleShotAmount()).sum();
+		return shipGroups.stream().mapToInt(g -> g.calucalateAbleShotAmount()).sum();
 	}
 
 	public int calculateShots() {
@@ -95,19 +95,28 @@ public class Fleet implements Serializable {
 	 * @return
 	 */
 	public ShipGroup selectAnyGroup(int pShipNumber) {
+//		System.out.println("in Fleet.selectAnyGroup pShipNumber=" + pShipNumber);
 		int i = 0;
-		int shipNumber=pShipNumber;
+		int shipNumber = pShipNumber;
+		
+		// skip till non empty group
+		while ( shipGroups.get(i).getCount() == 0 && i < shipGroups.size() )
+			i++;
+		if ( i >= shipGroups.size() )
+			return null;
 
-		while (shipNumber > 0 ) {
+		while (shipNumber > 0) {
 			ShipGroup group = shipGroups.get(i);
 			shipNumber = shipNumber - group.getCount();
-			if ( shipNumber==0)
+//			System.out.println("in Fleet.selectAnyGroup shipNumber=" + shipNumber);
+			if (shipNumber <= 0)
 				break;
 			i++;
-			if ( i >= shipGroups.size() ) {
-				if ( shipNumber==pShipNumber ) // nothing changed, break from cycle
+			if (i >= shipGroups.size()) {
+				if (shipNumber == pShipNumber) // nothing changed, break from
+												// cycle
 					return null;
-				i=0; // repeat from begin
+				i = 0; // repeat from begin
 			}
 		}
 		return shipGroups.get(i);
@@ -116,18 +125,25 @@ public class Fleet implements Serializable {
 	public ShipGroup selectAttackerGroup(int pShipNumber) {
 		int shipNumber = pShipNumber;
 		int i = 0;
-		// while (shipGroups.size() > i && (shipNumber > 0 ||
-		// shipGroups.get(i).getAbleShotAmount() == 0))
+		
+		// skip not able shot first
+		while (  i < shipGroups.size() && shipGroups.get(i).calucalateAbleShotAmount() == 0  )
+			i++;
+		if ( i >= shipGroups.size() )
+			return null;
+		
 		while (shipNumber > 0) {
 			ShipGroup group = shipGroups.get(i);
-			if (group.getAbleShotAmount() > 0) {
-				shipNumber = shipNumber - group.getAbleShotAmount();
-				if (shipNumber == 0 )
+			if (group.calucalateAbleShotAmount() > 0) {
+				shipNumber = shipNumber - group.calucalateAbleShotAmount();
+//				System.out.println("in Fleet.selectAttackerGroup shipNumber=" + shipNumber);
+				if (shipNumber <= 0)
 					break;
 			}
 			i++;
 			if (i >= shipGroups.size()) {
-				if (shipNumber == pShipNumber) // nothing changed, break from cycle
+				if (shipNumber == pShipNumber) // nothing changed, break from
+												// cycle
 					return null;
 				// repeat from begin
 				i = 0;

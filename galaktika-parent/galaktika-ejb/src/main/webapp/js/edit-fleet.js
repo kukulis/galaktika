@@ -44,6 +44,13 @@ angularObj.controller('editFleet', function($http, $scope, $routeParams,
 		}
 	}
 	
+	self.submitButtonName=function() {
+		if ( self.id>0 )
+			return "Update";
+		else
+			return "Create";
+	}
+	
 	self.goToList = function() {
 		$location.path("/fleet-list").replace();
 	}

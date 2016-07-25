@@ -78,14 +78,28 @@ public class TestBattle {
 		Ship ship1 = new Ship("cibukas", 1, 1, 1, 0.1, 0);
 		ship1.setId(10);
 		fleet1.addShipGroup(new ShipGroup(ship1, 2));
+		
+//		Ship ship3 = new Ship("zaizalas", 1, 2, 3, 4, 6);
+//		ship3.setId(3);
+//		ship3.setTotalMass( 7 );
+//		fleet1.addShipGroup(new ShipGroup(ship3, 10));
+		Ship ship4 = new Ship("zaizalas", 1, 2, 3, 5, 6);
+		ship4.setId(4);
+		ship4.setTotalMass(7);
+		fleet1.addShipGroup(new ShipGroup(ship4, 7));
 
+
+		Fleet fleet2 = new Fleet(2, "Antroji flotilė");
 		Ship ship2 = new Ship("dantukas", 1, 1, 1, 0.1, 0);
 		ship2.setId(20);
-		Fleet fleet2 = new Fleet(2, "Antroji flotilė");
 		fleet2.addShipGroup(new ShipGroup(ship2, 2));
+		
+		Ship ship5= new Ship("meška", 1, 3, 3, 0.1, 0);
+		ship5.setId(21);
+		fleet2.addShipGroup(new ShipGroup(ship5, 7));
 
 		BattleEngine engine = new BattleEngine();
-		BattleReport report = engine.doBattle(fleet1, fleet2, 10);
+		BattleReport report = engine.doBattle(fleet1, fleet2, 50);
 
 		Utils.printReport(report);
 	}
@@ -109,4 +123,6 @@ public class TestBattle {
 			AttackerAndDefender attackerAndDefender = engine.selectAttackerAndDefender(fleet1, fleet2, shipNumber);
 		}
 	}
+	
+	// TODO heavily test Fleet ships groups selection
 }

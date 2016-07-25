@@ -45,9 +45,18 @@ angularObj.controller('battleHome', function($http, $window, $location, $routePa
 	
 	self.maxRounds=100;
 	
+	self.battleResponse={rounds:null};
 	self.doBattle=function(){
 		console.log("doBattle called");
-		
+		$http.get('rest/battle/do', {
+			params : {
+				aFleetId : self.aFleetId,
+				bFleetId : self.bFleetId,
+				maxRounds: self.maxRounds
+			}
+		}).then(function(response) {
+			self.battleResponse=response.data;
+		});
 	}
 	
 });

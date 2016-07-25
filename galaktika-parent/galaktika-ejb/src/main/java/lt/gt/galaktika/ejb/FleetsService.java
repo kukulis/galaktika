@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
 
 import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.Ship;
@@ -14,7 +14,7 @@ import lt.gt.galaktika.core.ShipGroup;
 /**
  * Session Bean implementation class FleetsService
  */
-@Stateless
+@Singleton
 @LocalBean
 public class FleetsService implements FleetsServiceRemote {
 
@@ -27,10 +27,10 @@ public class FleetsService implements FleetsServiceRemote {
 	 */
 	public FleetsService() {
 		fleets = new ArrayList<>();
-		long id = create( "Pirmoji flotilė" );
-		addShipGroup(id, new ShipGroup(new Ship("cibukas", 1, 1, 1, 0.1, 0), 2) );
-		long id2=create( "Antroji flotilė" );
-		addShipGroup(id2, new ShipGroup(new Ship("dantukas", 1, 1, 1, 0.1, 0), 2) );
+		long id = create("Pirmoji flotilė");
+		addShipGroup(id, new ShipGroup(new Ship("cibukas", 1, 1, 1, 0.1, 0), 2));
+		long id2 = create("Antroji flotilė");
+		addShipGroup(id2, new ShipGroup(new Ship("dantukas", 1, 1, 1, 0.1, 0), 2));
 	}
 
 	@Override
@@ -79,7 +79,6 @@ public class FleetsService implements FleetsServiceRemote {
 		if (fleet == null)
 			return -1;
 
-
 		if (group.getShip().getId() == 0) {
 			group.setShip(createShip(group.getShip()));
 		}
@@ -89,10 +88,10 @@ public class FleetsService implements FleetsServiceRemote {
 		Optional<ShipGroup> oGroup = fleet.getShipGroups().stream()
 				.filter(g -> g.getShip().getId() == group.getShip().getId()).findFirst();
 		if (oGroup.isPresent()) {
-			System.out.println( "Updating ships count for ship "+group.getShip().getId() );
+			System.out.println("Updating ships count for ship " + group.getShip().getId());
 			oGroup.get().setCount(oGroup.get().getCount() + group.getCount());
 		} else {
-			System.out.println( "Adding ship to fleet "+fleet.getFleetId() +" ship id=" +group.getShip().getId() );
+			System.out.println("Adding ship to fleet " + fleet.getFleetId() + " ship id=" + group.getShip().getId());
 			fleet.addShipGroup(group);
 		}
 
@@ -140,4 +139,13 @@ public class FleetsService implements FleetsServiceRemote {
 		}
 		return false;
 	}
+
+	@Override
+	public ShipGroup getShipGroup(long fleetId, long shipId) {
+		Fleet fleet = fleets.stream().filter(f -> f.getFleetId() == fleetId).findFirst().orElse(null);
+		if (fleet == null)
+			return null;
+		return fleet.getShipGroups().stream().filter(g -> g.getShip().getId() == shipId).findFirst().orElse(null);
+	}
+
 }

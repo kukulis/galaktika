@@ -1,1 +1,28 @@
-Ships list
+<h3>
+	Ships list of <strong>{{controller.fleet.name}}</strong>
+</h3>
+<p>
+	<a href="#/ship-edit?fleetId={{controller.fleet.fleetId}}&shipId=0">Create
+		new ship</a>
+</p>
+<table class="table">
+	<thead>
+		<tr>
+			<td>Id</td>
+			<td>Name</td>
+			<td>Ships count</td>
+			<td colspan="2">Actions</td>
+		</tr>
+	</thead>
+	<tr ng-repeat="group in controller.shipGroups">
+		<td>{{group.ship.id}}</td>
+		<td>{{group.ship.name}}</td>
+		<td>{{group.count}}</td>
+		<td><a
+			href="#/ship-edit?fleetId={{controller.fleet.fleetId}}&shipId={{ group.ship.id }}">view/edit</a></td>
+		<td><a
+			mw-confirm-click="controller.deleteShipGroup(group.ship.id)"
+			mw-confirm-click-message="Jūs ištrinsite laivų {{group.ship.name}} grupę! Ar tikrai to norite?">delete</a>
+		</td>
+	</tr>
+</table>

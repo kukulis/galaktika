@@ -25,6 +25,14 @@ public class Utils
 						+ " destroyed:" + shot.isDestroyed());
 			}
 		}
+		
+		if ( report.isWonFleet1() )
+			System.out.println( "Fleet 1 won" );
+		if ( report.isWonFleet2() )
+			System.out.println( "Fleet 2 won" );
+		
+		if ( !report.isWonFleet1() && ! report.isWonFleet2() )
+			System.out.println( "No one won (too few turns)");
 	}
 
 	public static long value ( Long l, long def )

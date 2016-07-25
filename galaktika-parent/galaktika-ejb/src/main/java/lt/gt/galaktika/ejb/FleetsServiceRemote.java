@@ -23,4 +23,6 @@ public interface FleetsServiceRemote {
 	long addShipGroup (long fleetId, ShipGroup group );
 	boolean updateShipGroup(long fleetId, ShipGroup group );
 	boolean deleteShipGroup (long fleetId, long shipId );
+	
+	ShipGroup getShipGroup(long fleetId, long shipId );
 }

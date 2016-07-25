@@ -1,1 +1,19 @@
-testas
+<html>
+	<head>
+		<script>
+			window.onload=function(){
+				// alert("onload function called");
+				 var emailE = document.getElementById("email"); 
+                 var phoneE = document.getElementById("phone");
+                 emailE.appendChild(document.createTextNode("giedrius"+"tum"+"@"+"gmail."+"com"));
+                 phoneE.appendChild(document.createTextNode("+"+"370"+"-675"+"-51468"));
+
+			}
+		</script>
+	</head>
+	<body>
+	Test
+	My contacts are : Email: <span id="email"></span> ; Phone: <span id="phone"></span>
+	
+	</body>
+</html>

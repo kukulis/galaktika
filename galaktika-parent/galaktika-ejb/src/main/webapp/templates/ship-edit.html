@@ -1,0 +1,40 @@
+<h3>Ship (group) </h3>
+<p><a href="#/ship-list?fleetId={{controller.fleetId}}">Back to ships list</a></p>
+<small>
+	Notice when editing, you can't change ship stats, only amount in the group.
+	Only when creating new ship, you can input custom ship parameters.
+</small>
+<form>
+	<fieldset class="form-group">
+		<label for="shipName">Ship name</label>
+		<input id="shipName" type="text" class="form-control" ng-model="controller.shipGroup.ship.name" />
+	</fieldset>
+	<fieldset class="form-group">
+		<label for="attack">Attack</label>
+		<input id="attack" type="text" class="form-control" ng-model="controller.shipGroup.ship.attack" />
+		<label for="guns">Guns</label>
+		<input id="guns" type="text" class="form-control" ng-model="controller.shipGroup.ship.guns"/>
+	</fieldset>
+	<fieldset>
+		<label for="defence">Defense</label>
+		<input id="defence" type="text" class="form-control" ng-model="controller.shipGroup.ship.defence" />
+	</fieldset>
+	<fieldset>
+		<label for="speed">Speed</label>
+		<input id="speed" type="text" class="form-control" ng-model="controller.shipGroup.ship.speed"/>
+	</fieldset>
+	<fieldset>
+		<label for="cargo">Cargo</label>
+		<input id="cargo" type="text" class="form-control" ng-model="controller.shipGroup.ship.cargo"/>
+	</fieldset>
+	<fieldset>
+		<label for="totalmas">Total mas</label>
+		<input id="totalmas" type="text" class="form-control" ng-model="controller.shipGroup.ship.totalMass"/>
+	</fieldset>
+	
+	<fieldset>
+		<label for="amount">Ships count in the group</label>
+		<input id="amount" type="text" class="form-control" ng-model="controller.shipGroup.count" />
+	</fieldset>
+	<button ng-click="controller.saveShipGroup()">Save</button>
+</form>
