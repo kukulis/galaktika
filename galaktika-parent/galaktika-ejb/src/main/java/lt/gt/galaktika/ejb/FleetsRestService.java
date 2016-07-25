@@ -29,7 +29,10 @@ public class FleetsRestService {
 		return fleetsService.getFleets();
 	}
 	
-	public Fleet getFleet(long fleetId) {
+	@GET
+	@Path("/getone" )
+	@Produces(MediaType.APPLICATION_JSON)
+	public Fleet getFleet(@QueryParam("fleetId") long fleetId) {
 		return fleetsService.getById(fleetId);
 	}
 	

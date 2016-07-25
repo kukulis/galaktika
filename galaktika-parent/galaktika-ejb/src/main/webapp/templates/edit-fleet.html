@@ -1,0 +1,7 @@
+<h3>View/edit Fleet</h3>
+<div>
+<input ng-model="controller.fleet.name" />
+<button ng-click="controller.storeFleet()">Update</button>
+<a href="#/ships?fleetId={{ controller.fleet.fleetId }}">View ships</a>
+</div>
+<p><a href="#fleet-list">Back to fleet list</a></p>

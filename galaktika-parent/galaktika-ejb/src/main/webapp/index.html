@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Galaktika</title>
+<link href="css/angular-bootstrap.css" rel="stylesheet" />
+<style type="text/css">
+[ng\:cloak], [ng-cloak], .ng-cloak {
+	display: none !important;
+}
+</style>
+<script src="js/angular-bootstrap.js" type="text/javascript"></script>
+<script src="js/galaktika.js"></script>
+<script src="js/fleet-list.js"></script>
+<script src="js/edit-fleet.js"></script>
+<script src="js/mv-confirm-click.js"></script>
+</head>
+<body ng-app="galaktikaRoot" ng-cloak class="ng-cloak">
+	<div class="jumbotron">Galaktika</div>
+	<div class="container">
+		<div ng-controller="navigation as nav" class="container">
+			<ul class="nav nav-pills" role="tablist">
+				<li ng-class="nav.getMenuClass('/')"><a href="#/">Home</a></li>
+				<li ng-class="nav.getMenuClass('/fleet-list')"><a
+					href="#/fleet-list">Fleet list</a></li>
+			</ul>
+		</div>
+
+		<div ng-view class="container"></div>
+	</div>
+</body>
+</html>

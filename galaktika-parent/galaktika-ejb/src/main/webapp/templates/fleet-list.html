@@ -1,0 +1,23 @@
+<h3>Fleets list.</h3>
+<p>
+	<a href="#/edit-fleet?id=0">Create new fleet</a>
+</p>
+<table class="table">
+	<thead>
+		<tr>
+			<td>Id</td>
+			<td>Name</td>
+		</tr>
+	</thead>
+	<tr ng-repeat="fleet in controller.fleets">
+		<td>{{ fleet.fleetId }}</td>
+		<td>{{ fleet.name }}</td>
+		<td><a href="#/ships?fleetId={{ fleet.fleetId }}">view ships</a></td>
+		<td><a href="#/edit-fleet?id={{ fleet.fleetId }}">view/edit</a></td>
+		<td><a mw-confirm-click="controller.deleteFleet(fleet.fleetId)"
+			mw-confirm-click-message="Jūs ištrinsite flotilę {{fleet.name}}! Ar tikrai to norite?">delete</a>
+		</td>
+		<!-- 		<td><a mw-confirm-click="controller.deleteFleet(fleet.fleetId)"
+			mw-confirm-click-message="Jūs ištrinsite flotilę {{fleet.name}}! Ar tikrai to norite?">delete</a></td>  -->
+	</tr>
+</table>

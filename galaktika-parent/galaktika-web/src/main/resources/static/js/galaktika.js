@@ -1,5 +1,5 @@
 var angularObj = angular
-		.module('hello', [ 'ngRoute' ])
+		.module('galaktika', [ 'ngRoute' ])
 		.config(
 				function($routeProvider, $httpProvider) {
 
