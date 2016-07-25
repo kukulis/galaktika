@@ -22,6 +22,7 @@ public class BattleRestService {
 	public BattleReport doBattle(@QueryParam("aFleetId") long aFleetId, @QueryParam("bFleetId") long bFleetId,
 			@QueryParam("maxRounds") int maxRounds) {
 
+		System.out.println("aFleetId="+aFleetId+"  bFleetId="+bFleetId+"   maxRounds="+maxRounds );
 		Fleet aFleet = fleetsService.getById(aFleetId);
 		Fleet bFleet = fleetsService.getById(bFleetId);
 

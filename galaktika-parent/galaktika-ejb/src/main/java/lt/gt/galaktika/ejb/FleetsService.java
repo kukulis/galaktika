@@ -27,11 +27,10 @@ public class FleetsService implements FleetsServiceRemote {
 	 */
 	public FleetsService() {
 		fleets = new ArrayList<>();
-//		fleets.add(new Fleet("testinė flotilė"));
 		long id = create( "Pirmoji flotilė" );
 		addShipGroup(id, new ShipGroup(new Ship("cibukas", 1, 1, 1, 0.1, 0), 2) );
 		long id2=create( "Antroji flotilė" );
-		addShipGroup(id2, new ShipGroup(new Ship("cibukas", 1, 1, 1, 0.1, 0), 2) );
+		addShipGroup(id2, new ShipGroup(new Ship("dantukas", 1, 1, 1, 0.1, 0), 2) );
 	}
 
 	@Override

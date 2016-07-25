@@ -14,6 +14,10 @@ var angularObj = angular
 						templateUrl : 'templates/edit-fleet.html',
 						controller : 'editFleet',
 						controllerAs : 'controller'
+					}).when('/ship-list', {
+						templateUrl : 'templates/ship-list.html',
+						controller : 'shipList',
+						controllerAs : 'controller'
 					}).otherwise('/');
 
 					$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
@@ -26,7 +30,7 @@ angularObj.controller('home', function($http, $scope) {
 .controller('navigation',
 function($rootScope, $http, $location) {
 	var self = this;
-	console.log ( "path="+$location.path()+"  hash="+$location.hash());
+//	console.log ( "path="+$location.path()+"  hash="+$location.hash());
 	self.getMenuClass=function(menuItem) {
 		if ( $location.path() == menuItem
 				|| '/edit-fleet'==$location.path() && menuItem=='/fleet-list'
@@ -35,5 +39,4 @@ function($rootScope, $http, $location) {
 		else 
 			return "";
 	}
-	// nothing for now
 });
