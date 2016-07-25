@@ -73,17 +73,23 @@ public class BattleEngine
 	 */
 	private BattleReportRound doOneRound ( int roundNumber, Fleet fleet1, Fleet fleet2 )
 	{
+//		System.out.println( "Round number="+roundNumber);
 		BattleReportRound currentRound = new BattleReportRound();
 		currentRound.setRoundNumber(roundNumber);
 		fleet1.resetShotsAmount();
 		fleet2.resetShotsAmount();
 		AttackerAndDefender aad = randomSelectAttackerAndDefender(fleet1, fleet2);
+//		if ( aad == null )
+//			System.out.println ( "aad is null!"); 
+//		if ( aad.attackerShipGroup == null )
+//			System.out.println ( "aad.attackerShipGroup is null!"); 
 		while (aad != null && aad.attackerShipGroup != null)
 		{
 			if (aad.attackerShipGroup.getAbleShotAmount() == 0) 
 				throw new RuntimeException("group with zero shot able ships selected");
 
 			shootAllGuns(currentRound, aad.attackerShipGroup, aad.defenderFleet );
+//			System.out.println( "shoted with all attacker guns, shots="+currentRound.getShots().size() );
 			aad.attackerShipGroup.increaseShotedShipsAmount();
 			aad = randomSelectAttackerAndDefender(fleet1, fleet2);
 		}
@@ -99,19 +105,23 @@ public class BattleEngine
 	 */
 	private void shootAllGuns ( BattleReportRound currentRound, ShipGroup attackerShipGroup, Fleet defenderFleet )
 	{
+//		System.out.println( "selected ship group with guns "+attackerShipGroup.getShip().getGuns() );
+		
 		for (int i = 0; i < attackerShipGroup.getShip().getGuns(); i++)
 		{
 			ShipGroup defenderShipGroup = randomSelectDefender(defenderFleet);
-			if (defenderShipGroup == null)
+			if (defenderShipGroup == null) {
+//				System.out.println( "Defender was not selected, at round "+ currentRound.getRoundNumber() +" !");
 				break;
+			}
 
 			if (defenderShipGroup.getCount() == 0) // additional check
 				throw new RuntimeException("group with zero amount selected");
 
 			boolean destroyed = shoot(attackerShipGroup.getShip(), defenderShipGroup.getShip());
 
-			currentRound.addShot(new BattleReportShot(attackerShipGroup.getShip().getName(),
-					defenderShipGroup.getShip().getName(), destroyed));
+			currentRound.addShot(new BattleReportShot(attackerShipGroup.getShip(),
+					defenderShipGroup.getShip(), destroyed));
 
 			if (destroyed)
 				defenderShipGroup.decreaseAmount();
@@ -131,6 +141,10 @@ public class BattleEngine
 	public AttackerAndDefender randomSelectAttackerAndDefender ( Fleet fleet1, Fleet fleet2 )
 	{
 		int ableShotShipsCount = calculateAbleShotShipsCount(fleet1, fleet2);
+//		System.out.println( "At randomSelectAttackerAndDefender, ableShotShipsCount == "+ableShotShipsCount );
+		
+//		if ( ableShotShipsCount == 0 )
+//			System.out.println( "At randomSelectAttackerAndDefender, ableShotShipsCount == 0!!!" );
 
 		if (ableShotShipsCount <= 0)
 			return new AttackerAndDefender();
@@ -140,6 +154,7 @@ public class BattleEngine
 		{
 			if (!debug)
 				shipNumber = Flipper.randomInt(ableShotShipsCount);
+//			System.out.println( "At randomSelectAttackerAndDefender, shipNumber="+shipNumber );
 		} catch (IllegalArgumentException iae)
 		{
 			// logger.fatal( "Exception with

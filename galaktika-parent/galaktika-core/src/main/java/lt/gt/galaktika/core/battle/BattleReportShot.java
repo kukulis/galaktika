@@ -2,6 +2,8 @@ package lt.gt.galaktika.core.battle;
 
 import java.io.Serializable;
 
+import lt.gt.galaktika.core.Ship;
+
 public class BattleReportShot implements Serializable {
 	/**
 	 * 
@@ -10,8 +12,8 @@ public class BattleReportShot implements Serializable {
 
 	private long id;
 	
-	private String attackerShip;
-	private String defenderShip;
+	private Ship attackerShip;
+	private Ship defenderShip;
 	private boolean destroyed;
 	private int number;
 	/**
@@ -38,25 +40,32 @@ public class BattleReportShot implements Serializable {
 //		this.round = round;
 //	}
 
-	public BattleReportShot(String attackerShip, String defenderShip,
+	public BattleReportShot(Ship attackerShip, Ship defenderShip,
 			boolean destroyed) {
 		
 		this.attackerShip = attackerShip;
 		this.defenderShip = defenderShip;
 		this.destroyed = destroyed;
 	}
-	public String getAttackerShip() {
+	
+	
+
+	public Ship getAttackerShip() {
 		return attackerShip;
 	}
-	public void setAttackerShip(String attackerShip) {
+
+	public void setAttackerShip(Ship attackerShip) {
 		this.attackerShip = attackerShip;
 	}
-	public String getDefenderShip() {
+
+	public Ship getDefenderShip() {
 		return defenderShip;
 	}
-	public void setDefenderShip(String defenderShip) {
+
+	public void setDefenderShip(Ship defenderShip) {
 		this.defenderShip = defenderShip;
 	}
+
 	public boolean isDestroyed() {
 		return destroyed;
 	}

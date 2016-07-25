@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import lt.gt.galaktika.core.Technologies;
 import lt.gt.galaktika.core.battle.BattleReport;
 import lt.gt.galaktika.core.battle.BattleReportRound;
 import lt.gt.galaktika.core.battle.BattleReportShot;
