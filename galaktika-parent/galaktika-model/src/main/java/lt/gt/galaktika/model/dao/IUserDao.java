@@ -2,7 +2,7 @@ package lt.gt.galaktika.model.dao;
 
 import java.util.List;
 
-import lt.gt.galaktika.model.entity.User;
+import lt.gt.galaktika.model.entity.noturn.User;
 
 public interface IUserDao
 {

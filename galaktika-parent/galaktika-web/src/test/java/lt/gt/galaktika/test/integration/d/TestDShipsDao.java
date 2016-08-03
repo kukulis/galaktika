@@ -10,7 +10,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
-import lt.gt.galaktika.model.entity.DShip;
+import lt.gt.galaktika.model.entity.noturn.DShip;
 import lt.gt.galaktika.web.GalaktikaApplication;
 
 @RunWith(SpringJUnit4ClassRunner.class)

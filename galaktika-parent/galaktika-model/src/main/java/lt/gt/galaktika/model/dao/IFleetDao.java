@@ -3,7 +3,7 @@ package lt.gt.galaktika.model.dao;
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
 import lt.gt.galaktika.model.FleetSortData;
-import lt.gt.galaktika.model.entity.DFleet;
+import lt.gt.galaktika.model.entity.noturn.DFleet;
 
 public interface IFleetDao
 {

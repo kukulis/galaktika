@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import lt.gt.galaktika.model.entity.DShip;
-import lt.gt.galaktika.model.entity.DShipGroup;
+import lt.gt.galaktika.model.entity.noturn.DShip;
+import lt.gt.galaktika.model.entity.turn.DShipGroup;
 import lt.gt.galaktika.utils.Diff;
 
 public class TestShipGroupDiff

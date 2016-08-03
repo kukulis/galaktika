@@ -1,4 +1,4 @@
-package lt.gt.galaktika.model.entity;
+package lt.gt.galaktika.model.entity.noturn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Size; 
+import javax.validation.constraints.Size;
+
+import lt.gt.galaktika.model.entity.turn.DShipGroup;
+import lt.gt.galaktika.model.entity.turn.DTurn; 
 
 
 @Entity
@@ -32,8 +35,9 @@ public class DFleet
 	@JoinColumn(name = "nationId", nullable = true)
 	private DNation nation;
 	
-	// @Column ( nullable=true)
-	private long turnId;
+	@ManyToOne (fetch=FetchType.LAZY)
+	@JoinColumn(name = "turnNumber")
+	private DTurn turn;
 	
 	private boolean deleted;
 	
@@ -66,22 +70,7 @@ public class DFleet
 		this.name = name;
 	}
 	
-	public long getTurnId ()
-	{
-		return turnId;
-	}
-	public void setTurnId ( long turnId )
-	{
-		this.turnId = turnId;
-	}
-//	public long getNationId ()
-//	{
-//		return nationId;
-//	}
-//	public void setNationId ( long nationId )
-//	{
-//		this.nationId = nationId;
-//	}
+	
 	public boolean isDeleted ()
 	{
 		return deleted;

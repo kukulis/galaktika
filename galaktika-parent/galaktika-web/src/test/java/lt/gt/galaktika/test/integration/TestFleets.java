@@ -20,7 +20,7 @@ import lt.gt.galaktika.model.ESortMethods;
 import lt.gt.galaktika.model.FleetSortData;
 import lt.gt.galaktika.model.dao.DFleetFilter;
 import lt.gt.galaktika.model.dao.IFleetDao;
-import lt.gt.galaktika.model.entity.DFleet;
+import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.service.FleetService;
 import lt.gt.galaktika.web.GalaktikaApplication;
 

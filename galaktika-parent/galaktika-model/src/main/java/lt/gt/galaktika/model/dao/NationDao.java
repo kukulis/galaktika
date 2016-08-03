@@ -10,7 +10,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import lt.gt.galaktika.model.entity.DNation;
+import lt.gt.galaktika.model.entity.noturn.DNation;
 
 @Repository
 @Transactional
