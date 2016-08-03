@@ -157,12 +157,14 @@
 				<artifactId>wro4j-maven-plugin</artifactId>
 				<version>${wro4j.version}</version>
 				<executions>
+				<!-- temporary disable
 					<execution>
 						<phase>generate-resources</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
 					</execution>
+					-->
 				</executions>
 
 				<configuration>

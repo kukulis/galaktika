@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import lt.gt.galaktika.model.dao.INationDao;
-import lt.gt.galaktika.model.entity.DNation;
+import lt.gt.galaktika.model.entity.noturn.DNation;
 
 @Component
 @Scope("session")

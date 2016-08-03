@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.model.dao.IUserDao;
-import lt.gt.galaktika.model.entity.User;
+import lt.gt.galaktika.model.entity.noturn.User;
 import lt.gt.galaktika.web.various.GalaktikaSpringPrincipal;
 
 @Service("customUserDetailsService")

@@ -19,8 +19,8 @@ import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
 import lt.gt.galaktika.model.FleetSortData;
 import lt.gt.galaktika.model.GalaktikaModelUtils;
-import lt.gt.galaktika.model.entity.DFleet;
-import lt.gt.galaktika.model.entity.DShip;
+import lt.gt.galaktika.model.entity.noturn.DFleet;
+import lt.gt.galaktika.model.entity.noturn.DShip;
 import lt.gt.galaktika.utils.Utils;
 
 @Repository

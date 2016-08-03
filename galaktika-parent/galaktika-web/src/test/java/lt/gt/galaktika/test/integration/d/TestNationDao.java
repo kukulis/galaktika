@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import lt.gt.galaktika.model.dao.INationDao;
-import lt.gt.galaktika.model.entity.DNation;
+import lt.gt.galaktika.model.entity.noturn.DNation;
 import lt.gt.galaktika.web.GalaktikaApplication;
 
 @RunWith(SpringJUnit4ClassRunner.class)

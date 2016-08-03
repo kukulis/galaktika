@@ -9,7 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import lt.gt.galaktika.model.entity.User;
+import lt.gt.galaktika.model.entity.noturn.User;
 
 @Repository
 @Transactional

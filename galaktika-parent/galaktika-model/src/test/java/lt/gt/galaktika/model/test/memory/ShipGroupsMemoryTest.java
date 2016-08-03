@@ -20,9 +20,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import lt.gt.galaktika.model.dao.DFleetService;
 import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
-import lt.gt.galaktika.model.entity.DFleet;
-import lt.gt.galaktika.model.entity.DShip;
-import lt.gt.galaktika.model.entity.DShipGroup;
+import lt.gt.galaktika.model.entity.noturn.DFleet;
+import lt.gt.galaktika.model.entity.noturn.DShip;
+import lt.gt.galaktika.model.entity.turn.DShipGroup;
 import lt.gt.galaktika.utils.Diff;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -65,7 +65,7 @@ public class ShipGroupsMemoryTest
 	public void testFirst ()
 	{
 		LOG.info("testFirst called");
-		// TODO store some groups for fleet
+		// store some groups for fleet
 		myFleets[0].getShipGroups().add(new DShipGroup(myShips[0]));
 		myFleets[0].getShipGroups().add(new DShipGroup(myShips[1]));
 
@@ -87,7 +87,7 @@ public class ShipGroupsMemoryTest
 		fleetDao.update( fleet );
 
 		DFleet fleet2 = fleetDao.getFleetWithShips(myFleets[0].getFleetId());
-		// TODO validate id's
+		//  validate id's
 		fleet2.getShipGroups().forEach(g -> Assert.assertNotEquals(0, g.getShipGroupId()));
 		
 		LOG.info( "Ship groups after updating:" );
