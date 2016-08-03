@@ -1,4 +1,4 @@
-package lt.gt.galaktika.model.dao;
+package lt.gt.galaktika.model.dao.impl;
 
 public class DFleetFilter
 {

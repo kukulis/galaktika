@@ -4,11 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-//import lt.gt.galaktika.model.dao.DFleetService;
-import lt.gt.galaktika.model.dao.FleetDao;
 import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
-import lt.gt.galaktika.model.dao.ShipGroupDao;
+import lt.gt.galaktika.model.dao.impl.FleetDao;
+import lt.gt.galaktika.model.dao.impl.ShipGroupDao;
 
 @Configuration
 @ComponentScan(basePackages = {

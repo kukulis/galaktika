@@ -1,4 +1,4 @@
-package lt.gt.galaktika.model.dao;
+package lt.gt.galaktika.model.dao.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
+import lt.gt.galaktika.model.dao.IShipGroupDao;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DShip;
 import lt.gt.galaktika.model.entity.turn.DShipGroup;

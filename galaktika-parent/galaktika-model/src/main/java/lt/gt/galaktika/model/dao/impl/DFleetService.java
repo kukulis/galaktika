@@ -1,3 +1,4 @@
+package lt.gt.galaktika.model.dao.impl;
 //package lt.gt.galaktika.model.dao;
 //
 //import java.util.Map;
