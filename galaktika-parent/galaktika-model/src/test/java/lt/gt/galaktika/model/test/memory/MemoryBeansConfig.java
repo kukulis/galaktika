@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import lt.gt.galaktika.model.dao.DFleetService;
+//import lt.gt.galaktika.model.dao.DFleetService;
 import lt.gt.galaktika.model.dao.FleetDao;
 import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
@@ -28,8 +28,8 @@ public class MemoryBeansConfig {
         return new FleetDao();
     }
     
-    @Bean
-    public DFleetService getDFleetService() {
-    	return new DFleetService();
-    }
+//    @Bean
+//    public DFleetService getDFleetService() {
+//    	return new DFleetService();
+//    }
 }

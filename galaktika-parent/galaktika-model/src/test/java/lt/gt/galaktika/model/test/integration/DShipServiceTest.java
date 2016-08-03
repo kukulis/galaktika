@@ -1,4 +1,4 @@
-package lt.gt.galaktika.model.test;
+package lt.gt.galaktika.model.test.integration;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,6 +16,8 @@ import lt.gt.galaktika.model.dao.IShipGroupDao;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DShip;
 import lt.gt.galaktika.model.entity.turn.DShipGroup;
+import lt.gt.galaktika.model.test.JpaTestConfig;
+import lt.gt.galaktika.model.test.TestConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { JpaTestConfig.class, TestConfig.class })
@@ -63,7 +65,7 @@ public class DShipServiceTest
 		DShip storedShip=shipGroupDao.getShip( 2 );
 		DShipGroup shipGroup = new DShipGroup(storedShip);
 		DFleet fleet = fleetDao.getFleet( 6 ) ;
-		shipGroup.setFleet( fleet );
+		shipGroup.setFleetId( fleet.getFleetId() );
 		shipGroupDao.saveShipGroup(shipGroup);
 	}
 

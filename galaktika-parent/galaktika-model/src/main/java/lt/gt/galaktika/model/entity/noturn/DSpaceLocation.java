@@ -7,38 +7,31 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="planets")
-public class DPlanet
-{
+@Table(name="spacelocation")
+public class DSpaceLocation {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long planetId;
+	private long locationId;
 	
 	private double x, y;
-
-	public long getPlanetId() {
-		return planetId;
+	
+	public long getLocationId() {
+		return locationId;
 	}
-
-	public void setPlanetId(long planetId) {
-		this.planetId = planetId;
+	public void setLocationId(long locationId) {
+		this.locationId = locationId;
 	}
-
 	public double getX() {
 		return x;
 	}
-
 	public void setX(double x) {
 		this.x = x;
 	}
-
 	public double getY() {
 		return y;
 	}
-
 	public void setY(double y) {
 		this.y = y;
 	}
-
-	
 }

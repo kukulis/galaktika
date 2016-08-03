@@ -8,7 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DShip;
 
 @Entity
@@ -20,14 +19,9 @@ public class DShipGroup
 	private long shipGroupId;
 
 	@ManyToOne
-	@JoinColumn(name = "fleetId", nullable = true)
-	private DFleet fleet;
-	// private long shipId;
-
-	@ManyToOne
 	@JoinColumn(name = "shipId", nullable = false)
 	private DShip ship;
-	
+	private long fleetId;
 	private long turnId;
 
 	private int shipsCount = 1;
@@ -49,13 +43,6 @@ public class DShipGroup
 		this.ship = ship;
 	}
 	
-	public DShipGroup(DFleet fleet, DShip ship)
-	{
-		super();
-		this.fleet = fleet;
-		this.ship = ship;
-	}
-
 	public long getShipGroupId ()
 	{
 		return shipGroupId;
@@ -76,16 +63,6 @@ public class DShipGroup
 		this.shipsCount = count;
 	}
 
-	public DFleet getFleet ()
-	{
-		return fleet;
-	}
-
-	public void setFleet ( DFleet fleet )
-	{
-		this.fleet = fleet;
-	}
-
 	public DShip getShip ()
 	{
 		return ship;
@@ -99,7 +76,7 @@ public class DShipGroup
 	@Override
 	public int hashCode ()
 	{
-		long myFleetId = getFleetId( this );
+		long myFleetId = getFleetId();
 		long myShipId = getShipId( this );
 		
 		return Long.hashCode( (myFleetId >>> 31) + myShipId + (turnId >>> 15) );
@@ -111,11 +88,11 @@ public class DShipGroup
 		if (!  (obj instanceof DShipGroup) )
 			return false;
 		DShipGroup given = (DShipGroup) obj;
-		long myFleetId = getFleetId( this );
+		long myFleetId = getFleetId( );
 		long myShipId = getShipId( this );
 		long myTurnId = this.getTurnId();
 		
-		long givenFleetId = getFleetId( given );
+		long givenFleetId = given.getFleetId();
 		long givenShipId = getShipId( given );
 		long givenTurnId = given.getTurnId();
 		
@@ -129,12 +106,15 @@ public class DShipGroup
 			return group.getShip().getId();
 		return 0;
 	}
+	
+	
 
-	public static long getFleetId ( DShipGroup group )
-	{
-		if (group.getFleet() != null)
-			return group.getFleet().getFleetId();
-		return 0;
+	public long getFleetId() {
+		return fleetId;
+	}
+
+	public void setFleetId(long fleetId) {
+		this.fleetId = fleetId;
 	}
 
 	public long getTurnId ()
