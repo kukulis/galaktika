@@ -5,8 +5,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import lt.gt.galaktika.model.dao.IFleetDao;
+import lt.gt.galaktika.model.dao.IPlanetDao;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
 import lt.gt.galaktika.model.dao.impl.FleetDao;
+import lt.gt.galaktika.model.dao.impl.PlanetDao;
 import lt.gt.galaktika.model.dao.impl.ShipGroupDao;
 
 @Configuration
@@ -25,6 +27,10 @@ public class MemoryBeansConfig {
     @Bean
     public IFleetDao getFleetDao() {
         return new FleetDao();
+    }
+    
+    public IPlanetDao getPlanetDao() {
+    	return new PlanetDao();
     }
     
 //    @Bean

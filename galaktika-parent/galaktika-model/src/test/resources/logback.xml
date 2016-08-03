@@ -32,4 +32,8 @@
             <appender-ref ref="STDOUT" />
 	</logger>
 	
+	<logger name="lt.gt.galaktika.model.test.memory.PlanetMemoryTest" level="TRACE" additivity="false">
+            <appender-ref ref="STDOUT" />
+	</logger>
+	
 </configuration>

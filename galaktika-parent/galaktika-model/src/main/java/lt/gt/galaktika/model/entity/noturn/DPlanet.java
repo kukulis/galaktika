@@ -39,6 +39,4 @@ public class DPlanet
 	public void setY(double y) {
 		this.y = y;
 	}
-
-	
 }

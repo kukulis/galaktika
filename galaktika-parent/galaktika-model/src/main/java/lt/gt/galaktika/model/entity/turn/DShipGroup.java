@@ -21,8 +21,9 @@ public class DShipGroup
 	@ManyToOne
 	@JoinColumn(name = "shipId", nullable = false)
 	private DShip ship;
+	
 	private long fleetId;
-	private long turnId;
+	private int  turnNumber;
 
 	private int shipsCount = 1;
 	
@@ -79,7 +80,7 @@ public class DShipGroup
 		long myFleetId = getFleetId();
 		long myShipId = getShipId( this );
 		
-		return Long.hashCode( (myFleetId >>> 31) + myShipId + (turnId >>> 15) );
+		return Long.hashCode( (myFleetId >>> 31) + myShipId + (turnNumber >>> 15) );
 	}
 
 	@Override
@@ -90,11 +91,11 @@ public class DShipGroup
 		DShipGroup given = (DShipGroup) obj;
 		long myFleetId = getFleetId( );
 		long myShipId = getShipId( this );
-		long myTurnId = this.getTurnId();
+		long myTurnId = this.getTurnNumber();
 		
 		long givenFleetId = given.getFleetId();
 		long givenShipId = getShipId( given );
-		long givenTurnId = given.getTurnId();
+		long givenTurnId = given.getTurnNumber();
 		
 		
 		return myFleetId == givenFleetId && myShipId == givenShipId && myTurnId == givenTurnId;
@@ -117,16 +118,14 @@ public class DShipGroup
 		this.fleetId = fleetId;
 	}
 
-	public long getTurnId ()
-	{
-		return turnId;
+	public int getTurnNumber() {
+		return turnNumber;
 	}
 
-	public void setTurnId ( long turnId )
-	{
-		this.turnId = turnId;
+	public void setTurnNumber(int turnNumber) {
+		this.turnNumber = turnNumber;
 	}
-	
+
 	public void updateValues ( DShipGroup source ) {
 		this.shipsCount = source.getShipsCount();
 	}

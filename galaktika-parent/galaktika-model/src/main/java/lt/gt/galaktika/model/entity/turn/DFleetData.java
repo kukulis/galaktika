@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -24,7 +25,7 @@ public class DFleetData {
 	private int turnNumber;
 
 	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "fleetId")
+	@JoinColumns({@JoinColumn(name = "fleetId"),@JoinColumn(name = "turnNumber")})
 	private List<DShipGroup> shipGroups = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
