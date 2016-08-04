@@ -28,7 +28,7 @@ public class TestShipGroupDiff
 		DShip trecias = new DShip(3, "trecias");
 		DShip ketvirtas = new DShip(4, "ketvirtas");
 
-		List<DShipGroup> groups1 = Arrays.asList(new DShipGroup(pirmas), new DShipGroup(antras),
+		List<DShipGroup> groups1 = Arrays.asList(new DShipGroup(pirmas ), new DShipGroup(antras ),
 				new DShipGroup(trecias));
 		List<DShipGroup> groups2 = Arrays.asList(new DShipGroup(102, antras), new DShipGroup(103, trecias),
 				new DShipGroup(104, ketvirtas));

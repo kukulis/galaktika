@@ -34,7 +34,15 @@ public class DFleetData {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "spaceLocationId", nullable = true)
-	private DSpaceLocation spaceLocationId;
+	private DSpaceLocation spaceLocation;
+	
+	public DFleetData() {
+	}
+
+	public DFleetData(long fleetId, int turnNumber) {
+		this.fleetId = fleetId;
+		this.turnNumber = turnNumber;
+	}
 
 	public long getFleetId() {
 		return fleetId;
@@ -68,11 +76,11 @@ public class DFleetData {
 		this.planetLocation = planetLocation;
 	}
 
-	public DSpaceLocation getSpaceLocationId() {
-		return spaceLocationId;
+	public DSpaceLocation getSpaceLocation() {
+		return spaceLocation;
 	}
 
-	public void setSpaceLocationId(DSpaceLocation spaceLocationId) {
-		this.spaceLocationId = spaceLocationId;
+	public void setSpaceLocation(DSpaceLocation spaceLocation) {
+		this.spaceLocation = spaceLocation;
 	}
 }

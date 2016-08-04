@@ -74,4 +74,10 @@ public class DFleet {
 	// {
 	// this.shipGroups = shipGroups;
 	// }
+
+	@Override
+	public String toString() {
+		return "DFleet["+fleetId+"]("+name+")";
+	}
+	
 }

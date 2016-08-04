@@ -3,8 +3,6 @@ package lt.gt.galaktika.model.entity.turn;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,9 +11,15 @@ import javax.persistence.Table;
 public class DTurn
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Access(AccessType.PROPERTY)
 	int turnNumber;
+
+	public DTurn() {
+	}
+
+	public DTurn(int turnNumber) {
+		this.turnNumber = turnNumber;
+	}
 
 	public int getTurnNumber() {
 		return turnNumber;
@@ -24,4 +28,11 @@ public class DTurn
 	public void setTurnNumber(int turnNumber) {
 		this.turnNumber = turnNumber;
 	}
+
+	@Override
+	public String toString() {
+		return "DTurn["+turnNumber+"]";
+	}
+	
+	
 }

@@ -15,6 +15,14 @@ public class DPlanet
 	private long planetId;
 	
 	private double x, y;
+	
+	public DPlanet() {
+	}
+
+	public DPlanet(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
 
 	public long getPlanetId() {
 		return planetId;
@@ -39,4 +47,18 @@ public class DPlanet
 	public void setY(double y) {
 		this.y = y;
 	}
+	
+	public String toString () {
+		return "Planet("+planetId+")["+x+","+y+"]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if ( !(obj instanceof DPlanet))
+			return false;
+		DPlanet another = (DPlanet) obj;
+		return planetId==another.planetId && x==another.x && y==another.y;
+	}
+	
+	
 }

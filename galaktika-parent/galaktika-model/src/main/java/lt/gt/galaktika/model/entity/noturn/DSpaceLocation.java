@@ -15,7 +15,13 @@ public class DSpaceLocation {
 	private long locationId;
 	
 	private double x, y;
-	
+
+	public DSpaceLocation() {
+	}
+	public DSpaceLocation(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
 	public long getLocationId() {
 		return locationId;
 	}
@@ -34,4 +40,9 @@ public class DSpaceLocation {
 	public void setY(double y) {
 		this.y = y;
 	}
+	@Override
+	public String toString() {
+		return "DSpaceLocation("+locationId+")["+x+","+y+"]";
+	}
+	
 }

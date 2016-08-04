@@ -1,5 +1,6 @@
 package lt.gt.galaktika.model.entity.turn;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,8 +23,11 @@ public class DShipGroup
 	@JoinColumn(name = "shipId", nullable = false)
 	private DShip ship;
 	
-	private long fleetId;
-	private int  turnNumber;
+	@Column(nullable=true)
+	private Long fleetId;
+
+	@Column(nullable=true)
+	private Integer  turnNumber;
 
 	private int shipsCount = 1;
 	
@@ -36,13 +40,37 @@ public class DShipGroup
 	{
 		this.ship = ship;
 	}
-	
+//	
 	public DShipGroup(long shipGroupId, DShip ship)
 	{
-		super();
 		this.shipGroupId = shipGroupId;
 		this.ship = ship;
 	}
+//	
+	public DShipGroup ( DShip ship, int count ) {
+		this.ship = ship;
+		this.shipsCount = count;
+	}
+	
+//	public DShipGroup ( long shipGroupId, DShip ship, Long fleetId, Integer turnNumber ) {
+//		this.shipGroupId = shipGroupId;
+//		this.ship = ship;
+//		this.fleetId = fleetId;
+//		this.turnNumber = turnNumber;
+//	}
+//
+//	public DShipGroup ( DShip ship, Long fleetId, Integer turnNumber ) {
+//		this.ship = ship;
+//		this.fleetId = fleetId;
+//		this.turnNumber = turnNumber;
+//	}
+//
+//	public DShipGroup ( DShip ship, Long fleetId, Integer turnNumber, int shipsCount  ) {
+//		this.ship = ship;
+//		this.fleetId = fleetId;
+//		this.turnNumber = turnNumber;
+//		this.shipsCount = shipsCount;
+//	}
 	
 	public long getShipGroupId ()
 	{
@@ -108,21 +136,19 @@ public class DShipGroup
 		return 0;
 	}
 	
-	
-
-	public long getFleetId() {
+	public Long getFleetId() {
 		return fleetId;
 	}
 
-	public void setFleetId(long fleetId) {
+	public void setFleetId(Long fleetId) {
 		this.fleetId = fleetId;
 	}
 
-	public int getTurnNumber() {
+	public Integer getTurnNumber() {
 		return turnNumber;
 	}
 
-	public void setTurnNumber(int turnNumber) {
+	public void setTurnNumber(Integer turnNumber) {
 		this.turnNumber = turnNumber;
 	}
 

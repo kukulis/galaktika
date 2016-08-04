@@ -13,29 +13,28 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lt.gt.galaktika.model.dao.IDAO;
-import lt.gt.galaktika.model.entity.noturn.DPlanet;
-
+import lt.gt.galaktika.model.entity.noturn.DFleet;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { MemoryTestConfig.class, MemoryBeansConfig.class })
-public class PlanetMemoryTest {
-	final static Logger LOG = LoggerFactory.getLogger(PlanetMemoryTest.class);
+public class FleetMemoryTest {
+final static Logger LOG = LoggerFactory.getLogger(FleetMemoryTest.class);
 	
 	@Autowired
 	@Qualifier("dao")
 	IDAO dao;
 	
 	@Test
-	public void testPlanets() {
-		LOG.trace( "testPlanets called" );
+	public void testFleets() {
+		dao.create( new DFleet( "pirmieji"));
+		dao.create( new DFleet( "antrieji"));
+		dao.create( new DFleet( "tretieji"));
+		dao.create( new DFleet( "ketvirtieji"));
 		
-		dao.create( new DPlanet(10,11) );
-		dao.create( new DPlanet(1,3) );
-		dao.create( new DPlanet(1,5) );
-		dao.create( new DPlanet(2,3) );
+		List<DFleet> fleets = dao.find( DFleet.class, "from DFleet", 0, 10);
+		fleets.forEach( f -> LOG.trace( f.toString() ));
 		
-		List <DPlanet> planets = dao.find(DPlanet.class, "from DPlanet", 0, 10);
-		planets.forEach( p -> LOG.trace( p.toString() ));
-		Assert.assertEquals( 4, planets.size());
+		Assert.assertEquals ( 4, fleets.size() );
 	}
+
 }

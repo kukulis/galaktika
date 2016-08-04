@@ -137,4 +137,9 @@ public class DShip
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return "DShip["+id+"] ("+name+")";
+	}
+
 }
