@@ -1,5 +1,7 @@
 package lt.gt.galaktika.model.entity.noturn;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +14,7 @@ public class DPlanet
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Access(AccessType.PROPERTY)
 	private long planetId;
 	
 	private double x, y;

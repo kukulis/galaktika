@@ -6,11 +6,11 @@ import org.springframework.context.annotation.Configuration;
 
 import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.dao.IFleetDao;
-import lt.gt.galaktika.model.dao.IFleetGroupDao;
+import lt.gt.galaktika.model.dao.IFleetDataDao;
 import lt.gt.galaktika.model.dao.IPlanetDao;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
 import lt.gt.galaktika.model.dao.impl.DAO;
-import lt.gt.galaktika.model.dao.impl.DFleetGroupDao;
+import lt.gt.galaktika.model.dao.impl.DFleetDataDao;
 import lt.gt.galaktika.model.dao.impl.FleetDao;
 import lt.gt.galaktika.model.dao.impl.PlanetDao;
 import lt.gt.galaktika.model.dao.impl.ShipGroupDao;
@@ -41,11 +41,7 @@ public class MemoryBeansConfig {
 	}
 
 	@Bean
-	public IFleetGroupDao getDFleetGroupDao() {
-		return new DFleetGroupDao();
+	public IFleetDataDao getDFleetDataDao() {
+		return new DFleetDataDao();
 	}
-	// @Bean
-	// public DFleetService getDFleetService() {
-	// return new DFleetService();
-	// }
 }

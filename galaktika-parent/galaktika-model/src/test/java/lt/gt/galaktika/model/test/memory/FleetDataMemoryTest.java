@@ -1,5 +1,7 @@
 package lt.gt.galaktika.model.test.memory;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -12,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lt.gt.galaktika.model.dao.IDAO;
-import lt.gt.galaktika.model.dao.IFleetGroupDao;
+import lt.gt.galaktika.model.dao.IFleetDataDao;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DPlanet;
 import lt.gt.galaktika.model.entity.noturn.DShip;
@@ -30,10 +32,10 @@ public class FleetDataMemoryTest {
 	IDAO dao;
 
 	@Autowired
-	IFleetGroupDao dFleetGroupDao;
+	IFleetDataDao dFleetDataDao;
 
 	@Test
-//	@Ignore
+	// @Ignore
 	public void testFleetData() {
 
 		DFleet pirmieji = new DFleet("pirmieji");
@@ -55,39 +57,48 @@ public class FleetDataMemoryTest {
 		DPlanet planet = dao.create(new DPlanet(1, 2));
 
 		fleetData1_1.setPlanetLocation(planet);
+		fleetData2_1.setPlanetLocation(planet);
 
 		dao.create(fleetData1_1);
 		dao.create(fleetData1_2);
 		dao.create(fleetData2_1);
 		dao.create(fleetData2_2);
 
-		DFleetData loadedFleetData1_1 = dFleetGroupDao.find(pirmieji.getFleetId(), pirmas.getTurnNumber());
+		DFleetData loadedFleetData1_1 = dFleetDataDao.find(pirmieji.getFleetId(), pirmas.getTurnNumber());
 		DPlanet loadedPlanet = loadedFleetData1_1.getPlanetLocation();
 		Assert.assertEquals(planet, loadedPlanet);
 
+		List<DFleetData> fleetDatas = dFleetDataDao.findInOrbit(planet.getPlanetId(), pirmas.getTurnNumber());
+
+		Assert.assertArrayEquals(new DFleetData[] { fleetData1_1, fleetData2_1 }, fleetDatas.toArray());
 	}
 
 	@Test
+	@Ignore
 	public void testShipGroups() {
 		DShip katinas = dao.create(new DShip("katinas"));
 		DShip suva = dao.create(new DShip("Šuva"));
 		DTurn turn = dao.create(new DTurn(3));
 		DFleet zverys = dao.create(new DFleet("žvėrys"));
-		DShipGroup katinai = dao.create(new DShipGroup(katinas )); // , zverys.getFleetId(), turn.getTurnNumber()
-		DShipGroup sunys = dao.create(new DShipGroup(suva )); // , zverys.getFleetId(), turn.getTurnNumber()
-		
-		DFleetData apieZveris = new DFleetData( zverys.getFleetId(), turn.getTurnNumber() );
-		apieZveris.getShipGroups().add( katinai );
-		apieZveris.getShipGroups().add( sunys );
-		
-		dao.create( apieZveris );
-		
-		DFleetData loadedFleetData = dFleetGroupDao.findWithGroups( zverys.getFleetId(), turn.getTurnNumber() );
-		
-		Assert.assertEquals(2, loadedFleetData.getShipGroups().size() );
-		loadedFleetData.getShipGroups().forEach( g-> {
-			Assert.assertNotNull( g.getFleetId() );
-			Assert.assertNotNull( g.getTurnNumber() );
+		DShipGroup katinai = dao.create(new DShipGroup(katinas)); // ,
+																	// zverys.getFleetId(),
+																	// turn.getTurnNumber()
+		DShipGroup sunys = dao.create(new DShipGroup(suva)); // ,
+																// zverys.getFleetId(),
+																// turn.getTurnNumber()
+
+		DFleetData apieZveris = new DFleetData(zverys.getFleetId(), turn.getTurnNumber());
+		apieZveris.getShipGroups().add(katinai);
+		apieZveris.getShipGroups().add(sunys);
+
+		dao.create(apieZveris);
+
+		DFleetData loadedFleetData = dFleetDataDao.findWithGroups(zverys.getFleetId(), turn.getTurnNumber());
+
+		Assert.assertEquals(2, loadedFleetData.getShipGroups().size());
+		loadedFleetData.getShipGroups().forEach(g -> {
+			Assert.assertNotNull(g.getFleetId());
+			Assert.assertNotNull(g.getTurnNumber());
 		});
 	}
 

@@ -20,10 +20,16 @@ public class DFleetDataId implements Serializable {
 	public void setTurnNumber(int turnNumber) {
 		this.turnNumber = turnNumber;
 	}
+
+	public static int hashCode ( long pFleetId, int pTurnNumber ) {
+		return (Long.hashCode(pFleetId) >>> 16) ^ pTurnNumber;
+	}
+	
 	@Override
 	public int hashCode() {
-		return (Long.hashCode(fleetId) >>> 16) ^ turnNumber;
+		return hashCode( fleetId, turnNumber );
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if ( obj instanceof DFleetDataId ) {

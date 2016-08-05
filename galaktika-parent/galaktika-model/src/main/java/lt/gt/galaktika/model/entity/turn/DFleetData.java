@@ -29,7 +29,7 @@ public class DFleetData {
 	private List<DShipGroup> shipGroups = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "planetLocationId", nullable = true)
+	@JoinColumn(name = "planetId", nullable = true)
 	private DPlanet planetLocation;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -83,4 +83,20 @@ public class DFleetData {
 	public void setSpaceLocation(DSpaceLocation spaceLocation) {
 		this.spaceLocation = spaceLocation;
 	}
+
+	@Override
+	public int hashCode() {
+		return DFleetDataId.hashCode(fleetId, turnNumber);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if ( obj instanceof DFleetData ) {
+			DFleetData fdata = (DFleetData) obj;
+			return fleetId == fdata.fleetId && turnNumber == fdata.turnNumber;
+		}
+		else return false;
+	}
+	
+	
 }
