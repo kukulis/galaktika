@@ -19,6 +19,14 @@ public class DNation
 	long nationId;
 	String nationName;
 	long userId;
+	
+	public DNation() {
+	}
+
+	public DNation(String nationName) {
+		this.nationName = nationName;
+	}
+	
 	public long getNationId ()
 	{
 		return nationId;
@@ -44,4 +52,21 @@ public class DNation
 	{
 		this.nationName = nationName;
 	}
+
+	@Override
+	public String toString() {
+		return "DNation["+nationId+", "+nationName+"]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if ( obj instanceof DNation ) {
+			DNation nation = (DNation) obj;
+			return nationId==nation.nationId;
+		}
+		else
+			return false;
+	}
+	
+	
 }
