@@ -9,15 +9,21 @@ public class SpaceLocation implements GalaxyLocation
 	 */
 	private static final long serialVersionUID = 7270372132044813689L;
 	public final static double EPSILON = 0.000001;
+	private long locationId;
 	private double x, y;
 
 	public SpaceLocation()
 	{
-		super();
 	}
 
 	public SpaceLocation(double x, double y)
 	{
+		this.x = x;
+		this.y = y;
+	}
+	
+	public SpaceLocation(long locationId, double x, double y) {
+		this.locationId = locationId;
 		this.x = x;
 		this.y = y;
 	}
@@ -59,8 +65,22 @@ public class SpaceLocation implements GalaxyLocation
 	public int hashCode() {
 		return Double.hashCode(x*1000+y);
 	}
-	
-	public String toString () {
-		return "Space ["+x+";"+y+"]";
+
+	@Override
+	public String toString() {
+		return "SpaceLocation [locationId=" + locationId + ", x=" + x + ", y=" + y + "]";
 	}
+
+	public long getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(long locationId) {
+		this.locationId = locationId;
+	}
+	
+//	public String toString () {
+//		return "Space ["+x+";"+y+"]";
+//	}
+	
 }

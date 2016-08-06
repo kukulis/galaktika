@@ -9,6 +9,7 @@ public class Planet implements GalaxyLocation
 	 * 
 	 */
 	private static final long serialVersionUID = 766320825287232240L;
+	private long planetId;
 	private double x,y;
 	private double planetSize=100;
 	private double richness=1;
@@ -24,7 +25,14 @@ public class Planet implements GalaxyLocation
 		this.planetSize = planetSize;
 		this.richness = richness;
 	}
-
+	
+	public Planet(long planetId, double x, double y, double planetSize, double richness) {
+		this.planetId = planetId;
+		this.x = x;
+		this.y = y;
+		this.planetSize = planetSize;
+		this.richness = richness;
+	}
 
 	public double getX ()
 	{
@@ -75,7 +83,21 @@ public class Planet implements GalaxyLocation
 		return Double.hashCode(x*1000+y);
 	}
 	
-	public String toString () {
-		return "Planet ["+x+";"+y+"]";
+//	public String toString () {
+//		return "Planet ["+x+";"+y+"]";
+//	}
+	
+	public long getPlanetId() {
+		return planetId;
+	}
+
+	@Override
+	public String toString() {
+		return "Planet [planetId=" + planetId + ", x=" + x + ", y=" + y + ", planetSize=" + planetSize + ", richness="
+				+ richness + "]";
+	}
+
+	public void setPlanetId(long planetId) {
+		this.planetId = planetId;
 	}
 }

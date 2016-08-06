@@ -4,21 +4,31 @@ public class ShipDesign
 {
 	private long designId;
 	private String designName;
-	private double engineMass;
-	private double cargoMass;
 	private double attackMass;
 	private int guns;
 	private double defenceMass;
+	private double cargoMass;
+	private double engineMass;
 	
 	public ShipDesign(String designName)
 	{
-		super();
 		this.designName = designName;
 	}
 	public ShipDesign()
 	{
-		super();
 	}
+	
+	public ShipDesign(long designId, String designName, double attackMass, int guns, double defenceMass,
+			double cargoMass, double engineMass) {
+		this.designId = designId;
+		this.designName = designName;
+		this.attackMass = attackMass;
+		this.guns = guns;
+		this.defenceMass = defenceMass;
+		this.cargoMass = cargoMass;
+		this.engineMass = engineMass;
+	}
+	
 	public double getCargoMass ()
 	{
 		return cargoMass;
@@ -74,6 +84,12 @@ public class ShipDesign
 	public void setEngineMass ( double engineMass )
 	{
 		this.engineMass = engineMass;
+	}
+	@Override
+	public String toString() {
+		return "ShipDesign [designId=" + designId + ", designName=" + designName + ", attackMass=" + attackMass
+				+ ", guns=" + guns + ", defenceMass=" + defenceMass + ", cargoMass=" + cargoMass + ", engineMass="
+				+ engineMass + "]";
 	}
 	
 }

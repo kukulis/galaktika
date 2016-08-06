@@ -19,16 +19,17 @@ public class DShip
 	@Access(AccessType.PROPERTY)
 	long id;
 
-	private double totalMass;
-	private double speed;
+	@NotNull
+	@Size(min = 2, max = 32)
+	private String name;
 	private double attack;
 	private int guns;
 	private double defence;
 	private double cargo;
+	private double speed;
 
-	@NotNull
-	@Size(min = 2, max = 32)
-	private String name;
+	private double totalMass;
+
 
 	// TODO relations with owner,turn,shiptype, techonologies?
 	
@@ -46,15 +47,18 @@ public class DShip
 		this.name = name;
 	}
 
-	public DShip(double speed, double attack, int guns, double defence, double cargo, String name)
-	{
-		super();
-		this.speed = speed;
+	
+
+	public DShip(long id, String name, double attack, int guns, double defence, double cargo, double speed,
+			double totalMass) {
+		this.id = id;
+		this.name = name;
 		this.attack = attack;
 		this.guns = guns;
 		this.defence = defence;
 		this.cargo = cargo;
-		this.name = name;
+		this.speed = speed;
+		this.totalMass = totalMass;
 	}
 
 	public long getId ()
@@ -139,7 +143,13 @@ public class DShip
 
 	@Override
 	public String toString() {
-		return "DShip["+id+"] ("+name+")";
+		return "DShip [id=" + id + ", name=" + name + ", attack=" + attack + ", guns=" + guns + ", defence=" + defence
+				+ ", cargo=" + cargo + ", speed=" + speed + ", totalMass=" + totalMass + "]";
 	}
 
+//	@Override
+//	public String toString() {
+//		return "DShip["+id+"] ("+name+")";
+//	}
+	
 }

@@ -20,6 +20,15 @@ public class DNation
 	String nationName;
 	long userId;
 	
+	
+	
+	public DNation(long nationId, String nationName, long userId) {
+		super();
+		this.nationId = nationId;
+		this.nationName = nationName;
+		this.userId = userId;
+	}
+
 	public DNation() {
 	}
 
@@ -53,10 +62,11 @@ public class DNation
 		this.nationName = nationName;
 	}
 
-	@Override
-	public String toString() {
-		return "DNation["+nationId+", "+nationName+"]";
-	}
+//	@Override
+//	public String toString() {
+//		return "DNation["+nationId+", "+nationName+"]";
+//	}
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -67,6 +77,10 @@ public class DNation
 		else
 			return false;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "DNation [nationId=" + nationId + ", nationName=" + nationName + ", userId=" + userId + "]";
+	}
 	
 }

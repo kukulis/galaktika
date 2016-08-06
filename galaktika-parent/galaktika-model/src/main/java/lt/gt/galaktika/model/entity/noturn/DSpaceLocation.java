@@ -22,6 +22,13 @@ public class DSpaceLocation {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public DSpaceLocation(long locationId, double x, double y) {
+		this.locationId = locationId;
+		this.x = x;
+		this.y = y;
+	}
+	
 	public long getLocationId() {
 		return locationId;
 	}

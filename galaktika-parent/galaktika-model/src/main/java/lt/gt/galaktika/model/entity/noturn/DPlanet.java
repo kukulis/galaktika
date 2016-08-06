@@ -18,6 +18,7 @@ public class DPlanet
 	private long planetId;
 	
 	private double x, y;
+	private double planetSize, richness;
 	
 	public DPlanet() {
 	}
@@ -25,6 +26,14 @@ public class DPlanet
 	public DPlanet(double x, double y) {
 		this.x = x;
 		this.y = y;
+	}
+	
+	public DPlanet(long planetId, double x, double y, double planetSize, double richness) {
+		this.planetId = planetId;
+		this.x = x;
+		this.y = y;
+		this.planetSize = planetSize;
+		this.richness = richness;
 	}
 
 	public long getPlanetId() {
@@ -51,10 +60,10 @@ public class DPlanet
 		this.y = y;
 	}
 	
-	public String toString () {
-		return "Planet("+planetId+")["+x+","+y+"]";
-	}
-
+//	public String toString () {
+//		return "Planet("+planetId+")["+x+","+y+"]";
+//	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if ( !(obj instanceof DPlanet))
@@ -62,6 +71,26 @@ public class DPlanet
 		DPlanet another = (DPlanet) obj;
 		return planetId==another.planetId && x==another.x && y==another.y;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "DPlanet [planetId=" + planetId + ", x=" + x + ", y=" + y + ", planetSize=" + planetSize + ", richness="
+				+ richness + "]";
+	}
+
+	public double getPlanetSize() {
+		return planetSize;
+	}
+
+	public void setPlanetSize(double planetSize) {
+		this.planetSize = planetSize;
+	}
+
+	public double getRichness() {
+		return richness;
+	}
+
+	public void setRichness(double richness) {
+		this.richness = richness;
+	}
 }

@@ -35,6 +35,19 @@ public class DShipDesign {
 		this.cargoMass = cargoMass;
 		this.engineMass = engineMass;
 	}
+	
+	
+
+	public DShipDesign(long designId, String designName, double attackMass, int guns, double defenceMass,
+			double cargoMass, double engineMass) {
+		this.designId = designId;
+		this.designName = designName;
+		this.attackMass = attackMass;
+		this.guns = guns;
+		this.defenceMass = defenceMass;
+		this.cargoMass = cargoMass;
+		this.engineMass = engineMass;
+	}
 
 	public long getDesignId() {
 		return designId;
@@ -107,6 +120,4 @@ public class DShipDesign {
 		}
 		else return false;
 	}
-	
-	
 }

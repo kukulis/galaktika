@@ -31,6 +31,19 @@ public class Ship implements Serializable
 		this.cargo = cargo;
 		this.name = name;
 	}
+	
+	public Ship(long id, String name, double attack, int guns, double defence, double speed, double cargo,
+			double totalMass, long buildTurnId) {
+		this.id = id;
+		this.name = name;
+		this.attack = attack;
+		this.guns = guns;
+		this.defence = defence;
+		this.speed = speed;
+		this.cargo = cargo;
+		this.totalMass = totalMass;
+		this.buildTurnId = buildTurnId;
+	}
 
 	public Ship ( String name ) {
 		this.name=name;

@@ -36,6 +36,17 @@ public class DTechnologies
 		this.cargo = cargo;
 		this.engines = engines;
 	}
+	
+	public DTechnologies(long technologiesId, DNation owner, int turnNumber, double attack, double defence,
+			double cargo, double engines) {
+		this.technologiesId = technologiesId;
+		this.owner = owner;
+		this.turnNumber = turnNumber;
+		this.attack = attack;
+		this.defence = defence;
+		this.cargo = cargo;
+		this.engines = engines;
+	}
 
 	public long getTechnologiesId() {
 		return technologiesId;
@@ -93,11 +104,11 @@ public class DTechnologies
 		this.engines = engines;
 	}
 
-	@Override
-	public String toString() {
-		return "DTechnologies["+technologiesId+"]("+attack+","+defence+","+cargo+","+engines+")";
-	}
-
+//	@Override
+//	public String toString() {
+//		return "DTechnologies["+technologiesId+"]("+attack+","+defence+","+cargo+","+engines+")";
+//	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if ( obj instanceof DTechnologies ) {
@@ -105,6 +116,12 @@ public class DTechnologies
 			return technologiesId == t.technologiesId;
 		}
 		else return false;
+	}
+
+	@Override
+	public String toString() {
+		return "DTechnologies [technologiesId=" + technologiesId + ", owner=" + owner + ", turnNumber=" + turnNumber
+				+ ", attack=" + attack + ", defence=" + defence + ", cargo=" + cargo + ", engines=" + engines + "]";
 	}
 	
 }
