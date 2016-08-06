@@ -17,6 +17,7 @@ import lt.gt.galaktika.model.entity.noturn.DShip;
 import lt.gt.galaktika.model.entity.turn.DShipGroup;
 
 @Repository
+@Deprecated
 public class ShipGroupDao implements IShipGroupDao
 {
 	@PersistenceContext

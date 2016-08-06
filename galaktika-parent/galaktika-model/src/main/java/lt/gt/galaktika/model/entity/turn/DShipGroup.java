@@ -155,4 +155,10 @@ public class DShipGroup
 	public void updateValues ( DShipGroup source ) {
 		this.shipsCount = source.getShipsCount();
 	}
+
+	@Override
+	public String toString() {
+		return "DShipGroup [shipGroupId=" + shipGroupId + ", ship=" + ship + ", fleetId=" + fleetId + ", turnNumber="
+				+ turnNumber + ", shipsCount=" + shipsCount + "]";
+	}
 }

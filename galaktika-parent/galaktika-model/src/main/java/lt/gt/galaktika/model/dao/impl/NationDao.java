@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import lt.gt.galaktika.model.dao.INationDao;
 import lt.gt.galaktika.model.entity.noturn.DNation;
 
+@Deprecated
 @Repository
 @Transactional
 public class NationDao implements INationDao

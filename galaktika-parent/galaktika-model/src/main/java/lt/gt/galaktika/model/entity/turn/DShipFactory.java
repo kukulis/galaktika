@@ -8,21 +8,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import lt.gt.galaktika.model.entity.noturn.DShip;
 import lt.gt.galaktika.model.entity.noturn.DShipDesign;
 
 @Entity
+@Table ( name="shipfactories")
 public class DShipFactory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long shipFactoryId;
 	
 	@Column(nullable=true)
-	private long planetId;
+	private Long planetId;
 	
 	@Column(nullable=true)
-	private int turnNumber;
+	private Integer turnNumber;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shipId")
@@ -37,6 +39,15 @@ public class DShipFactory {
 	private DTechnologies technologies;
 	
 	private double donePart;
+	
+	public DShipFactory() {
+	}
+	
+	public DShipFactory(DShip ship, DShipDesign design, DTechnologies technologies) {
+		this.ship = ship;
+		this.design = design;
+		this.technologies = technologies;
+	}
 
 	public DShip getShip() {
 		return ship;
@@ -78,20 +89,38 @@ public class DShipFactory {
 		this.shipFactoryId = shipFactoryId;
 	}
 
-	public long getPlanetId() {
+	public Long getPlanetId() {
 		return planetId;
 	}
 
-	public void setPlanetId(long planetId) {
+	public void setPlanetId(Long planetId) {
 		this.planetId = planetId;
 	}
 
-	public int getTurnNumber() {
+	public Integer getTurnNumber() {
 		return turnNumber;
 	}
 
-	public void setTurnNumber(int turnNumber) {
+	public void setTurnNumber(Integer turnNumber) {
 		this.turnNumber = turnNumber;
 	}
+
+	@Override
+	public int hashCode() {
+		// TODO not sure if this is correct
+		return Long.hashCode(shipFactoryId );
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if ( obj instanceof DShipFactory ) {
+			DShipFactory factory = (DShipFactory) obj;
+			return factory.shipFactoryId == shipFactoryId;
+		}
+		else
+			return false;
+	}
+
+	
 	
 }

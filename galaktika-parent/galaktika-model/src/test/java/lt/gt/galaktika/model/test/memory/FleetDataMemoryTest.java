@@ -35,7 +35,7 @@ public class FleetDataMemoryTest {
 	IFleetDataDao dFleetDataDao;
 
 	@Test
-	// @Ignore
+	 @Ignore
 	public void testFleetData() {
 
 		DFleet pirmieji = new DFleet("pirmieji");
@@ -74,7 +74,7 @@ public class FleetDataMemoryTest {
 	}
 
 	@Test
-	@Ignore
+//	@Ignore
 	public void testShipGroups() {
 		DShip katinas = dao.create(new DShip("katinas"));
 		DShip suva = dao.create(new DShip("Šuva"));
@@ -90,6 +90,11 @@ public class FleetDataMemoryTest {
 		DFleetData apieZveris = new DFleetData(zverys.getFleetId(), turn.getTurnNumber());
 		apieZveris.getShipGroups().add(katinai);
 		apieZveris.getShipGroups().add(sunys);
+		
+		Assert.assertNull( katinai.getFleetId());
+		Assert.assertNull( katinai.getTurnNumber());
+		Assert.assertNull( sunys.getFleetId());
+		Assert.assertNull( sunys.getTurnNumber());
 
 		dao.create(apieZveris);
 
@@ -97,6 +102,7 @@ public class FleetDataMemoryTest {
 
 		Assert.assertEquals(2, loadedFleetData.getShipGroups().size());
 		loadedFleetData.getShipGroups().forEach(g -> {
+			LOG.trace( g.toString() );
 			Assert.assertNotNull(g.getFleetId());
 			Assert.assertNotNull(g.getTurnNumber());
 		});

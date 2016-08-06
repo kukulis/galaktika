@@ -8,9 +8,11 @@ import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.dao.IFleetDataDao;
 import lt.gt.galaktika.model.dao.IPlanetDao;
+import lt.gt.galaktika.model.dao.IPlanetSurfaceDao;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
 import lt.gt.galaktika.model.dao.impl.DAO;
 import lt.gt.galaktika.model.dao.impl.DFleetDataDao;
+import lt.gt.galaktika.model.dao.impl.DPlanetSurfaceDao;
 import lt.gt.galaktika.model.dao.impl.FleetDao;
 import lt.gt.galaktika.model.dao.impl.PlanetDao;
 import lt.gt.galaktika.model.dao.impl.ShipGroupDao;
@@ -43,5 +45,10 @@ public class MemoryBeansConfig {
 	@Bean
 	public IFleetDataDao getDFleetDataDao() {
 		return new DFleetDataDao();
+	}
+	
+	@Bean
+	public IPlanetSurfaceDao getDPlanetSurfaceDao () {
+		return new DPlanetSurfaceDao();
 	}
 }

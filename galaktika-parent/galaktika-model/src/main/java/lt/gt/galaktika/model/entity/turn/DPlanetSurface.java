@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.IndexColumn;
+
 import lt.gt.galaktika.model.entity.noturn.DNation;
 
 /**
@@ -37,18 +39,29 @@ public class DPlanetSurface {
 	
 	/**
 	 * It is supposed to have 1 or 0 elements
+	 * @Fetch(value = FetchMode.SUBSELECT)
 	 */
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumns({@JoinColumn(name = "planetId"),@JoinColumn(name = "turnNumber")})
+	@IndexColumn(name="INDEX_COMMAND") // this is used to avoid multiple bags exception
 	private List<DSurfaceCommand> commands = new ArrayList<>();
 	
 	/**
 	 * It is supposed to have 1 or 0 elements
 	 */
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumns({@JoinColumn(name = "planetId"),@JoinColumn(name = "turnNumber")})
+	@IndexColumn(name="INDEX_SHIP_FACT") // this is used to avoid multiple bags exception
 	private List<DShipFactory> shipFactories = new ArrayList<>();
 	
+	public DPlanetSurface() {
+	}
+	
+	public DPlanetSurface(long planetId, int turnNumber) {
+		this.planetId = planetId;
+		this.turnNumber = turnNumber;
+	}
+
 	public long getPlanetId() {
 		return planetId;
 	}
