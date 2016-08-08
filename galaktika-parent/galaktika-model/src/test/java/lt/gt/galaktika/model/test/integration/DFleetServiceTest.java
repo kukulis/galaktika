@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 //import lt.gt.galaktika.model.dao.DFleetService;
-import lt.gt.galaktika.model.dao.IFleetDao;
+import lt.gt.galaktika.model.dao.IFleetDaoOld;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DShip;
@@ -26,7 +26,7 @@ public class DFleetServiceTest
 	final static Logger LOG = LoggerFactory.getLogger(DFleetServiceTest.class);
 
 	@Autowired
-	private IFleetDao fleetDao;
+	private IFleetDaoOld fleetDao;
 	
 	@Autowired
 	private IShipGroupDao shipGroupDao;

@@ -19,7 +19,7 @@ import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
 import lt.gt.galaktika.model.FleetSortData;
 import lt.gt.galaktika.model.GalaktikaModelUtils;
-import lt.gt.galaktika.model.dao.IFleetDao;
+import lt.gt.galaktika.model.dao.IFleetDaoOld;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DShip;
 import lt.gt.galaktika.utils.Utils;
@@ -27,7 +27,7 @@ import lt.gt.galaktika.utils.Utils;
 @Deprecated
 @Repository
 @Transactional
-public class FleetDao implements IFleetDao
+public class FleetDaoOld implements IFleetDaoOld
 {
 	@PersistenceContext
 	private EntityManager em;	

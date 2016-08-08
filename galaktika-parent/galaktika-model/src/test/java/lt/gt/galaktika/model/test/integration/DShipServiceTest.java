@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
-import lt.gt.galaktika.model.dao.IFleetDao;
+import lt.gt.galaktika.model.dao.IFleetDaoOld;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DShip;
@@ -29,7 +29,7 @@ public class DShipServiceTest
 	private IShipGroupDao shipGroupDao;
 	
 	@Autowired
-	private IFleetDao fleetDao;
+	private IFleetDaoOld fleetDao;
 
 	@Test
 	@Ignore

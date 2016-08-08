@@ -1,4 +1,5 @@
 //package lt.gt.galaktika.model.service;
+//package lt.gt.galaktika.model.service;
 //
 //import java.lang.reflect.InvocationTargetException;
 //import java.util.List;

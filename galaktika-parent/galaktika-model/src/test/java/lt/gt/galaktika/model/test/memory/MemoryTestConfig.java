@@ -25,7 +25,7 @@ public class MemoryTestConfig
             = new LocalContainerEntityManagerFactoryBean();
 	   
         lcemfb.setDataSource(this.dataSource());
-        lcemfb.setPackagesToScan(new String[] {"lt.gt.galaktika.model.entity"});
+        lcemfb.setPackagesToScan(new String[] {"lt.gt.galaktika.model.entity", "lt.gt.galaktika.model.service"});
 		lcemfb.setPersistenceUnitName("MyTestPU");
 		
         HibernateJpaVendorAdapter va = new HibernateJpaVendorAdapter();

@@ -3,8 +3,10 @@ package lt.gt.galaktika.model.service;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
+import lt.gt.galaktika.model.dao.IDAO;
 
 /**
  * 
@@ -13,7 +15,12 @@ import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
  */
 public abstract class AbstractGalaktikaService <D,C> {
 	
+	@Autowired IDAO dao;
+	
 	public D mapToDbObject ( C coreObject ) {
+		if  (coreObject == null )
+			return null;
+		
 		D dbObject = createDbObject();
 		try {
 			BeanUtils.copyProperties( dbObject, coreObject );
@@ -24,11 +31,14 @@ public abstract class AbstractGalaktikaService <D,C> {
 		return dbObject;
 	}
 	public C mapToCoreObject ( D dbObject ) {
+		if ( dbObject == null )
+			return null;
+		
 		C coreObject = createCoreObject();
 		try {
 			BeanUtils.copyProperties( coreObject, dbObject );
 		} catch ( InvocationTargetException | IllegalAccessException ite ) {
-			throw new GalaktikaRuntimeException( ite );
+			throw new GalaktikaRuntimeException( "coreObject.class="+coreObject.getClass()+"  dbObject.class="+dbObject.getClass() , ite );
 		}
 
 		return coreObject;
@@ -36,5 +46,13 @@ public abstract class AbstractGalaktikaService <D,C> {
 	
 	public abstract D createDbObject ();
 	public abstract C createCoreObject();
+	
+	public C create( C c ) {
+		
+		D d = mapToDbObject( c );
+		d = dao.create( d );
+		c = mapToCoreObject( d );
+		return c;
+	}
 	
 }
