@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lt.gt.galaktika.model.entity.DFleet;
-import lt.gt.galaktika.model.entity.DShipGroup;
+import lt.gt.galaktika.model.entity.noturn.DFleet;
+import lt.gt.galaktika.model.entity.turn.DShipGroup;
 import lt.gt.galaktika.utils.Diff;
 import lt.gt.galaktika.utils.Utils;
 

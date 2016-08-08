@@ -13,9 +13,9 @@ import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
 import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
-import lt.gt.galaktika.model.entity.DFleet;
-import lt.gt.galaktika.model.entity.DShip;
-import lt.gt.galaktika.model.entity.DShipGroup;
+import lt.gt.galaktika.model.entity.noturn.DFleet;
+import lt.gt.galaktika.model.entity.noturn.DShip;
+import lt.gt.galaktika.model.entity.turn.DShipGroup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { JpaTestConfig.class, TestConfig.class })

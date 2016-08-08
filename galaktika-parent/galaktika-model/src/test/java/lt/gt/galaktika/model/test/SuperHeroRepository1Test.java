@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import lt.gt.galaktika.model.entity.DFleet;
-import lt.gt.galaktika.model.entity.DNation;
+import lt.gt.galaktika.model.entity.noturn.DFleet;
+import lt.gt.galaktika.model.entity.noturn.DNation;
 
 public class SuperHeroRepository1Test {
 

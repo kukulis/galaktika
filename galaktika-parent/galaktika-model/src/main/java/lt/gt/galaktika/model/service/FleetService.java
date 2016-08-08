@@ -20,9 +20,9 @@ import lt.gt.galaktika.model.FleetSortData;
 import lt.gt.galaktika.model.dao.DFleetFilter;
 import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.dao.INationDao;
-import lt.gt.galaktika.model.entity.DFleet;
-import lt.gt.galaktika.model.entity.DShip;
-import lt.gt.galaktika.model.entity.DShipGroup;
+import lt.gt.galaktika.model.entity.noturn.DFleet;
+import lt.gt.galaktika.model.entity.noturn.DShip;
+import lt.gt.galaktika.model.entity.turn.DShipGroup;
 
 @Service
 public class FleetService

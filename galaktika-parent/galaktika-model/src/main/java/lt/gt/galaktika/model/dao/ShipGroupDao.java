@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
-import lt.gt.galaktika.model.entity.DFleet;
-import lt.gt.galaktika.model.entity.DShip;
-import lt.gt.galaktika.model.entity.DShipGroup;
+import lt.gt.galaktika.model.entity.noturn.DFleet;
+import lt.gt.galaktika.model.entity.noturn.DShip;
+import lt.gt.galaktika.model.entity.turn.DShipGroup;
 
 @Repository
 public class ShipGroupDao implements IShipGroupDao

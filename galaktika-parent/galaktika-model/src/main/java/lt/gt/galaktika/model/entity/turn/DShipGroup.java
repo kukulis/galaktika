@@ -1,4 +1,4 @@
-package lt.gt.galaktika.model.entity;
+package lt.gt.galaktika.model.entity.turn;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import lt.gt.galaktika.model.entity.noturn.DFleet;
+import lt.gt.galaktika.model.entity.noturn.DShip;
 
 @Entity
 @Table(name = "ship_groups")

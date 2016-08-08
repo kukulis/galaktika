@@ -1,4 +1,4 @@
-package lt.gt.galaktika.model.entity;
+package lt.gt.galaktika.model.entity.noturn;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

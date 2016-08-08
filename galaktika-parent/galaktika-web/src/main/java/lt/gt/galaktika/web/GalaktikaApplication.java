@@ -111,6 +111,8 @@ public class GalaktikaApplication
 			// .withUser("user").password("password").roles("USER");
 
 			// auth.jdbcAuthentication().
+			
+//			auth.ano
 		}
 	}
 

@@ -8,7 +8,6 @@
 	</parent>
 	<artifactId>galaktika-ejb</artifactId>
 	<packaging>war</packaging>
-	
 
 
 	<properties>

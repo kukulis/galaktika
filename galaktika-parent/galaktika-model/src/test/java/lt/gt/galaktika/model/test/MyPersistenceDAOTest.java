@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lt.gt.galaktika.model.dao.IShipGroupDao;
-import lt.gt.galaktika.model.entity.DShipGroup;
+import lt.gt.galaktika.model.entity.turn.DShipGroup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={ JpaTestConfig.class, TestConfig.class })

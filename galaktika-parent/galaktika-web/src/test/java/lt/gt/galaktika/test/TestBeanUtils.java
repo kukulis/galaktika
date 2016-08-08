@@ -4,7 +4,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Test;
 
 import lt.gt.galaktika.core.Fleet;
-import lt.gt.galaktika.model.entity.DFleet;
+import lt.gt.galaktika.model.entity.noturn.DFleet;
 
 public class TestBeanUtils
 {
