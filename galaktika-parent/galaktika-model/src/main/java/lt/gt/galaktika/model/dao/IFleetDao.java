@@ -6,6 +6,7 @@ import lt.gt.galaktika.model.FleetSortData;
 import lt.gt.galaktika.model.dao.impl.DFleetFilter;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 
+@Deprecated
 public interface IFleetDao
 {
 	public long save (DFleet fleet);
