@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.core.Fleet;
+import lt.gt.galaktika.core.ShipGroup;
 import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.dao.IFleetDataDao;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DNation;
+import lt.gt.galaktika.model.entity.noturn.DShip;
 import lt.gt.galaktika.model.entity.turn.DFleetData;
+import lt.gt.galaktika.model.entity.turn.DShipGroup;
 
 @Service
 public class FleetsService {
@@ -32,6 +35,9 @@ public class FleetsService {
 	
 	@Autowired 
 	NationService nationService;
+	
+	@Autowired
+	ShipService shipService;
 	
 
 	/**
@@ -59,7 +65,10 @@ public class FleetsService {
 		} else
 			dFleet = dao.update(dFleet);
 
-		DFleetData dFleetData = mapDFleetData(fleet);
+		DFleetData dFleetData = mapDFleetData(fleet, turnNumber );
+		// TODO two ways
+		// one - create absolutely new DFleetData object
+		// second - update existing DFleetData object
 		// TODO
 
 		return fleet;
@@ -96,8 +105,21 @@ public class FleetsService {
 		return dFleet;
 	}
 
-	protected DFleetData mapDFleetData(Fleet fleet) {
+	protected DFleetData mapDFleetData(Fleet fleet, int turnNumber) {
 		DFleetData dFleetData = new DFleetData();
+		// shipGroups
+		for ( ShipGroup group : fleet.getShipGroups() ) {
+			// TODO
+//			if ( group.get)
+			// first try to load ship group by 
+			
+			DShip dship = shipService.mapToDbObject(group.getShip());
+			DShipGroup dg = new DShipGroup(dship);
+			
+		}
+		// planetLocation
+		// spaceLocation
+		// flightCommand 
 		// TODO
 		return dFleetData;
 	}

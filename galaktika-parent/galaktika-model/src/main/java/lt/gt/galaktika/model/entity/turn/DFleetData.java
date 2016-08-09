@@ -36,6 +36,15 @@ public class DFleetData {
 	@JoinColumn(name = "spaceLocationId", nullable = true)
 	private DSpaceLocation spaceLocation;
 	
+	// flightCommand
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "flightSourceId", nullable = true )
+	private DPlanet flightSource;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "flightDestinationId", nullable = true)
+	private DPlanet flightDestination;
+	
 	public DFleetData() {
 	}
 
@@ -83,6 +92,22 @@ public class DFleetData {
 	public void setSpaceLocation(DSpaceLocation spaceLocation) {
 		this.spaceLocation = spaceLocation;
 	}
+	
+	public DPlanet getFlightSource() {
+		return flightSource;
+	}
+
+	public void setFlightSource(DPlanet flightSource) {
+		this.flightSource = flightSource;
+	}
+
+	public DPlanet getFlightDestination() {
+		return flightDestination;
+	}
+
+	public void setFlightDestination(DPlanet flightDestination) {
+		this.flightDestination = flightDestination;
+	}
 
 	@Override
 	public int hashCode() {
@@ -97,6 +122,4 @@ public class DFleetData {
 		}
 		else return false;
 	}
-	
-	
 }
