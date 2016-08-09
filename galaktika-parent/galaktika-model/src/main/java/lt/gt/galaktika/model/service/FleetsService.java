@@ -53,6 +53,9 @@ public class FleetsService {
 	/**
 	 * If fleetId is 0, then create new one, else update existing.
 	 * 
+	 * Also the contract is, that all the ships in fleet should be already 
+	 * stored to repository, previous of this method call.
+	 * 
 	 * @param fleet
 	 * @return
 	 */

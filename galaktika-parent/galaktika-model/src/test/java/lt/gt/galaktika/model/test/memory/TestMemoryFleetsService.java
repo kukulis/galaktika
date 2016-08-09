@@ -11,8 +11,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.Nation;
+import lt.gt.galaktika.core.Ship;
+import lt.gt.galaktika.core.ShipGroup;
+import lt.gt.galaktika.core.SpaceLocation;
 import lt.gt.galaktika.model.service.FleetsService;
 import lt.gt.galaktika.model.service.NationService;
+import lt.gt.galaktika.model.service.ShipService;
+import lt.gt.galaktika.model.service.SpaceLocationService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { MemoryTestConfig.class, MemoryBeansConfig.class })
@@ -26,6 +31,12 @@ public class TestMemoryFleetsService {
 	@Autowired
 	NationService nationService;
 	
+	@Autowired
+	ShipService shipService;
+	
+	@Autowired
+	SpaceLocationService spaceLocationService;
+	
 	@Test
 	public void testFleetsService () {
 		LOG.trace ( "testFleetsService called" );
@@ -36,8 +47,19 @@ public class TestMemoryFleetsService {
 		Fleet fleet = new Fleet( "grybuva" );
 		fleet.setOwner( nation );
 		
-		// TODO ship groups
-		// TODO location
+		Ship katinas = shipService.create( new Ship( "katinas" ) );
+		Ship meska = shipService.create( new Ship( "meska" ) );
+		Ship kelmas = shipService.create( new Ship( "kelmas" ) );
+		
+		// ship groups
+		fleet.addShipGroup( new ShipGroup(katinas, 3));
+		fleet.addShipGroup( new ShipGroup(meska, 2));
+		fleet.addShipGroup( new ShipGroup(kelmas, 1));
+		
+		// location
+ 		SpaceLocation location = new SpaceLocation(3, 4 );
+  		location = spaceLocationService.create( location );
+		fleet.setGalaxyLocation( location );
 		// TODO flight command
 		fleet = fleetsService.saveFleet(fleet, turnNumber);
 		
@@ -47,8 +69,16 @@ public class TestMemoryFleetsService {
 		Fleet loadedFleet = fleetsService.loadFleet( fleet.getFleetId(), turnNumber);
 		Assert.assertNotNull( loadedFleet );
 		Assert.assertNotNull( loadedFleet.getOwner() );
-		// TODO ship groups
-		// TODO location
+		// ship groups
+		Assert.assertArrayEquals( fleet.getShipGroups().toArray(), loadedFleet.getShipGroups().toArray());
+		// TODO check counts of ships in groups
+		
+		// location
+		Assert.assertEquals( fleet.getGalaxyLocation(), loadedFleet.getGalaxyLocation() );
+		
+		
 		// TODO flight command
 	}
+	
+	// TODO test after fleet update
 }
