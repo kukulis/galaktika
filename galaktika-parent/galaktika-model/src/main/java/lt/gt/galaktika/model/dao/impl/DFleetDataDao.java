@@ -3,6 +3,7 @@ package lt.gt.galaktika.model.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
@@ -32,7 +33,11 @@ public class DFleetDataDao implements IFleetDataDao {
 		Query query = em.createQuery(buildFindFleetDataQuery(withGroups), DFleetData.class);
 		query.setParameter("fleetId", fleetId);
 		query.setParameter("turnNumber", turnNumber);
-		return (DFleetData) query.getSingleResult();
+		try {
+			return (DFleetData) query.getSingleResult();
+		} catch ( NoResultException nre ) {
+			return null;
+		}
 	}
 
 	private String buildFindFleetDataQuery(boolean withGroups) {

@@ -35,6 +35,10 @@ public class TestMemoryFleetsService {
 		
 		Fleet fleet = new Fleet( "grybuva" );
 		fleet.setOwner( nation );
+		
+		// TODO ship groups
+		// TODO location
+		// TODO flight command
 		fleet = fleetsService.saveFleet(fleet, turnNumber);
 		
 		Assert.assertNotEquals(0, fleet.getFleetId() );
@@ -43,5 +47,8 @@ public class TestMemoryFleetsService {
 		Fleet loadedFleet = fleetsService.loadFleet( fleet.getFleetId(), turnNumber);
 		Assert.assertNotNull( loadedFleet );
 		Assert.assertNotNull( loadedFleet.getOwner() );
+		// TODO ship groups
+		// TODO location
+		// TODO flight command
 	}
 }
