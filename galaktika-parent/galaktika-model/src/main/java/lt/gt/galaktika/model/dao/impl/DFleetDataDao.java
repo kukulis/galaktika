@@ -42,6 +42,7 @@ public class DFleetDataDao implements IFleetDataDao {
 
 	private String buildFindFleetDataQuery(boolean withGroups) {
 		return "select d from DFleetData d left join fetch d.planetLocation left join fetch d.spaceLocation "
+				+ " left join fetch d.flightSource left join fetch d.flightDestination " 
 				+ (withGroups ? " left join fetch d.shipGroups " : "")
 				+ "where d.fleetId=:fleetId and d.turnNumber=:turnNumber";
 	}
