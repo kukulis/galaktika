@@ -92,6 +92,18 @@ public class TestMemoryFleetsService {
 		// TODO test after fleet update
 		LOG.trace( "tstUpdateFleet called" );
 		
+		Nation nation = nationService.create( new Nation ( "vokieciai ") );
+		
+		int turnNumber = 1;
+		
+		Fleet fleet = new Fleet( "pievute" );
+		fleet.setOwner( nation );
+		
+		fleet = fleetsService.saveFleet(fleet, turnNumber);
+		
+		Assert.assertNotEquals(0, fleet.getFleetId() );
+		LOG.trace( "fleetId="+fleet.getFleetId() );
+		
 		// first create fleet
 		// then load
 		// change it 
