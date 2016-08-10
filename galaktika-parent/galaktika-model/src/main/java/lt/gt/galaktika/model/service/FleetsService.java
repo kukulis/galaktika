@@ -53,7 +53,7 @@ public class FleetsService {
 	/**
 	 * If fleetId is 0, then create new one, else update existing.
 	 * 
-	 * Also the contract is, that all the ships in fleet should be already 
+	 * Also the contract is, that all the ships in fleet should be already
 	 * stored to repository, previous of this method call.
 	 * 
 	 * @param fleet
@@ -81,8 +81,10 @@ public class FleetsService {
 		// need to try to load fleet data with fleet id and turn number
 
 		DFleetData dFleetData = mapDFleetData(fleet, turnNumber);
+		dFleetData.getShipGroups().forEach(g -> dao.create(g));
 		dao.create(dFleetData);
-		LOG.trace( "Fleet data stored with fleetId="+dFleetData.getFleetId() + "  turnNumber="+dFleetData.getTurnNumber());
+		LOG.trace("Fleet data stored with fleetId=" + dFleetData.getFleetId() + "  turnNumber="
+				+ dFleetData.getTurnNumber());
 		// TODO two ways
 		// one - create absolutely new DFleetData object
 		// second - update existing DFleetData object
@@ -93,9 +95,9 @@ public class FleetsService {
 
 	public Fleet loadFleet(long fleetId, int turnNumber) {
 		DFleet dFleet = dFleetDao.find(fleetId);
-		DFleetData dFleetData = dFleetDataDao.find(fleetId, turnNumber);
-		
-		LOG.trace( "dFleetData="+dFleetData );
+		DFleetData dFleetData = dFleetDataDao.findWithGroups(fleetId, turnNumber);
+
+		LOG.trace("dFleetData=" + dFleetData);
 		return mapFleet(dFleet, dFleetData);
 	}
 
@@ -122,9 +124,11 @@ public class FleetsService {
 		return dFleet;
 	}
 
+	
 	protected DFleetData mapDFleetData(Fleet fleet, int turnNumber) {
+		// TODO move access to dao somehow outside ( may be prepare needed data before and pass by parameters )
 		DFleetData dFleetData = new DFleetData(fleet.getFleetId(), turnNumber);
-		
+
 		// shipGroups
 		for (ShipGroup group : fleet.getShipGroups()) {
 			DShip dship = dao.find(DShip.class, group.getShip().getId());

@@ -89,4 +89,15 @@ public class ShipGroup implements Serializable
 	public String toString() {
 		return ship.toString()+" count:"+count+"  shotedCount:"+shotedCount;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if ( obj instanceof ShipGroup ) {
+			ShipGroup g = (ShipGroup) obj;
+			return g.getShip().getId() == getShip().getId() && g.getCount() == getCount();
+		}
+		else return false;
+	}
+	
+	
 }

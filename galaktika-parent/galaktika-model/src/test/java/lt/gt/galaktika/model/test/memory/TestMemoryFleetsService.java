@@ -1,6 +1,7 @@
 package lt.gt.galaktika.model.test.memory;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -10,10 +11,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lt.gt.galaktika.core.Fleet;
+import lt.gt.galaktika.core.FlightCommand;
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.Ship;
 import lt.gt.galaktika.core.ShipGroup;
 import lt.gt.galaktika.core.SpaceLocation;
+import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.model.service.FleetsService;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.ShipService;
@@ -38,6 +41,7 @@ public class TestMemoryFleetsService {
 	SpaceLocationService spaceLocationService;
 	
 	@Test
+	@Ignore
 	public void testFleetsService () {
 		LOG.trace ( "testFleetsService called" );
 		Nation nation = nationService.create( new Nation ( "vokieciai ") );
@@ -60,7 +64,12 @@ public class TestMemoryFleetsService {
  		SpaceLocation location = new SpaceLocation(3, 4 );
   		location = spaceLocationService.create( location );
 		fleet.setGalaxyLocation( location );
-		// TODO flight command
+		// flight command
+		FlightCommand fCommand = new FlightCommand();
+		fCommand.setSource( new Planet(10, 10, 101, 0.9));
+		fCommand.setDestination( new Planet(5, 15, 101, 0.9));
+		fleet.setFlightCommand( fCommand );
+		
 		fleet = fleetsService.saveFleet(fleet, turnNumber);
 		
 		Assert.assertNotEquals(0, fleet.getFleetId() );
@@ -71,14 +80,24 @@ public class TestMemoryFleetsService {
 		Assert.assertNotNull( loadedFleet.getOwner() );
 		// ship groups
 		Assert.assertArrayEquals( fleet.getShipGroups().toArray(), loadedFleet.getShipGroups().toArray());
-		// TODO check counts of ships in groups
-		
 		// location
 		Assert.assertEquals( fleet.getGalaxyLocation(), loadedFleet.getGalaxyLocation() );
-		
-		
-		// TODO flight command
+		// flight command
+		Assert.assertEquals( fCommand.getSource(), loadedFleet.getFlightCommand().getSource() );
+		Assert.assertEquals( fCommand.getDestination(), loadedFleet.getFlightCommand().getDestination() );
 	}
 	
-	// TODO test after fleet update
+	@Test
+	public void testUpdateFleet( ) {
+		// TODO test after fleet update
+		LOG.trace( "tstUpdateFleet called" );
+		
+		// first create fleet
+		// then load
+		// change it 
+		// update 
+		// load again
+		// test asserts
+	}
+	
 }
