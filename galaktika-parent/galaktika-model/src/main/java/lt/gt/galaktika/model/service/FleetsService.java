@@ -259,7 +259,7 @@ public class FleetsService {
 	 * @param dFleetData
 	 * @return
 	 */
-	protected Fleet mapFleet(DFleet dFleet, DFleetData dFleetData) {
+	public Fleet mapFleet(DFleet dFleet, DFleetData dFleetData) {
 		Fleet fleet = new Fleet();
 		fleet.setName(dFleet.getName());
 		fleet.setFleetId(dFleet.getFleetId());

@@ -20,6 +20,7 @@ import lt.gt.galaktika.model.dao.impl.PlanetDao;
 import lt.gt.galaktika.model.dao.impl.ShipGroupDao;
 import lt.gt.galaktika.model.service.FleetsService;
 import lt.gt.galaktika.model.service.NationService;
+import lt.gt.galaktika.model.service.PlanetDataService;
 import lt.gt.galaktika.model.service.PlanetService;
 import lt.gt.galaktika.model.service.ShipDesignService;
 import lt.gt.galaktika.model.service.ShipService;
@@ -98,5 +99,10 @@ public class MemoryBeansConfig {
 	@Bean
 	public TechnologiesService getTechnologiesService() {
 		return new TechnologiesService();
+	}
+	
+	@Bean
+	public PlanetDataService getPlanetDataService() {
+		return new PlanetDataService();
 	}
 }

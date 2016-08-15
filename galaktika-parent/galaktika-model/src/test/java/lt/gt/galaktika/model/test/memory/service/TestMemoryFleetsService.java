@@ -1,4 +1,4 @@
-package lt.gt.galaktika.model.test.memory;
+package lt.gt.galaktika.model.test.memory.service;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,6 +22,8 @@ import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetService;
 import lt.gt.galaktika.model.service.ShipService;
 import lt.gt.galaktika.model.service.SpaceLocationService;
+import lt.gt.galaktika.model.test.memory.MemoryBeansConfig;
+import lt.gt.galaktika.model.test.memory.MemoryTestConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { MemoryTestConfig.class, MemoryBeansConfig.class })

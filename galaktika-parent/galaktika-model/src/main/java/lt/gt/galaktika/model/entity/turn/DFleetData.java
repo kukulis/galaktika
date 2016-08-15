@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DPlanet;
 import lt.gt.galaktika.model.entity.noturn.DSpaceLocation;
 
@@ -44,6 +45,11 @@ public class DFleetData {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "flightDestinationId", nullable = true)
 	private DPlanet flightDestination;
+	
+	@ManyToOne
+	@JoinColumn(name = "fleetId", referencedColumnName = "fleetId",
+	insertable =  false, updatable = false)
+	private DFleet fleet;
 	
 	public DFleetData() {
 	}
@@ -122,4 +128,14 @@ public class DFleetData {
 		}
 		else return false;
 	}
+
+	public DFleet getFleet() {
+		return fleet;
+	}
+
+	public void setFleet(DFleet fleet) {
+		this.fleet = fleet;
+	}
+	
+	
 }

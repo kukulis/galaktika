@@ -35,7 +35,7 @@ public class FleetDataMemoryTest {
 	IFleetDataDao dFleetDataDao;
 
 	@Test
-	 @Ignore
+//	 @Ignore
 	public void testFleetData() {
 
 		DFleet pirmieji = new DFleet("pirmieji");
@@ -68,7 +68,7 @@ public class FleetDataMemoryTest {
 		DPlanet loadedPlanet = loadedFleetData1_1.getPlanetLocation();
 		Assert.assertEquals(planet, loadedPlanet);
 
-		List<DFleetData> fleetDatas = dFleetDataDao.findInOrbit(planet.getPlanetId(), pirmas.getTurnNumber());
+		List<DFleetData> fleetDatas = dFleetDataDao.findInOrbit(planet.getPlanetId(), pirmas.getTurnNumber(), false );
 
 		Assert.assertArrayEquals(new DFleetData[] { fleetData1_1, fleetData2_1 }, fleetDatas.toArray());
 	}
@@ -106,6 +106,37 @@ public class FleetDataMemoryTest {
 			Assert.assertNotNull(g.getFleetId());
 			Assert.assertNotNull(g.getTurnNumber());
 		});
+	}
+	
+	@Test
+//	@Ignore
+	public void testOrbit () {
+		LOG.trace( "testOrbit called" );
+//		DShip katinas = dao.create(new DShip("katinas"));
+//		DShip suva = dao.create(new DShip("Šuva"));
+		DTurn turn = dao.create(new DTurn(4));
+		DPlanet planet = dao.create( new DPlanet());
+		
+		DFleet fleet1 = dao.create( new DFleet( "pirmas" ) );
+		DFleet fleet2 = dao.create( new DFleet( "antras" ) );
+		
+		DFleetData fd1 = new DFleetData(fleet1.getFleetId(), turn.getTurnNumber() );
+		fd1.setPlanetLocation( planet );
+		DFleetData fd2 = new DFleetData(fleet2.getFleetId(), turn.getTurnNumber() );
+		fd2.setPlanetLocation( planet );
+		
+		dao.create( fd1 );
+		dao.create( fd2 );
+		
+		
+		List<DFleetData> fdatas = dFleetDataDao.findInOrbit(planet.getPlanetId(), turn.getTurnNumber(), false );
+		
+		Assert.assertArrayEquals(new Object[] {fd1,  fd2}, fdatas.toArray() );
+		fdatas.forEach( d -> { 
+			Assert.assertNotNull( d.getFleet() );
+			LOG.trace( d.getFleet().toString() );
+		});
+		
 	}
 
 }
