@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.core.planet.PlanetOrbit;
+import lt.gt.galaktika.core.planet.PlanetSurface;
 import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.dao.IFleetDataDao;
 import lt.gt.galaktika.model.entity.turn.DFleetData;
@@ -36,6 +37,12 @@ public class PlanetDataService {
 			orbit.getFleets().add( fleetsService.mapFleet( dFleetData.getFleet(), withGroups?dFleetData:null ) );
 		
 		return orbit;
+	}
+	
+	// surface
+	
+	public void storePlanetSurface ( PlanetSurface surface ) {
+		// TODO
 	}
 
 }
