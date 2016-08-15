@@ -25,7 +25,7 @@ public class DFleetDataDao implements IFleetDataDao {
 	}
 
 	@Override
-	public DFleetData findWithGroups(long fleetId, int turnNumber) {
+	public DFleetData findWithGroupsAndLocations(long fleetId, int turnNumber) {
 		return innerFind(fleetId, turnNumber, true);
 	}
 

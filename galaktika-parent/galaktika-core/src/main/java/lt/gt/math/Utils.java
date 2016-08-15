@@ -28,4 +28,8 @@ public class Utils {
 	public static boolean same ( double a, double b, double epsilon ) {
 		return Math.abs( a-b ) < epsilon;
 	}
+	
+	public static boolean same ( PlanePoint point, double x, double y, double epsilon ) {
+		return same ( point.getX(), x, epsilon ) && same ( point.getY(), y, epsilon );
+	}
 }

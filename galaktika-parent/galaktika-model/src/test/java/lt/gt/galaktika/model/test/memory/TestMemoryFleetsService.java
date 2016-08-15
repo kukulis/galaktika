@@ -1,7 +1,6 @@
 package lt.gt.galaktika.model.test.memory;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -18,7 +17,6 @@ import lt.gt.galaktika.core.ShipGroup;
 import lt.gt.galaktika.core.SpaceLocation;
 import lt.gt.galaktika.core.exception.GalaktikaException;
 import lt.gt.galaktika.core.planet.Planet;
-import lt.gt.galaktika.model.exception.FleetContractException;
 import lt.gt.galaktika.model.service.FleetsService;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetService;
@@ -47,7 +45,7 @@ public class TestMemoryFleetsService {
 	PlanetService planetService;
 
 	@Test
-	@Ignore
+//	 @Ignore
 	public void testFleetsService() throws GalaktikaException {
 		LOG.trace("testFleetsService called");
 		Nation nation = nationService.create(new Nation("vokieciai "));
@@ -57,15 +55,14 @@ public class TestMemoryFleetsService {
 		Fleet fleet = new Fleet("grybuva");
 		fleet.setOwner(nation);
 
-		// ======= contracted data 
+		// ======= contracted data
 		Ship katinas = shipService.create(new Ship("katinas"));
 		Ship meska = shipService.create(new Ship("meska"));
 		Ship kelmas = shipService.create(new Ship("kelmas"));
-		
+
 		Planet planet1 = planetService.create(new Planet(10, 10, 101, 0.9));
 		Planet planet2 = planetService.create(new Planet(5, 15, 101, 0.9));
 		// ========= end of contracted data
-		
 
 		// ship groups
 		fleet.addShipGroup(new ShipGroup(katinas, 3));
@@ -105,10 +102,14 @@ public class TestMemoryFleetsService {
 	}
 
 	@Test
-//	@Ignore
+	// @Ignore
 	public void testUpdateFleet() throws GalaktikaException {
-		// TODO test after fleet update
-		LOG.trace("tstUpdateFleet called");
+		// fleet update
+		LOG.trace("testUpdateFleet called");
+
+		// contract data
+		Ship katinas = shipService.create(new Ship("katinas"));
+		Ship suva = shipService.create(new Ship("suva"));
 
 		Nation nation = nationService.create(new Nation("vokieciai "));
 
@@ -117,17 +118,45 @@ public class TestMemoryFleetsService {
 		Fleet fleet = new Fleet("pievute");
 		fleet.setOwner(nation);
 
+		// first create fleet
 		fleet = fleetsService.saveFleet(fleet, turnNumber);
 
 		Assert.assertNotEquals(0, fleet.getFleetId());
 		LOG.trace("fleetId=" + fleet.getFleetId());
 
-		// first create fleet
 		// then load
+		fleet = fleetsService.loadFleet(fleet.getFleetId(), turnNumber);
+
 		// change it
+		fleet.addShipGroup(new ShipGroup(katinas));
+
 		// update
+		fleetsService.saveFleet(fleet, turnNumber);
+
 		// load again
+		Fleet loadedFleet = fleetsService.loadFleet(fleet.getFleetId(), turnNumber);
+
 		// test asserts
+		Assert.assertFalse(fleet == loadedFleet);
+		Assert.assertEquals(fleet, loadedFleet);
+		Assert.assertArrayEquals(fleet.getShipGroups().toArray(), loadedFleet.getShipGroups().toArray());
+
+		// TODO update ships count
+		// load
+		// and asserts again
+		
+		// multiple turns
+		int turn2 = 2;
+		fleet.addShipGroup( new ShipGroup(suva) );
+		fleetsService.saveFleet( fleet, turn2 );
+		
+		Fleet fleet2 = fleetsService.loadFleet( fleet.getFleetId(), turn2 );
+		Assert.assertEquals(2, fleet2.getShipGroups().size());
+		Assert.assertArrayEquals(fleet.getShipGroups().toArray(), fleet2.getShipGroups().toArray());
+		
+		Fleet fleet3 = fleetsService.loadFleet( fleet.getFleetId(), turnNumber );
+		Assert.assertEquals( 1, fleet3.getShipGroups().size());
+
 	}
 
 	public void testWrongContractData() {

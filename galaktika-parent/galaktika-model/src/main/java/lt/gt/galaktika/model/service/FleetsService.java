@@ -23,10 +23,10 @@ import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DNation;
 import lt.gt.galaktika.model.entity.noturn.DPlanet;
 import lt.gt.galaktika.model.entity.noturn.DShip;
-import lt.gt.galaktika.model.entity.noturn.DSpaceLocation;
 import lt.gt.galaktika.model.entity.turn.DFleetData;
 import lt.gt.galaktika.model.entity.turn.DShipGroup;
 import lt.gt.galaktika.model.exception.FleetContractException;
+import lt.gt.math.Utils;
 
 @Service
 public class FleetsService {
@@ -55,21 +55,71 @@ public class FleetsService {
 	@Autowired
 	SpaceLocationService spaceLocationService;
 
-	public class FleetContractData {
+	
+	/**
+	 * If fleetId is 0, then create new one, else update existing.
+	 * 
+	 * By contract, ships and planets should be created in database before this
+	 * method call.
+	 * 
+	 * @param fleet
+	 * @return
+	 */
 
-		// contract data
+	public Fleet saveFleet(Fleet fleet, int turnNumber) throws FleetContractException {
+
+		DFleet dFleet = mapDFleet(fleet);
+		if (fleet.getFleetId() == 0) {
+			dFleet = dao.create(dFleet);
+			fleet.setFleetId(dFleet.getFleetId());
+		} else
+			dFleet = dao.update(dFleet);
+
+		FleetContractData fcd = loadFleetContractData(fleet);
+
+		DFleetData dFleetData = dFleetDataDao.findWithGroupsAndLocations(dFleet.getFleetId(), turnNumber);
+
+		boolean found = true;
+		if (dFleetData == null) {
+			found = false;
+			dFleetData = new DFleetData(fleet.getFleetId(), turnNumber);
+		}
+
+		dFleetData = mapDFleetData(dFleetData, fleet, turnNumber, fcd);
+
+		storeGroups(dFleetData);
+		storeLocation(dFleetData);
+
+		if (found)
+			dao.update(dFleetData);
+		else
+			dao.create(dFleetData);
+
+		return fleet;
+	}
+
+	public Fleet loadFleet(long fleetId, int turnNumber) {
+		DFleet dFleet = dFleetDao.find(fleetId);
+		DFleetData dFleetData = dFleetDataDao.findWithGroupsAndLocations(fleetId, turnNumber);
+
+		LOG.trace("dFleetData=" + dFleetData);
+		return mapFleet(dFleet, dFleetData);
+	}
+
+	// ================================================================================================================
+	// ==================== inner code ================================================================================
+	// ================================================================================================================
+	
+	public class FleetContractData {
 		Map<Long, DShip> ships = new HashMap<>();
 		Map<Long, DPlanet> planets = new HashMap<>();
-
-		// noncontract data (helps to separate dao calls)
-		Map<SpaceLocation, DSpaceLocation> spaceLocations = new HashMap<>();
 
 		public void loadDPlanet(GalaxyLocation gl) throws FleetContractException {
 			if (gl != null && gl instanceof Planet) {
 				Planet p = (Planet) gl;
 				DPlanet dp = dao.find(DPlanet.class, p.getPlanetId());
 				if (dp == null)
-					throw new FleetContractException("could not load planet " + p );
+					throw new FleetContractException("could not load planet " + p);
 				planets.put(p.getPlanetId(), dp);
 			}
 		}
@@ -98,64 +148,28 @@ public class FleetsService {
 				return null;
 		}
 
-		// ==== noncontract loads
-		/**
-		 * 
-		 * @param l
-		 */
-		public void loadOrCreateDSpaceLocation(GalaxyLocation l) {
-			if (l instanceof SpaceLocation) {
-				SpaceLocation location = (SpaceLocation) l;
-				// SpaceLocation location = (SpaceLocation)
-				// fleet.getGalaxyLocation();
-				DSpaceLocation dSpaceLocation = dao.find(DSpaceLocation.class, location.getLocationId());
-				if (dSpaceLocation == null)
-					dSpaceLocation = dao.create( spaceLocationService.mapToDbObject(location));
-
-				spaceLocations.put(location, dSpaceLocation);
-			}
-		}
-
-		public DSpaceLocation findSpaceLocation(GalaxyLocation l) {
-			return spaceLocations.get(l);
-		}
-
 	}
 
-	/**
-	 * If fleetId is 0, then create new one, else update existing.
-	 * 
-	 * By contract, ships and planets should be created in database before this
-	 * method call.
-	 * 
-	 * @param fleet
-	 * @return
-	 */
-	public Fleet saveFleet(Fleet fleet, int turnNumber) throws FleetContractException {
-		DFleet dFleet = mapDFleet(fleet);
-		if (fleet.getFleetId() == 0) {
-			dFleet = dao.create(dFleet);
-			fleet.setFleetId(dFleet.getFleetId());
-		} else
-			dFleet = dao.update(dFleet);
-
-		FleetContractData fcd = loadFleetContractData(fleet);
-
-		// need to try to load fleet data with fleet id and turn number
-
-		DFleetData dFleetData = mapDFleetData(fleet, turnNumber, fcd);
-		dFleetData.getShipGroups().forEach(g -> dao.create(g));
-
-		dao.create(dFleetData);
-		LOG.trace("Fleet data stored with fleetId=" + dFleetData.getFleetId() + "  turnNumber="
-				+ dFleetData.getTurnNumber());
-		
-		// TODO update case
-
-		return fleet;
+	
+	private void storeGroups(DFleetData dFleetData) {
+		dFleetData.getShipGroups().forEach(g -> {
+			if (g.getShipGroupId() == 0)
+				dao.create(g);
+			else
+				dao.update(g);
+		});
 	}
 
-	public FleetContractData loadFleetContractData(Fleet fleet) throws FleetContractException {
+	private void storeLocation(DFleetData dFleetData) {
+		if (dFleetData.getSpaceLocation() != null) {
+			if (dFleetData.getSpaceLocation().getLocationId() == 0)
+				dFleetData.setSpaceLocation(dao.create(dFleetData.getSpaceLocation()));
+			else
+				dao.update(dFleetData.getSpaceLocation());
+		}
+	}
+
+	protected FleetContractData loadFleetContractData(Fleet fleet) throws FleetContractException {
 		FleetContractData fcd = new FleetContractData();
 		// load planets
 		fcd.loadDPlanet(fleet.getGalaxyLocation());
@@ -165,26 +179,9 @@ public class FleetsService {
 		// load ships
 		for (ShipGroup g : fleet.getShipGroups())
 			fcd.loadDShip(g.getShip());
-		
-		// non contract
-		fcd.loadOrCreateDSpaceLocation( fleet.getGalaxyLocation() );
 
 		return fcd;
 	}
-
-	public Fleet loadFleet(long fleetId, int turnNumber) {
-		DFleet dFleet = dFleetDao.find(fleetId);
-		DFleetData dFleetData = dFleetDataDao.findWithGroups(fleetId, turnNumber);
-
-		LOG.trace("dFleetData=" + dFleetData);
-		return mapFleet(dFleet, dFleetData);
-	}
-
-	// public Fleet updateFleet ( Fleet fleet ) {
-	// // TODO similar to createFleet
-	//
-	// return fleet;
-	// }
 
 	protected DFleet mapDFleet(Fleet fleet) {
 		DFleet dFleet = null;
@@ -203,23 +200,50 @@ public class FleetsService {
 		return dFleet;
 	}
 
-	protected DFleetData mapDFleetData(Fleet fleet, int turnNumber, FleetContractData fcd) {
-		DFleetData dFleetData = new DFleetData(fleet.getFleetId(), turnNumber);
+	/**
+	 * Maps DFleetData object for storing to db.
+	 * 
+	 * @param dFleetData
+	 * @param fleet
+	 * @param turnNumber
+	 * @param fcd
+	 * @return
+	 * @throws FleetContractException
+	 */
+	protected DFleetData mapDFleetData(DFleetData dFleetData, Fleet fleet, int turnNumber, FleetContractData fcd)
+			throws FleetContractException {
+		// put existing ship groups to map by shipid
+		Map<Long, DShipGroup> shipidToDShipGroup = new HashMap<>();
+		for (DShipGroup g : dFleetData.getShipGroups())
+			shipidToDShipGroup.put(g.getShip().getId(), g);
 
-		// shipGroups
-		for (ShipGroup group : fleet.getShipGroups()) {
-			DShip dship = fcd.findShip(group.getShip());
-			DShipGroup dg = new DShipGroup(dship);
-			dg.setShipsCount(group.getCount());
-			dg.setTurnNumber(turnNumber);
+		dFleetData.getShipGroups().clear();
+
+		// for each fleet ship group, find or create dFleetGroup
+		for (ShipGroup g : fleet.getShipGroups()) {
+			DShipGroup dg = shipidToDShipGroup.get(g.getShip().getId());
+			if (dg == null) {
+				LOG.trace("creating new DShipGroup");
+				DShip dShip = fcd.findShip(g.getShip());
+				if (dShip == null)
+					throw new FleetContractException("no ship with id=" + g.getShip().getId() + " found");
+				dg = new DShipGroup(dShip);
+			}
+
+			dg.setShipsCount(g.getCount());
 			dFleetData.getShipGroups().add(dg);
 		}
-		
+
 		// location
 		if (fleet.getGalaxyLocation() instanceof Planet)
-			fcd.findPlanet(fleet.getGalaxyLocation());
-		else if (fleet.getGalaxyLocation() instanceof SpaceLocation)
-			dFleetData.setSpaceLocation(fcd.findSpaceLocation( fleet.getGalaxyLocation()));
+			dFleetData.setPlanetLocation(fcd.findPlanet(fleet.getGalaxyLocation()));
+		else if (fleet.getGalaxyLocation() instanceof SpaceLocation) {
+			if (dFleetData.getSpaceLocation() == null
+					|| Utils.same(fleet.getGalaxyLocation(), dFleetData.getSpaceLocation().getX(),
+							dFleetData.getSpaceLocation().getY(), lt.gt.galaktika.utils.Utils.EPSILON))
+				dFleetData.setSpaceLocation(
+						spaceLocationService.mapToDbObject((SpaceLocation) fleet.getGalaxyLocation()));
+		}
 
 		// flightCommand
 		dFleetData.setFlightSource(fcd.findPlanet(fleet.getFlightSource()));
@@ -228,22 +252,13 @@ public class FleetsService {
 		return dFleetData;
 	}
 
-//	/**
-//	 * @deprecated the planet should be always in the db, due contract.
-//	 * @param p
-//	 * @return
-//	 */
-//	protected DPlanet loadOrMapPlanet(Planet p) {
-//		if (p == null)
-//			return null;
-//
-//		DPlanet dPlanetLocation = dao.find(DPlanet.class, p.getPlanetId());
-//		if (dPlanetLocation == null)
-//			dPlanetLocation = planetService.mapToDbObject(p);
-//
-//		return dPlanetLocation;
-//	}
-
+	/**
+	 * Maps fleet from DFleetData, after loading from db.
+	 * 
+	 * @param dFleet
+	 * @param dFleetData
+	 * @return
+	 */
 	protected Fleet mapFleet(DFleet dFleet, DFleetData dFleetData) {
 		Fleet fleet = new Fleet();
 		fleet.setName(dFleet.getName());

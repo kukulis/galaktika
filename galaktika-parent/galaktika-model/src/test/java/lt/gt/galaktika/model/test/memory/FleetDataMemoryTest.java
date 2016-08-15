@@ -98,7 +98,7 @@ public class FleetDataMemoryTest {
 
 		dao.create(apieZveris);
 
-		DFleetData loadedFleetData = dFleetDataDao.findWithGroups(zverys.getFleetId(), turn.getTurnNumber());
+		DFleetData loadedFleetData = dFleetDataDao.findWithGroupsAndLocations(zverys.getFleetId(), turn.getTurnNumber());
 
 		Assert.assertEquals(2, loadedFleetData.getShipGroups().size());
 		loadedFleetData.getShipGroups().forEach(g -> {
