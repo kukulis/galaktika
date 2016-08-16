@@ -30,6 +30,8 @@ public class DPlanetSurface {
 	@Id
 	private int turnNumber;
 
+	private String name;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "nationId", nullable = true)
 	private DNation owner;
@@ -110,4 +112,11 @@ public class DPlanetSurface {
 	public void setCommands(List<DSurfaceCommand> commands) {
 		this.commands = commands;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 }

@@ -105,4 +105,5 @@ public class MemoryBeansConfig {
 	public PlanetDataService getPlanetDataService() {
 		return new PlanetDataService();
 	}
+	
 }

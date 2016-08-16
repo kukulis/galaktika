@@ -1,6 +1,7 @@
 package lt.gt.galaktika.model.test.memory.service;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -10,13 +11,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import lt.gt.galaktika.core.Nation;
+import lt.gt.galaktika.core.exception.GalaktikaException;
+import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.PlanetOrbit;
+import lt.gt.galaktika.core.planet.PlanetSurface;
 import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DPlanet;
 import lt.gt.galaktika.model.entity.turn.DFleetData;
 import lt.gt.galaktika.model.entity.turn.DTurn;
+import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetDataService;
+import lt.gt.galaktika.model.service.PlanetService;
 import lt.gt.galaktika.model.test.memory.MemoryBeansConfig;
 import lt.gt.galaktika.model.test.memory.MemoryTestConfig;
 
@@ -32,7 +39,14 @@ public class TestMemoryPlanetDataService {
 	@Autowired
 	private PlanetDataService planetDataService;
 	
+	@Autowired
+	private PlanetService planetService;
+	
+	@Autowired
+	private NationService nationService;
+	
 	@Test
+	@Ignore
 	public void testOrbit () {
 		LOG.trace( "testOrbit called" );
 //		planetDataService.loadPlanetOrbit( , turnNumber)
@@ -59,5 +73,20 @@ public class TestMemoryPlanetDataService {
 		Assert.assertEquals( 2,  planetOrbit.getFleets().size() );
 		planetOrbit.getFleets().forEach( f -> LOG.trace( f.toString() ) );
 
+	}
+	
+	@Test
+	public void testSurface () throws GalaktikaException {
+		LOG.trace( "testSurface called" );
+		
+		Nation nation = nationService.create( new Nation ("pacukai"));
+		
+		Planet planet = new Planet();
+		planet = planetService.create( planet );
+		Assert.assertNotEquals( 0, planet.getPlanetId());
+
+		PlanetSurface surface = new PlanetSurface();
+		surface.setNation( nation );
+		planetDataService.storePlanetSurface( surface, planet, 1 );
 	}
 }
