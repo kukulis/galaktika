@@ -11,13 +11,14 @@ import org.springframework.stereotype.Service;
 import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.PlanetOrbit;
 import lt.gt.galaktika.core.planet.PlanetSurface;
+import lt.gt.galaktika.core.planet.SurfaceCommand;
 import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.dao.IFleetDataDao;
 import lt.gt.galaktika.model.dao.IPlanetSurfaceDao;
 import lt.gt.galaktika.model.entity.noturn.DNation;
-import lt.gt.galaktika.model.entity.noturn.DPlanet;
 import lt.gt.galaktika.model.entity.turn.DFleetData;
 import lt.gt.galaktika.model.entity.turn.DPlanetSurface;
+import lt.gt.galaktika.model.entity.turn.DSurfaceCommand;
 import lt.gt.galaktika.model.exception.PlanetSurfaceContractException;
 
 @Service
@@ -74,6 +75,9 @@ public class PlanetDataService {
 		dPlanetSurface.setCapital( surface.getCapital());
 
 		// then store with references to SurfaceCommand TODO
+		;
+		// TODO map to DSurfaceCommand
+		DSurfaceCommand dSurfaceCommand = mapDSurfaceCommand( surface.getSurfaceCommand() );
 		
 		// then store with references to ShipFactory TODO
 		
@@ -90,7 +94,11 @@ public class PlanetDataService {
 			throw new PlanetSurfaceContractException(
 					"could not load dNation with id=" + surface.getNation().getNationId());
 		dSurface.setOwner(dNation);
-
+	}
+	
+	public DSurfaceCommand mapDSurfaceCommand ( SurfaceCommand surfaceCommand ) {
+//		TODO
+		return new DSurfaceCommand();
 	}
 
 }
