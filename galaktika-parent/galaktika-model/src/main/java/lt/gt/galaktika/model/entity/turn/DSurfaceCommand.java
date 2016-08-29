@@ -49,10 +49,10 @@ public class DSurfaceCommand {
 	@JoinColumn(name = "technologiesId")
 	private DTechnologies technologies;
 	
-	private double donePart;
+//	private double donePart; // TODO move to shipFactory
+	private int maxShips;
 	
 	public DSurfaceCommand() {
-		super();
 	}
 
 	public long getSufraceCommandId() {
@@ -95,13 +95,13 @@ public class DSurfaceCommand {
 		this.technologies = technologies;
 	}
 
-	public double getDonePart() {
-		return donePart;
-	}
-
-	public void setDonePart(double donePart) {
-		this.donePart = donePart;
-	}
+//	public double getDonePart() {
+//		return donePart;
+//	}
+//
+//	public void setDonePart(double donePart) {
+//		this.donePart = donePart;
+//	}
 
 	public Long getPlanetId() {
 		return planetId;
@@ -118,12 +118,20 @@ public class DSurfaceCommand {
 	public void setTurnNumber(Integer turnNumber) {
 		this.turnNumber = turnNumber;
 	}
+	
+	public int getMaxShips() {
+		return maxShips;
+	}
+
+	public void setMaxShips(int maxShips) {
+		this.maxShips = maxShips;
+	}
 
 	@Override
 	public String toString() {
 		return "DSurfaceCommand [sufraceCommandId=" + sufraceCommandId + ", planetId=" + planetId + ", turnNumber="
 				+ turnNumber + ", activity=" + activity + ", technologyToUpgrade=" + technologyToUpgrade + ", design="
-				+ design + ", technologies=" + technologies + ", donePart=" + donePart + "]";
+				+ design + ", technologies=" + technologies + ", maxShips=" + maxShips + "]";
 	}
-	
+
 }

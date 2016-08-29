@@ -47,7 +47,6 @@ public class TestMemoryDSurfaceCommand {
 		DSurfaceCommand productionCommand = new DSurfaceCommand();
 		productionCommand.setDesign(katino);
 		productionCommand.setTechnologies(t1);
-		productionCommand.setDonePart(0.1);
 
 		dao.create(industryCommand);
 		dao.create(technologiesCommand);
@@ -65,7 +64,6 @@ public class TestMemoryDSurfaceCommand {
 		Assert.assertEquals(productionCommand.getActivity(), commands.get(2).getActivity());
 		Assert.assertEquals(productionCommand.getDesign(), commands.get(2).getDesign());
 		Assert.assertEquals(productionCommand.getTechnologies(), commands.get(2).getTechnologies());
-		Assert.assertTrue(Utils.same(productionCommand.getDonePart(), commands.get(2).getDonePart(), 0.000001));
 
 	}
 

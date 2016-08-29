@@ -104,7 +104,6 @@ public class MemoryTestDPlanetSurface {
 		DSurfaceCommand command = new DSurfaceCommand();
 		command.setActivity(SurfaceActivities.PRODUCTION);
 		command.setDesign(design);
-		command.setDonePart(0.1);
 		return dao.create(command);
 	}
 

@@ -15,6 +15,7 @@ public class SurfaceCommandProduction implements SurfaceCommand
 	private ShipDesign shipDesign;
 	private Technologies technologies;
 	private int maxShips=1; 
+//	private double donePart;
 	
 	@Override
 	public SurfaceActivities getActivityType ()
@@ -61,4 +62,12 @@ public class SurfaceCommandProduction implements SurfaceCommand
 	{
 		this.maxShips = maxShips;
 	}
+
+//	public double getDonePart() {
+//		return donePart;
+//	}
+//
+//	public void setDonePart(double donePart) {
+//		this.donePart = donePart;
+//	}
 }

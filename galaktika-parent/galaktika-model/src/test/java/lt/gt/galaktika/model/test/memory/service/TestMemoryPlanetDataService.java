@@ -87,6 +87,14 @@ public class TestMemoryPlanetDataService {
 
 		PlanetSurface surface = new PlanetSurface();
 		surface.setNation( nation );
+		// TODO commands 
+		// TODO factories
 		planetDataService.storePlanetSurface( surface, planet, 1 );
+		
+		
+		
+		// TODO loads and asserts
+		
+		// TODO updates, then loads and asserts
 	}
 }

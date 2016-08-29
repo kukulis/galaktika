@@ -3,6 +3,11 @@ package lt.gt.galaktika.core.planet;
 import lt.gt.galaktika.core.Ship;
 import lt.gt.galaktika.core.Technologies;
 
+/**
+ * This is business logic factory.
+ * @author Giedrius Tumelis
+ *
+ */
 public class ShipFactory
 {
 	private Ship ship;

@@ -118,5 +118,12 @@ public class DPlanetSurface {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public String toString() {
+		return "DPlanetSurface [planetId=" + planetId + ", turnNumber=" + turnNumber + ", name=" + name + ", owner="
+				+ owner + ", population=" + population + ", industry=" + industry + ", capital=" + capital
+				+ ", commands=" + commands + ", shipFactories=" + shipFactories + "]";
+	}
 	
 }
