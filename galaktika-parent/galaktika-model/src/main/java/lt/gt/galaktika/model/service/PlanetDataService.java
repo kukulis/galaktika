@@ -80,10 +80,12 @@ public class PlanetDataService {
 		dPlanetSurface.setIndustry(surface.getIndustry());
 		dPlanetSurface.setCapital(surface.getCapital());
 		dPlanetSurface.setOwner(pContract.getNation());
+		
+		dPlanetSurface = dao.create(dPlanetSurface);
 
 		if (surface.getSurfaceCommand() != null) {
-			DSurfaceCommand dCommand = mapSurfaceCommand(surface.getSurfaceCommand(), planet.getPlanetId(), turnNumber,
-					pContract);
+			DSurfaceCommand dCommand = dao.create(mapSurfaceCommand(surface.getSurfaceCommand(), planet.getPlanetId(), turnNumber,
+					pContract));
 			if (dPlanetSurface.getCommands().size() == 0)
 				dPlanetSurface.getCommands().add(dCommand);
 			else
@@ -91,14 +93,15 @@ public class PlanetDataService {
 		}
 
 		if (surface.getShipFactory() != null) {
-			DShipFactory dFactory = mapFactory(surface.getShipFactory(), pContract);
+			DShipFactory dFactory = dao.create(mapFactory(surface.getShipFactory(), pContract));
+			
 			if (dPlanetSurface.getShipFactories().size() == 0)
 				dPlanetSurface.getShipFactories().add(dFactory);
 			else
 				dPlanetSurface.getShipFactories().set(0, dFactory);
 		}
 
-		dao.create(dPlanetSurface);
+		
 
 		// TODO the update variant
 
@@ -135,6 +138,30 @@ public class PlanetDataService {
 		return dFactory;
 	}
 
+	public PlanetSurface loadPlanetSurface ( long planetId, int turnNumber ) {
+		PlanetSurface surface = new PlanetSurface();
+		// TODO
+		// A) load DPlanetSurface
+		// B) map to PlanetSurface
+		// C) map other related fiels
+		
+		DPlanetSurface dPS = dPlanetSurfaceDao.find(planetId, turnNumber);
+		
+		surface.setName( dPS.getName() );
+		surface.setPopulation ( dPS.getPopulation() );
+		surface.setIndustry( dPS.getIndustry() );
+		surface.setCapital( dPS.getCapital() );
+		
+		// TODO other fields
+		
+		return surface;
+	}
+	
+	/**
+	 * 
+	 * @author Giedrius Tumelis
+	 *
+	 */
 	private class PlanetContractData {
 		private DNation nation;
 		private DShipDesign design;

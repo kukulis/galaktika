@@ -23,6 +23,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.hibernate.Session;
+import org.hibernate.jdbc.Work;
 import org.springframework.stereotype.Repository;
 
 import lt.gt.galaktika.model.dao.IDAO;
@@ -67,5 +69,10 @@ public class DAO implements IDAO{
             query.setFirstResult(min);
         }
         return query;
+    }
+    
+    public void work (Work w) {
+    	Session session = em.unwrap(Session.class);
+    	session.doWork(w);
     }
 }

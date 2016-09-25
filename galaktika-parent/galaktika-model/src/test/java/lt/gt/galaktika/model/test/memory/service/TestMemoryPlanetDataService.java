@@ -16,6 +16,10 @@ import lt.gt.galaktika.core.exception.GalaktikaException;
 import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.PlanetOrbit;
 import lt.gt.galaktika.core.planet.PlanetSurface;
+import lt.gt.galaktika.core.planet.ShipFactory;
+import lt.gt.galaktika.core.planet.SurfaceActivities;
+import lt.gt.galaktika.core.planet.SurfaceCommand;
+import lt.gt.galaktika.core.planet.SurfaceCommandIndustry;
 import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DPlanet;
@@ -88,12 +92,15 @@ public class TestMemoryPlanetDataService {
 		PlanetSurface surface = new PlanetSurface();
 		surface.setNation( nation );
 		// TODO commands 
+		surface.setSurfaceCommand(new SurfaceCommandIndustry());
 		// TODO factories
+		surface.setShipFactory(new ShipFactory());
 		planetDataService.storePlanetSurface( surface, planet, 1 );
 		
-		
-		
 		// TODO loads and asserts
+		PlanetSurface lSurface = planetDataService.loadPlanetSurface ( planet.getPlanetId(), 1 );
+		// TODO asserts
+		Assert.assertEquals( surface, lSurface );
 		
 		// TODO updates, then loads and asserts
 	}
