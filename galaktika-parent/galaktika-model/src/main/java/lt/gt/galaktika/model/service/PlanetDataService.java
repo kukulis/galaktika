@@ -12,6 +12,7 @@ import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.PlanetOrbit;
 import lt.gt.galaktika.core.planet.PlanetSurface;
 import lt.gt.galaktika.core.planet.ShipFactory;
+import lt.gt.galaktika.core.planet.SurfaceActivities;
 import lt.gt.galaktika.core.planet.SurfaceCommand;
 import lt.gt.galaktika.core.planet.SurfaceCommandIndustry;
 import lt.gt.galaktika.core.planet.SurfaceCommandProduction;
@@ -48,6 +49,15 @@ public class PlanetDataService {
 
 	@Autowired
 	NationService nationService;
+	
+	@Autowired
+	ShipService shipService;
+	
+	@Autowired
+	ShipDesignService shipDesignService;
+	
+	@Autowired
+	TechnologiesService technologiesService;
 
 	public PlanetOrbit loadPlanetOrbit(long planetId, int turnNumber, boolean withGroups) {
 		List<DFleetData> fleetDatas = dFleetDataDao.findInOrbit(planetId, turnNumber, withGroups);
@@ -84,7 +94,7 @@ public class PlanetDataService {
 		dPlanetSurface = dao.create(dPlanetSurface);
 
 		if (surface.getSurfaceCommand() != null) {
-			DSurfaceCommand dCommand = dao.create(mapSurfaceCommand(surface.getSurfaceCommand(), planet.getPlanetId(), turnNumber,
+			DSurfaceCommand dCommand = dao.create(mapDSurfaceCommand(surface.getSurfaceCommand(), planet.getPlanetId(), turnNumber,
 					pContract));
 			if (dPlanetSurface.getCommands().size() == 0)
 				dPlanetSurface.getCommands().add(dCommand);
@@ -95,7 +105,7 @@ public class PlanetDataService {
 		}
 
 		if (surface.getShipFactory() != null) {
-			DShipFactory dFactory = dao.create(mapFactory(surface.getShipFactory(), pContract));
+			DShipFactory dFactory = dao.create(mapDFactory(surface.getShipFactory(), pContract));
 			
 			if (dPlanetSurface.getShipFactories().size() == 0)
 				dPlanetSurface.getShipFactories().add(dFactory);
@@ -104,6 +114,8 @@ public class PlanetDataService {
 				dPlanetSurface.getShipFactories().add( dFactory);
 			}
 		}
+		
+		dao.update( dPlanetSurface );
 
 		
 
@@ -111,7 +123,7 @@ public class PlanetDataService {
 
 	}
 
-	public DSurfaceCommand mapSurfaceCommand(SurfaceCommand surfaceCommand, long planetId, int turnNumber,
+	public DSurfaceCommand mapDSurfaceCommand(SurfaceCommand surfaceCommand, long planetId, int turnNumber,
 			PlanetContractData pContract) {
 		DSurfaceCommand dCommand = new DSurfaceCommand();
 		dCommand.setPlanetId(planetId);
@@ -132,8 +144,31 @@ public class PlanetDataService {
 
 		return dCommand;
 	}
+	
+	public SurfaceCommand mapSurfaceCommand ( DSurfaceCommand dCommand ) {
+		if( SurfaceActivities.INDUSTRY.equals( dCommand.getActivity() )) {
+			SurfaceCommandIndustry command = new SurfaceCommandIndustry();
+			return command;
+		}
+		else if (SurfaceActivities.PRODUCTION.equals( dCommand.getActivity() )) {
+			SurfaceCommandProduction command = new SurfaceCommandProduction();
+			command.setMaxShips( dCommand.getMaxShips());
+			command.setShipDesign( shipDesignService.mapToCoreObject(dCommand.getDesign()) );
+			command.setTechnologies( technologiesService.mapToCoreObject( dCommand.getTechnologies()));
+			return command;
+		}
+		else if (SurfaceActivities.TECHNOLOGIES.equals( dCommand.getActivity() )) {
+			SurfaceCommandTechnologies command = new SurfaceCommandTechnologies();
+			command.setTechnologyToUpgrade( dCommand.getTechnologyToUpgrade() );
+			return command;
+		}
+		else {
+			return null;
+		}
+		
+	}
 
-	public DShipFactory mapFactory(ShipFactory factory, PlanetContractData pcd) {
+	public DShipFactory mapDFactory(ShipFactory factory, PlanetContractData pcd) {
 		DShipFactory dFactory = new DShipFactory();
 		dFactory.setDonePart(factory.getDonePart());
 		dFactory.setDesign(pcd.getfDesign());
@@ -141,22 +176,33 @@ public class PlanetDataService {
 		dFactory.setShip(pcd.getfShip());
 		return dFactory;
 	}
+	
+	public ShipFactory mapFactory ( DShipFactory dFactory ) {
+		ShipFactory factory = new ShipFactory();
+		factory.setDonePart( dFactory.getDonePart());
+		factory.setShip( shipService.mapToCoreObject( dFactory.getShip() ) );
+		factory.setShipDesign( shipDesignService.mapToCoreObject( dFactory.getDesign() ) );
+		factory.setTechnologies(  technologiesService.mapToCoreObject(dFactory.getTechnologies() ) );
+		return factory;
+	}
 
 	public PlanetSurface loadPlanetSurface ( long planetId, int turnNumber ) {
-		PlanetSurface surface = new PlanetSurface();
-		// TODO
-		// A) load DPlanetSurface
-		// B) map to PlanetSurface
-		// C) map other related fiels
-		
 		DPlanetSurface dPS = dPlanetSurfaceDao.find(planetId, turnNumber);
 		
+		PlanetSurface surface = new PlanetSurface();
 		surface.setName( dPS.getName() );
 		surface.setPopulation ( dPS.getPopulation() );
 		surface.setIndustry( dPS.getIndustry() );
 		surface.setCapital( dPS.getCapital() );
+		surface.setNation( nationService.mapToCoreObject(dPS.getOwner() ));
+
+		LOG.trace( "factories amount = "+ dPS.getShipFactories().size() );
+		if ( dPS.getShipFactories().size() > 0 )
+			surface.setShipFactory( mapFactory( (DShipFactory) dPS.getShipFactories().toArray()[0] ));
 		
-		// TODO other fields
+		LOG.trace( "commands amount = "+ dPS.getCommands().size() );
+		if ( dPS.getCommands().size() > 0 )
+			surface.setSurfaceCommand( mapSurfaceCommand( (DSurfaceCommand) dPS.getCommands().toArray()[0] ) );
 		
 		return surface;
 	}

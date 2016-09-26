@@ -91,5 +91,50 @@ public class ShipDesign
 				+ ", guns=" + guns + ", defenceMass=" + defenceMass + ", cargoMass=" + cargoMass + ", engineMass="
 				+ engineMass + "]";
 	}
-	
+//	@Override
+//	public int hashCode() {
+//		final int prime = 31;
+//		int result = 1;
+//		long temp;
+//		temp = Double.doubleToLongBits(attackMass);
+//		result = prime * result + (int) (temp ^ (temp >>> 32));
+//		temp = Double.doubleToLongBits(cargoMass);
+//		result = prime * result + (int) (temp ^ (temp >>> 32));
+//		temp = Double.doubleToLongBits(defenceMass);
+//		result = prime * result + (int) (temp ^ (temp >>> 32));
+//		result = prime * result + (int) (designId ^ (designId >>> 32));
+//		result = prime * result + ((designName == null) ? 0 : designName.hashCode());
+//		temp = Double.doubleToLongBits(engineMass);
+//		result = prime * result + (int) (temp ^ (temp >>> 32));
+//		result = prime * result + guns;
+//		return result;
+//	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ShipDesign other = (ShipDesign) obj;
+		if (Double.doubleToLongBits(attackMass) != Double.doubleToLongBits(other.attackMass))
+			return false;
+		if (Double.doubleToLongBits(cargoMass) != Double.doubleToLongBits(other.cargoMass))
+			return false;
+		if (Double.doubleToLongBits(defenceMass) != Double.doubleToLongBits(other.defenceMass))
+			return false;
+		if (designId != other.designId)
+			return false;
+		if (designName == null) {
+			if (other.designName != null)
+				return false;
+		} else if (!designName.equals(other.designName))
+			return false;
+		if (Double.doubleToLongBits(engineMass) != Double.doubleToLongBits(other.engineMass))
+			return false;
+		if (guns != other.guns)
+			return false;
+		return true;
+	}
 }

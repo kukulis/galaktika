@@ -32,9 +32,14 @@
 	<logger name="lt.gt.galaktika.model.test" level="TRACE" additivity="false">
             <appender-ref ref="STDOUT" />
 	</logger>
-
+	
 	<logger name="lt.gt.galaktika.model.service.FleetsService" level="TRACE" additivity="false">
             <appender-ref ref="STDOUT" />
 	</logger>
+	
+	<logger name="lt.gt.galaktika.model.service.PlanetDataService" level="TRACE" additivity="false">
+            <appender-ref ref="STDOUT" />
+	</logger>
+	
 	
 </configuration>

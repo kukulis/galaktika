@@ -18,6 +18,8 @@ import lt.gt.galaktika.core.planet.PlanetOrbit;
 import lt.gt.galaktika.core.planet.PlanetSurface;
 import lt.gt.galaktika.core.planet.ShipFactory;
 import lt.gt.galaktika.core.planet.SurfaceCommandIndustry;
+import lt.gt.galaktika.core.planet.SurfaceCommandProduction;
+import lt.gt.galaktika.core.planet.SurfaceCommandTechnologies;
 import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DPlanet;
@@ -28,6 +30,7 @@ import lt.gt.galaktika.model.service.PlanetDataService;
 import lt.gt.galaktika.model.service.PlanetService;
 import lt.gt.galaktika.model.test.memory.MemoryBeansConfig;
 import lt.gt.galaktika.model.test.memory.MemoryTestConfig;
+import lt.gt.galaktika.utils.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { MemoryTestConfig.class, MemoryBeansConfig.class })
@@ -48,7 +51,7 @@ public class TestMemoryPlanetDataService {
 	private NationService nationService;
 	
 	@Test
-	@Ignore
+//	@Ignore
 	public void testOrbit () {
 		LOG.trace( "testOrbit called" );
 //		planetDataService.loadPlanetOrbit( , turnNumber)
@@ -88,20 +91,86 @@ public class TestMemoryPlanetDataService {
 		Assert.assertNotEquals( 0, planet.getPlanetId());
 
 		PlanetSurface surface = new PlanetSurface();
+		surface.setCapital( 100 );
+		surface.setIndustry( 120 );
+		surface.setPopulation( 99 );
+		surface.setName( "grybuva" );
 		surface.setNation( nation );
-		// TODO commands 
-		surface.setSurfaceCommand(new SurfaceCommandIndustry());
-		// TODO factories
-		surface.setShipFactory(new ShipFactory());
+		surface.setSurfaceCommand(new SurfaceCommandIndustry()); // TODO fill command fields ( and other commands ) for testing
+		surface.setShipFactory(new ShipFactory()); // TODO fill factory fields for testing
 		planetDataService.storePlanetSurface( surface, planet, 1 );
 		
-		// TODO loads and asserts
 		PlanetSurface lSurface = planetDataService.loadPlanetSurface ( planet.getPlanetId(), 1 );
-		// TODO asserts
-		// cant compare these objects
-//		Assert.assertEquals( surface, lSurface );
-		// assert compare separate fields of the surface
+		Assert.assertEquals( surface.getCapital(), lSurface.getCapital(), Utils.EPSILON );
+		Assert.assertEquals(surface.getIndustry(), lSurface.getIndustry(), Utils.EPSILON );
+		Assert.assertEquals( surface.getPopulation(), lSurface.getPopulation(), Utils.EPSILON );
+		Assert.assertEquals( surface.getName(), lSurface.getName() );
+
+		Assert.assertEquals( surface.getNation(), lSurface.getNation() );
+		Assert.assertEquals( surface.getShipFactory(), lSurface.getShipFactory() );
+		Assert.assertEquals( surface.getSurfaceCommand(), lSurface.getSurfaceCommand() );
 		
-		// TODO updates, then loads and asserts
+	}
+	@Test
+	public void testSurface2 () throws GalaktikaException {
+		LOG.trace( "testSurface called" );
+		
+		Nation nation = nationService.create( new Nation ("pacukai"));
+		
+		Planet planet = new Planet();
+		planet = planetService.create( planet );
+		Assert.assertNotEquals( 0, planet.getPlanetId());
+
+		PlanetSurface surface = new PlanetSurface();
+		surface.setCapital( 100 );
+		surface.setIndustry( 120 );
+		surface.setPopulation( 99 );
+		surface.setName( "grybuva" );
+		surface.setNation( nation );
+		surface.setSurfaceCommand(new SurfaceCommandTechnologies()); // TODO fill command fields for testing
+		surface.setShipFactory(new ShipFactory()); // TODO fill factory fields for testing
+		planetDataService.storePlanetSurface( surface, planet, 1 );
+		
+		PlanetSurface lSurface = planetDataService.loadPlanetSurface ( planet.getPlanetId(), 1 );
+		Assert.assertEquals( surface.getCapital(), lSurface.getCapital(), Utils.EPSILON );
+		Assert.assertEquals(surface.getIndustry(), lSurface.getIndustry(), Utils.EPSILON );
+		Assert.assertEquals( surface.getPopulation(), lSurface.getPopulation(), Utils.EPSILON );
+		Assert.assertEquals( surface.getName(), lSurface.getName() );
+
+		Assert.assertEquals( surface.getNation(), lSurface.getNation() );
+		Assert.assertEquals( surface.getShipFactory(), lSurface.getShipFactory() );
+		Assert.assertEquals( surface.getSurfaceCommand(), lSurface.getSurfaceCommand() );
+		
+	}
+	@Test
+	public void testSurface3 () throws GalaktikaException {
+		LOG.trace( "testSurface called" );
+		
+		Nation nation = nationService.create( new Nation ("pacukai"));
+		
+		Planet planet = new Planet();
+		planet = planetService.create( planet );
+		Assert.assertNotEquals( 0, planet.getPlanetId());
+
+		PlanetSurface surface = new PlanetSurface();
+		surface.setCapital( 100 );
+		surface.setIndustry( 120 );
+		surface.setPopulation( 99 );
+		surface.setName( "grybuva" );
+		surface.setNation( nation );
+		surface.setSurfaceCommand(new SurfaceCommandProduction()); // TODO fill command fields for testing
+		surface.setShipFactory(new ShipFactory()); // TODO fill factory fields for testing
+		planetDataService.storePlanetSurface( surface, planet, 1 );
+		
+		PlanetSurface lSurface = planetDataService.loadPlanetSurface ( planet.getPlanetId(), 1 );
+		Assert.assertEquals( surface.getCapital(), lSurface.getCapital(), Utils.EPSILON );
+		Assert.assertEquals(surface.getIndustry(), lSurface.getIndustry(), Utils.EPSILON );
+		Assert.assertEquals( surface.getPopulation(), lSurface.getPopulation(), Utils.EPSILON );
+		Assert.assertEquals( surface.getName(), lSurface.getName() );
+
+		Assert.assertEquals( surface.getNation(), lSurface.getNation() );
+		Assert.assertEquals( surface.getShipFactory(), lSurface.getShipFactory() );
+		Assert.assertEquals( surface.getSurfaceCommand(), lSurface.getSurfaceCommand() );
+		
 	}
 }

@@ -9,4 +9,8 @@ public class SurfaceCommandIndustry implements SurfaceCommand
 		return SurfaceActivities.INDUSTRY;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return  obj instanceof SurfaceCommandIndustry;
+	}
 }

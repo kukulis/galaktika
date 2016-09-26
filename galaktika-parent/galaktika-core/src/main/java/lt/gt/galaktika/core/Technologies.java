@@ -83,4 +83,46 @@ public class Technologies implements Serializable
 		return "Technologies [technologiesId=" + technologiesId + ", attack=" + attack + ", defence=" + defence
 				+ ", cargo=" + cargo + ", engines=" + engines + "]";
 	}
+
+//	@Override
+//	public int hashCode() {
+//		final int prime = 31;
+//		int result = 1;
+//		long temp;
+//		temp = Double.doubleToLongBits(attack);
+//		result = prime * result + (int) (temp ^ (temp >>> 32));
+//		temp = Double.doubleToLongBits(cargo);
+//		result = prime * result + (int) (temp ^ (temp >>> 32));
+//		temp = Double.doubleToLongBits(defence);
+//		result = prime * result + (int) (temp ^ (temp >>> 32));
+//		temp = Double.doubleToLongBits(engines);
+//		result = prime * result + (int) (temp ^ (temp >>> 32));
+//		result = prime * result + (int) (technologiesId ^ (technologiesId >>> 32));
+//		return result;
+//	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Technologies other = (Technologies) obj;
+		if (Double.doubleToLongBits(attack) != Double.doubleToLongBits(other.attack))
+			return false;
+		if (Double.doubleToLongBits(cargo) != Double.doubleToLongBits(other.cargo))
+			return false;
+		if (Double.doubleToLongBits(defence) != Double.doubleToLongBits(other.defence))
+			return false;
+		if (Double.doubleToLongBits(engines) != Double.doubleToLongBits(other.engines))
+			return false;
+		if (technologiesId != other.technologiesId)
+			return false;
+		return true;
+	}
+	
+	
+	
 }
