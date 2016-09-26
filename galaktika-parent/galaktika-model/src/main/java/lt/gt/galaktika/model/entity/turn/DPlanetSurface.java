@@ -1,7 +1,7 @@
 package lt.gt.galaktika.model.entity.turn;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,8 +12,6 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.IndexColumn;
 
 import lt.gt.galaktika.model.entity.noturn.DNation;
 
@@ -45,16 +43,16 @@ public class DPlanetSurface {
 	 */
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumns({@JoinColumn(name = "planetId"),@JoinColumn(name = "turnNumber")})
-	@IndexColumn(name="INDEX_COMMAND") // this is used to avoid multiple bags exception
-	private List<DSurfaceCommand> commands = new ArrayList<>();
+//	@IndexColumn(name="INDEX_COMMAND") // this is used to avoid multiple bags exception
+	private Set<DSurfaceCommand> commands = new HashSet<DSurfaceCommand>();
 	
 	/**
 	 * It is supposed to have 1 or 0 elements
 	 */
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumns({@JoinColumn(name = "planetId"),@JoinColumn(name = "turnNumber")})
-	@IndexColumn(name="INDEX_SHIP_FACT") // this is used to avoid multiple bags exception
-	private List<DShipFactory> shipFactories = new ArrayList<>();
+//	@IndexColumn(name="INDEX_SHIP_FACT") // this is used to avoid multiple bags exception
+	private Set<DShipFactory> shipFactories = new HashSet<>();
 	
 	public DPlanetSurface() {
 	}
@@ -100,16 +98,16 @@ public class DPlanetSurface {
 	public void setCapital(double capital) {
 		this.capital = capital;
 	}
-	public List<DShipFactory> getShipFactories() {
+	public Set<DShipFactory> getShipFactories() {
 		return shipFactories;
 	}
-	public void setShipFactories(List<DShipFactory> shipFactories) {
+	public void setShipFactories(Set<DShipFactory> shipFactories) {
 		this.shipFactories = shipFactories;
 	}
-	public List<DSurfaceCommand> getCommands() {
+	public Set<DSurfaceCommand> getCommands() {
 		return commands;
 	}
-	public void setCommands(List<DSurfaceCommand> commands) {
+	public void setCommands(Set<DSurfaceCommand> commands) {
 		this.commands = commands;
 	}
 	public String getName() {

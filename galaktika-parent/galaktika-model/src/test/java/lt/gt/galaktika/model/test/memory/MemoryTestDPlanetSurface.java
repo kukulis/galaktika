@@ -87,10 +87,10 @@ public class MemoryTestDPlanetSurface extends MemoryTestBase {
 
 		// assert planetId and turnId for factory and for command before adding
 		// to surface
-		Assert.assertEquals(new Long(planet.getPlanetId()), loadedSurface.getShipFactories().get(0).getPlanetId());
-		Assert.assertEquals(new Integer(turn.getTurnNumber()), loadedSurface.getShipFactories().get(0).getTurnNumber());
-		Assert.assertEquals(new Long(planet.getPlanetId()), loadedSurface.getCommands().get(0).getPlanetId());
-		Assert.assertEquals(new Integer(turn.getTurnNumber()), loadedSurface.getCommands().get(0).getTurnNumber());
+		Assert.assertEquals(new Long(planet.getPlanetId()), ((DShipFactory)loadedSurface.getShipFactories().toArray()[0]).getPlanetId());
+		Assert.assertEquals(new Integer(turn.getTurnNumber()), ((DShipFactory) loadedSurface.getShipFactories().toArray()[0]).getTurnNumber());
+		Assert.assertEquals(new Long(planet.getPlanetId()), ((DSurfaceCommand) loadedSurface.getCommands().toArray()[0]).getPlanetId());
+		Assert.assertEquals(new Integer(turn.getTurnNumber()), ((DSurfaceCommand)loadedSurface.getCommands().toArray()[0]).getTurnNumber());
 
 	}
 

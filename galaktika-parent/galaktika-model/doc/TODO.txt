@@ -1,0 +1,1 @@
+TODO Hibernate indexes. How it affects multiple bag exceptions. How it is different after using sets.

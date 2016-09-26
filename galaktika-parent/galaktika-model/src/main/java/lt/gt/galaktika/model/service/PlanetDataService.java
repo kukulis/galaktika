@@ -88,8 +88,10 @@ public class PlanetDataService {
 					pContract));
 			if (dPlanetSurface.getCommands().size() == 0)
 				dPlanetSurface.getCommands().add(dCommand);
-			else
-				dPlanetSurface.getCommands().set(0, dCommand);
+			else {
+				dPlanetSurface.getCommands().clear();
+				dPlanetSurface.getCommands().add( dCommand);
+			}
 		}
 
 		if (surface.getShipFactory() != null) {
@@ -97,8 +99,10 @@ public class PlanetDataService {
 			
 			if (dPlanetSurface.getShipFactories().size() == 0)
 				dPlanetSurface.getShipFactories().add(dFactory);
-			else
-				dPlanetSurface.getShipFactories().set(0, dFactory);
+			else {
+				dPlanetSurface.getShipFactories().clear();
+				dPlanetSurface.getShipFactories().add( dFactory);
+			}
 		}
 
 		
