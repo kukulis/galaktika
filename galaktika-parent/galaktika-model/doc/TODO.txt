@@ -1,1 +1,3 @@
-TODO Hibernate indexes. How it affects multiple bag exceptions. How it is different after using sets.
+Hibernate indexes. How it affects multiple bag exceptions. How it is different after using sets. (OK) solved with sets.
+
+* TestMemoryPlanetDataService must pass (TODO)
