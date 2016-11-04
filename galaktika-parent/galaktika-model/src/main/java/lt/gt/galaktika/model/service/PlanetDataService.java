@@ -79,6 +79,7 @@ public class PlanetDataService {
 	 * @param surface
 	 * @param planet
 	 * @param turnNumber
+	 * @deprecated implementing in different way with storePlanetSurface2
 	 */
 	public void storePlanetSurface(PlanetSurface surface, Planet planet, int turnNumber)
 			throws PlanetSurfaceContractException {
@@ -122,7 +123,86 @@ public class PlanetDataService {
 		// TODO the update variant
 
 	}
+	
+	public void storePlanetSurface2 (PlanetSurface planetSurface, Planet planet, int turnNumber ) {
+		// TODO
+		DPlanetSurface dPlanetSurface = mapToDPlanetSurface2( planetSurface, planet,turnNumber );
+		upfillDPlanetSurface( dPlanetSurface );
+		fullSaveDPlanetSurface ( dPlanetSurface );
+	}
+	
+	
+	/**
+	 * Maps to DPlanetSurface *without* accessing outside resources.
+	 * 
+	 * @param surface
+	 * @param planet
+	 * @param turnNumber
+	 * @return
+	 */
+	public DPlanetSurface mapToDPlanetSurface2 (PlanetSurface planetSurface, Planet planet, int turnNumber) {
+//		DPlanetSurface dPlanetSurface = new DPlanetSurface();
+		
+		DPlanetSurface dPlanetSurface = new DPlanetSurface(planet.getPlanetId(), turnNumber);
+//		PlanetContractData pContract = new PlanetContractData();
+//		pContract.loadContractData(planetSurface);
+		dPlanetSurface.setName(planetSurface.getName());
+		dPlanetSurface.setPopulation(planetSurface.getPopulation());
+		dPlanetSurface.setIndustry(planetSurface.getIndustry());
+		dPlanetSurface.setCapital(planetSurface.getCapital());
+		dPlanetSurface.setOwner(nationService.mapToDbObject( planetSurface.getNation()));
+		
+		if (planetSurface.getSurfaceCommand() != null) {
+			DSurfaceCommand dCommand = mapDSurfaceCommand2(planetSurface.getSurfaceCommand(), planet.getPlanetId(), turnNumber );
+			if (dPlanetSurface.getCommands().size() == 0)
+				dPlanetSurface.getCommands().add(dCommand);
+			else {
+				dPlanetSurface.getCommands().clear();
+				dPlanetSurface.getCommands().add( dCommand);
+			}
+		}
 
+		if ( planetSurface.getShipFactory() != null) {
+			DShipFactory dFactory = mapDFactory2(planetSurface.getShipFactory());
+			
+			if (dPlanetSurface.getShipFactories().size() == 0)
+				dPlanetSurface.getShipFactories().add(dFactory);
+			else {
+				dPlanetSurface.getShipFactories().clear();
+				dPlanetSurface.getShipFactories().add( dFactory);
+			}
+		}
+//		TODO remaining fields
+		
+		return dPlanetSurface;
+	}
+
+	/**
+	 * Fills the DPlanetSurface by loading data from outside resources, but does *no* writing to outside resources.
+	 * @param dPlanetSurface
+	 * @return
+	 */
+	public DPlanetSurface upfillDPlanetSurface (DPlanetSurface dPlanetSurface ) {
+		// TODO
+		return dPlanetSurface;
+	}
+	
+	public boolean fullSaveDPlanetSurface ( DPlanetSurface dPlanetSurface ) {
+		
+		// TODO check if needed separate savings
+		
+		dao.create( dPlanetSurface );
+		return true;
+	}
+
+	/**
+	 * @deprecated will implement with different way mapDSurfaceCommand2
+	 * @param surfaceCommand
+	 * @param planetId
+	 * @param turnNumber
+	 * @param pContract
+	 * @return
+	 */
 	public DSurfaceCommand mapDSurfaceCommand(SurfaceCommand surfaceCommand, long planetId, int turnNumber,
 			PlanetContractData pContract) {
 		DSurfaceCommand dCommand = new DSurfaceCommand();
@@ -145,6 +225,27 @@ public class PlanetDataService {
 		return dCommand;
 	}
 	
+	public DSurfaceCommand mapDSurfaceCommand2(SurfaceCommand surfaceCommand, long planetId, int turnNumber) {
+		DSurfaceCommand dCommand = new DSurfaceCommand();
+		dCommand.setPlanetId(planetId);
+		dCommand.setTurnNumber(turnNumber);
+		dCommand.setActivity(surfaceCommand.getActivityType());
+		
+		if (surfaceCommand instanceof SurfaceCommandIndustry) {
+			// nothing
+		} else if (surfaceCommand instanceof SurfaceCommandTechnologies) {
+			SurfaceCommandTechnologies tCommand = (SurfaceCommandTechnologies) surfaceCommand;
+			dCommand.setTechnologyToUpgrade(tCommand.getTechnologyToUpgrade());
+		} else if (surfaceCommand instanceof SurfaceCommandProduction) {
+			SurfaceCommandProduction pCommand = (SurfaceCommandProduction) surfaceCommand;
+			dCommand.setDesign( shipDesignService.mapToDbObject( pCommand.getShipDesign() ));
+			dCommand.setTechnologies( technologiesService.mapToDbObject( pCommand.getTechnologies() ) );
+			dCommand.setMaxShips(pCommand.getMaxShips());
+		}
+		return dCommand;
+	}
+	
+	
 	public SurfaceCommand mapSurfaceCommand ( DSurfaceCommand dCommand ) {
 		if( SurfaceActivities.INDUSTRY.equals( dCommand.getActivity() )) {
 			SurfaceCommandIndustry command = new SurfaceCommandIndustry();
@@ -165,15 +266,31 @@ public class PlanetDataService {
 		else {
 			return null;
 		}
-		
 	}
+	
+	
 
+	/**
+	 * @deprecated use mapDFactory
+	 * @param factory
+	 * @param pcd
+	 * @return
+	 */
 	public DShipFactory mapDFactory(ShipFactory factory, PlanetContractData pcd) {
 		DShipFactory dFactory = new DShipFactory();
 		dFactory.setDonePart(factory.getDonePart());
 		dFactory.setDesign(pcd.getfDesign());
 		dFactory.setTechnologies(pcd.getfTechnologies());
 		dFactory.setShip(pcd.getfShip());
+		return dFactory;
+	}
+	
+	public DShipFactory mapDFactory2(ShipFactory factory ) {
+		DShipFactory dFactory = new DShipFactory();
+		dFactory.setDonePart(factory.getDonePart());
+		dFactory.setDesign( shipDesignService.mapToDbObject( factory.getShipDesign() ) );
+		dFactory.setTechnologies( technologiesService.mapToDbObject( factory.getTechnologies()));
+		dFactory.setShip( shipService.mapToDbObject(factory.getShip()));
 		return dFactory;
 	}
 	
@@ -210,6 +327,8 @@ public class PlanetDataService {
 	/**
 	 * 
 	 * @author Giedrius Tumelis
+	 * 
+	 * @deprecated will implement without it.
 	 *
 	 */
 	private class PlanetContractData {
