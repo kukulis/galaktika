@@ -1,6 +1,8 @@
 package lt.gt.galaktika.model.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,7 +129,6 @@ public class PlanetDataService {
 	public void storePlanetSurface2 (PlanetSurface planetSurface, Planet planet, int turnNumber ) {
 		// TODO
 		DPlanetSurface dPlanetSurface = mapToDPlanetSurface2( planetSurface, planet,turnNumber );
-		upfillDPlanetSurface( dPlanetSurface );
 		fullSaveDPlanetSurface ( dPlanetSurface );
 	}
 	
@@ -163,7 +164,7 @@ public class PlanetDataService {
 		}
 
 		if ( planetSurface.getShipFactory() != null) {
-			DShipFactory dFactory = mapDFactory2(planetSurface.getShipFactory());
+			DShipFactory dFactory = mapDFactory2(planetSurface.getShipFactory(), planet.getPlanetId(), turnNumber);
 			
 			if (dPlanetSurface.getShipFactories().size() == 0)
 				dPlanetSurface.getShipFactories().add(dFactory);
@@ -183,15 +184,40 @@ public class PlanetDataService {
 	 * @return
 	 */
 	public DPlanetSurface upfillDPlanetSurface (DPlanetSurface dPlanetSurface ) {
-		// TODO
+		dPlanetSurface.setOwner( dao.find(DNation.class, dPlanetSurface.getOwner().getNationId() ) );
+		LOG.trace( "after upfilling owner");
+		// TODO other presaved data
 		return dPlanetSurface;
 	}
 	
 	public boolean fullSaveDPlanetSurface ( DPlanetSurface dPlanetSurface ) {
 		
 		// TODO check if needed separate savings
+		upfillDPlanetSurface( dPlanetSurface );
 		
+
+		Set<DSurfaceCommand> commands = new HashSet<>();
+		commands.addAll( dPlanetSurface.getCommands() );
+		dPlanetSurface.getCommands().clear();
+		
+		Set<DShipFactory> factories = new HashSet<>();
+		factories.addAll(  dPlanetSurface.getShipFactories() );
+		dPlanetSurface.getShipFactories().clear();
+
+		
+		// must create planet surface before commands
+//		DPlanetSurface dbPlanetSurface = 
 		dao.create( dPlanetSurface );
+		
+//		command
+		for ( DSurfaceCommand sc : commands )
+			 dPlanetSurface.getCommands().add( dao.create( sc ) );
+		LOG.trace( "after storing commands" );
+		
+		for ( DShipFactory f : factories ) 
+			dPlanetSurface.getShipFactories().add( dao.create(f));
+		LOG.trace( "after storing factories" );
+		
 		return true;
 	}
 
@@ -285,12 +311,13 @@ public class PlanetDataService {
 		return dFactory;
 	}
 	
-	public DShipFactory mapDFactory2(ShipFactory factory ) {
-		DShipFactory dFactory = new DShipFactory();
+	public DShipFactory mapDFactory2(ShipFactory factory, long planetId, int turnNumber ) {
+		DShipFactory dFactory = new DShipFactory(planetId, turnNumber);
 		dFactory.setDonePart(factory.getDonePart());
 		dFactory.setDesign( shipDesignService.mapToDbObject( factory.getShipDesign() ) );
 		dFactory.setTechnologies( technologiesService.mapToDbObject( factory.getTechnologies()));
 		dFactory.setShip( shipService.mapToDbObject(factory.getShip()));
+		
 		return dFactory;
 	}
 	

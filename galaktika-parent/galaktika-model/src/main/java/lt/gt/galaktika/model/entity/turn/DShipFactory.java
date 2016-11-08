@@ -42,6 +42,10 @@ public class DShipFactory {
 	
 	public DShipFactory() {
 	}
+	public DShipFactory(long planetId, int turnNumber) {
+		this.planetId = planetId;
+		this.turnNumber = turnNumber;
+	}
 	
 	public DShipFactory(DShip ship, DShipDesign design, DTechnologies technologies) {
 		this.ship = ship;
