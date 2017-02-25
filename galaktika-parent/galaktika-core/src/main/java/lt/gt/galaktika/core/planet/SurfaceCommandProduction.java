@@ -4,34 +4,15 @@ import lt.gt.galaktika.core.Technologies;
 
 public class SurfaceCommandProduction implements SurfaceCommand
 {
-	/**
-	 * The last ship beeing produced, finish state.
-	 * For example
-	 * 0 - undone
-	 * 0.4 - 40% done
-	 * 1 - 100% done. Should not happen, because, when it is 100% then it is removed from production queue.
-	 */
-//	private double done=0; // when value is 1 then it is finished
 	private ShipDesign shipDesign;
 	private Technologies technologies;
 	private int maxShips=1; 
-//	private double donePart;
 	
 	@Override
 	public SurfaceActivities getActivityType ()
 	{
 		return SurfaceActivities.PRODUCTION;
 	}
-
-//	public double getDone ()
-//	{
-//		return done;
-//	}
-//
-//	public void setDone ( double done )
-//	{
-//		this.done = done;
-//	}
 
 	public ShipDesign getShipDesign ()
 	{
@@ -63,11 +44,30 @@ public class SurfaceCommandProduction implements SurfaceCommand
 		this.maxShips = maxShips;
 	}
 
-//	public double getDonePart() {
-//		return donePart;
-//	}
-//
-//	public void setDonePart(double donePart) {
-//		this.donePart = donePart;
-//	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SurfaceCommandProduction other = (SurfaceCommandProduction) obj;
+		if (maxShips != other.maxShips)
+			return false;
+		if (shipDesign == null) {
+			if (other.shipDesign != null)
+				return false;
+		} else if (!shipDesign.equals(other.shipDesign))
+			return false;
+		if (technologies == null) {
+			if (other.technologies != null)
+				return false;
+		} else if (!technologies.equals(other.technologies))
+			return false;
+		return true;
+	}
+	
+	
+
 }

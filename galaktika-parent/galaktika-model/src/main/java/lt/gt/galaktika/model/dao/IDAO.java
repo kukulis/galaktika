@@ -18,4 +18,6 @@ public interface IDAO {
 	<E> List<E> namedFind(Class<E> clazz, String query, int min, int max);
 	
 	void work (Work w);
+	
+	boolean contains(Object obj);
 }

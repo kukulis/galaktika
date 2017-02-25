@@ -11,10 +11,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lt.gt.galaktika.core.Nation;
+import lt.gt.galaktika.core.Ship;
+import lt.gt.galaktika.core.Technologies;
 import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.PlanetSurface;
+import lt.gt.galaktika.core.planet.ShipDesign;
 import lt.gt.galaktika.core.planet.ShipFactory;
 import lt.gt.galaktika.core.planet.SurfaceCommandIndustry;
+import lt.gt.galaktika.core.planet.SurfaceCommandProduction;
 import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.entity.turn.DPlanetSurface;
 import lt.gt.galaktika.model.entity.turn.DShipFactory;
@@ -22,6 +26,8 @@ import lt.gt.galaktika.model.entity.turn.DSurfaceCommand;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetDataService;
 import lt.gt.galaktika.model.service.PlanetService;
+import lt.gt.galaktika.model.service.ShipDesignService;
+import lt.gt.galaktika.model.service.TechnologiesService;
 import lt.gt.galaktika.model.test.memory.MemoryBeansConfig;
 import lt.gt.galaktika.model.test.memory.MemoryTestConfig;
 
@@ -43,6 +49,11 @@ public class TestMemoryPlanetDataService2 {
 	@Autowired
 	private NationService nationService;
 	
+	@Autowired
+	private ShipDesignService shipDesignService;
+	
+	@Autowired
+	private TechnologiesService technologiesService;
 	
 	private class TestData {
 		PlanetSurface surface;
@@ -110,16 +121,23 @@ public class TestMemoryPlanetDataService2 {
 		surface.setPopulation(99);
 		surface.setName("grybuva");
 		surface.setNation(nation);
-		surface.setSurfaceCommand(new SurfaceCommandIndustry()); // TODO fill
-																	// command
-																	// fields (
-																	// and other
-																	// commands
-																	// ) for
-																	// testing
-		surface.setShipFactory(new ShipFactory()); // TODO fill factory fields
-													// for testing
-
+		
+		Technologies technologies = technologiesService.create( new Technologies() );
+		
+		SurfaceCommandIndustry sci = new SurfaceCommandIndustry();
+//		sci.se
+		SurfaceCommandProduction scProd = new SurfaceCommandProduction();
+		
+		ShipDesign shipDesign = shipDesignService.create( new ShipDesign() );
+		scProd.setShipDesign(shipDesign);
+		scProd.setMaxShips( 2 );
+		scProd.setTechnologies( technologies );
+		surface.setSurfaceCommand(scProd); 
+		ShipFactory shipFactory = new ShipFactory();
+//		shipFactory.setShip( new Ship());
+//		shipFactory.setShipDesign( new ShipDesign() );
+//		shipFactory.setTechnologies( new Technologies() );
+		surface.setShipFactory(shipFactory); 
 		return new TestData(surface, planet, 1);
 	}
 

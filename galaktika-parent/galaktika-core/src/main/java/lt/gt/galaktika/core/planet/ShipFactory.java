@@ -5,6 +5,9 @@ import lt.gt.galaktika.core.Technologies;
 
 /**
  * This is business logic factory.
+ * 
+ * It stores information about ship building in the planet.
+ * 
  * @author Giedrius Tumelis
  *
  */

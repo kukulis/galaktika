@@ -30,6 +30,7 @@ import lt.gt.galaktika.model.entity.turn.DPlanetSurface;
 import lt.gt.galaktika.model.entity.turn.DShipFactory;
 import lt.gt.galaktika.model.entity.turn.DSurfaceCommand;
 import lt.gt.galaktika.model.entity.turn.DTechnologies;
+import lt.gt.galaktika.model.exception.GalaktikaModelException;
 import lt.gt.galaktika.model.exception.PlanetSurfaceContractException;
 
 @Service
@@ -186,7 +187,24 @@ public class PlanetDataService {
 	public DPlanetSurface upfillDPlanetSurface (DPlanetSurface dPlanetSurface ) {
 		dPlanetSurface.setOwner( dao.find(DNation.class, dPlanetSurface.getOwner().getNationId() ) );
 		LOG.trace( "after upfilling owner");
-		// TODO other presaved data
+		
+		// other presaved data
+ 		for ( DSurfaceCommand dcommand :  dPlanetSurface.getCommands() ) {
+ 			DShipDesign design = dcommand.getDesign();
+ 			if ( design != null && ! dao.contains(design)) {
+ 				DShipDesign foundDesign = dao.find( DShipDesign.class, design.getDesignId());
+ 				if ( foundDesign == null )
+ 					throw new GalaktikaModelException( String.format( "Ship design with id %d was not found", design.getDesignId() ) );
+ 				dcommand.setDesign( foundDesign );
+ 			}
+  			DTechnologies technologies = dcommand.getTechnologies();
+  			if ( technologies != null && ! dao.contains(technologies) ) {
+  				DTechnologies foundTechnologies = dao.find( DTechnologies.class, technologies.getTechnologiesId() );
+  				if ( foundTechnologies == null ) 
+  					throw new GalaktikaModelException( String.format("Technologies with id %d was not found",technologies.getTechnologiesId()) );
+  			}
+ 		}
+		
 		return dPlanetSurface;
 	}
 	

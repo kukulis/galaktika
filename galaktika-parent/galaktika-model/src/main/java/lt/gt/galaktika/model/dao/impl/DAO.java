@@ -75,4 +75,8 @@ public class DAO implements IDAO{
     	Session session = em.unwrap(Session.class);
     	session.doWork(w);
     }
+    
+    public boolean contains (Object obj) {
+    	return em.contains(obj);
+    }
 }

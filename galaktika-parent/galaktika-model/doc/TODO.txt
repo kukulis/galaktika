@@ -1,3 +1,9 @@
 Hibernate indexes. How it affects multiple bag exceptions. How it is different after using sets. (OK) solved with sets.
 
 * TestMemoryPlanetDataService must pass (TODO)
+
+Klaida PlanetDataService klasëje, eilutëje [214], dao.create metode, kuris kuria DSurfaceCommand ojektà
+	Planas: 
+		1) debuginti ðità vietà ir þiûrëti koks DSurfaceCommand objektas sukuriamas.
+		2) taip pat debuginti tà vietà kur vyksta DSurfaceCommand objekto kûrimas.
+	Klaida mapinant DShipService á ShipService
