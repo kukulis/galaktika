@@ -80,7 +80,7 @@ public class TestMemoryPlanetDataService2 {
 //		LOG.trace( "factories hash codes original:" + data.surface.getShipFactory().hashCode() + " new:" + surface.getShipFactory().hashCode() );
 //		planetDataService.storePlanetSurface2(data.surface, data.planet, data.turnNumber );
 		
-		// TODO more data and more asserts
+		
 	}
 	
 //	@Test
@@ -127,16 +127,18 @@ public class TestMemoryPlanetDataService2 {
 		SurfaceCommandIndustry sci = new SurfaceCommandIndustry();
 //		sci.se
 		SurfaceCommandProduction scProd = new SurfaceCommandProduction();
-		
 		ShipDesign shipDesign = shipDesignService.create( new ShipDesign() );
+		
+		Ship ship = new Ship();
+		
 		scProd.setShipDesign(shipDesign);
 		scProd.setMaxShips( 2 );
 		scProd.setTechnologies( technologies );
 		surface.setSurfaceCommand(scProd); 
 		ShipFactory shipFactory = new ShipFactory();
-//		shipFactory.setShip( new Ship());
-//		shipFactory.setShipDesign( new ShipDesign() );
-//		shipFactory.setTechnologies( new Technologies() );
+		shipFactory.setShip( ship );
+		shipFactory.setShipDesign( shipDesign );
+		shipFactory.setTechnologies( technologies );
 		surface.setShipFactory(shipFactory); 
 		return new TestData(surface, planet, 1);
 	}

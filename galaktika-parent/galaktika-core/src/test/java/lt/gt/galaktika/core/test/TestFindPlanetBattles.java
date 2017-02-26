@@ -9,9 +9,9 @@ import org.junit.Test;
 import lt.gt.galaktika.core.AggreementsObject;
 import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.Galaxy;
-import lt.gt.galaktika.core.GalaxyEngine;
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.battle.BattleParticipants;
+import lt.gt.galaktika.core.engines.GalaxyEngine;
 import lt.gt.galaktika.core.planet.Planet;
 
 public class TestFindPlanetBattles

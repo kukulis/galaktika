@@ -6,9 +6,9 @@ import org.junit.Test;
 import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.Ship;
 import lt.gt.galaktika.core.ShipGroup;
-import lt.gt.galaktika.core.battle.BattleEngine;
-import lt.gt.galaktika.core.battle.BattleEngine.AttackerAndDefender;
 import lt.gt.galaktika.core.battle.BattleReport;
+import lt.gt.galaktika.core.engines.BattleEngine;
+import lt.gt.galaktika.core.engines.BattleEngine.AttackerAndDefender;
 import lt.gt.galaktika.utils.Utils;
 
 public class TestBattle {

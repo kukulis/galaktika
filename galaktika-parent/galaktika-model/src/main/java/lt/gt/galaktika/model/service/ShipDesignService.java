@@ -15,21 +15,21 @@ public class ShipDesignService extends AbstractGalaktikaService<DShipDesign, Shi
 		return new ShipDesign();
 	}
 
-	@Override
-	public ShipDesign mapToCoreObject(DShipDesign dbObject) {
-		if ( dbObject == null )
-			return null;
-		ShipDesign shipDesign = createCoreObject();
-		shipDesign.setDesignId(dbObject.getDesignId());
-		shipDesign.setDesignName( dbObject.getDesignName());
-		shipDesign.setAttackMass(dbObject.getAttackMass());
-		shipDesign.setGuns( dbObject.getGuns());
-		shipDesign.setDefenceMass( dbObject.getDefenceMass());
-		shipDesign.setCargoMass(dbObject.getCargoMass());
-		shipDesign.setEngineMass(dbObject.getEngineMass());
-		
-		return shipDesign;
-	}
+//	@Override
+//	public ShipDesign mapToCoreObject(DShipDesign dbObject) {
+//		if ( dbObject == null )
+//			return null;
+//		ShipDesign shipDesign = createCoreObject();
+//		shipDesign.setDesignId(dbObject.getDesignId());
+//		shipDesign.setDesignName( dbObject.getDesignName());
+//		shipDesign.setAttackMass(dbObject.getAttackMass());
+//		shipDesign.setGuns( dbObject.getGuns());
+//		shipDesign.setDefenceMass( dbObject.getDefenceMass());
+//		shipDesign.setCargoMass(dbObject.getCargoMass());
+//		shipDesign.setEngineMass(dbObject.getEngineMass());
+//		
+//		return shipDesign;
+//	}
 	
 	
 }

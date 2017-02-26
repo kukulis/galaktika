@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import lt.gt.galaktika.core.Ship;
 import lt.gt.galaktika.core.Technologies;
-import lt.gt.galaktika.core.planet.PlanetEngine;
+import lt.gt.galaktika.core.engines.PlanetEngine;
 import lt.gt.galaktika.core.planet.ShipDesign;
 
 public class TestMakeShip
