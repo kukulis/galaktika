@@ -19,6 +19,7 @@ import lt.gt.galaktika.core.planet.ShipDesign;
 import lt.gt.galaktika.core.planet.ShipFactory;
 import lt.gt.galaktika.core.planet.SurfaceCommandIndustry;
 import lt.gt.galaktika.core.planet.SurfaceCommandProduction;
+import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.entity.turn.DPlanetSurface;
 import lt.gt.galaktika.model.entity.turn.DShipFactory;
@@ -28,11 +29,10 @@ import lt.gt.galaktika.model.service.PlanetDataService;
 import lt.gt.galaktika.model.service.PlanetService;
 import lt.gt.galaktika.model.service.ShipDesignService;
 import lt.gt.galaktika.model.service.TechnologiesService;
-import lt.gt.galaktika.model.test.memory.MemoryBeansConfig;
 import lt.gt.galaktika.model.test.memory.MemoryTestConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { MemoryTestConfig.class, MemoryBeansConfig.class })
+@ContextConfiguration(classes = { MemoryTestConfig.class, ModelBeansConfig.class })
 public class TestMemoryPlanetDataService2 {
 	final static Logger LOG = LoggerFactory.getLogger(TestMemoryPlanetDataService2.class);
 

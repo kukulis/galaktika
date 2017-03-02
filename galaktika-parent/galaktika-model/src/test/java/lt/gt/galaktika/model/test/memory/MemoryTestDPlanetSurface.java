@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lt.gt.galaktika.core.planet.SurfaceActivities;
+import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.dao.IPlanetSurfaceDao;
 import lt.gt.galaktika.model.entity.noturn.DNation;
 import lt.gt.galaktika.model.entity.noturn.DPlanet;
@@ -23,7 +24,7 @@ import lt.gt.galaktika.model.entity.turn.DTechnologies;
 import lt.gt.galaktika.model.entity.turn.DTurn;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { MemoryTestConfig.class, MemoryBeansConfig.class })
+@ContextConfiguration(classes = { MemoryTestConfig.class, ModelBeansConfig.class })
 public class MemoryTestDPlanetSurface extends MemoryTestBase {
 	final static Logger LOG = LoggerFactory.getLogger(MemoryTestDPlanetSurface.class);
 

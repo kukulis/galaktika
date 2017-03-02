@@ -6,4 +6,4 @@ Klaida PlanetDataService klasëje, eilutëje [214], dao.create metode, kuris kuria
 	Planas: 
 		1) debuginti ðità vietà ir þiûrëti koks DSurfaceCommand objektas sukuriamas.
 		2) taip pat debuginti tà vietà kur vyksta DSurfaceCommand objekto kûrimas.
-	Klaida mapinant DShipService á ShipService
+	Klaida mapinant DShipService á ShipService (OK, pataisyta)

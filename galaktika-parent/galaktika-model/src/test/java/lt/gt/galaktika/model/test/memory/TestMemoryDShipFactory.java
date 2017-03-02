@@ -8,13 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.entity.noturn.DShip;
 import lt.gt.galaktika.model.entity.noturn.DShipDesign;
 import lt.gt.galaktika.model.entity.turn.DShipFactory;
 import lt.gt.galaktika.model.entity.turn.DTechnologies;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { MemoryTestConfig.class, MemoryBeansConfig.class })
+@ContextConfiguration(classes = { MemoryTestConfig.class, ModelBeansConfig.class })
 public class TestMemoryDShipFactory  extends MemoryTestBase {
 	final static Logger LOG = LoggerFactory.getLogger(TestMemoryDShipFactory.class);
 

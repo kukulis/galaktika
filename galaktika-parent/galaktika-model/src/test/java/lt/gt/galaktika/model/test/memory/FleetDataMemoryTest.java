@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.dao.IFleetDataDao;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DPlanet;
@@ -20,7 +21,7 @@ import lt.gt.galaktika.model.entity.turn.DShipGroup;
 import lt.gt.galaktika.model.entity.turn.DTurn;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { MemoryTestConfig.class, MemoryBeansConfig.class })
+@ContextConfiguration(classes = { MemoryTestConfig.class, ModelBeansConfig.class })
 public class FleetDataMemoryTest extends MemoryTestBase {
 	final static Logger LOG = LoggerFactory.getLogger(FleetDataMemoryTest.class);
 

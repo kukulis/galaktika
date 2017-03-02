@@ -1,4 +1,4 @@
-package lt.gt.galaktika.model.test.memory;
+package lt.gt.galaktika.model.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -29,7 +29,7 @@ import lt.gt.galaktika.model.service.TechnologiesService;
 
 @Configuration
 @ComponentScan(basePackages = { "lt.galaktika.model.dao", "lt.galaktika.model.entity", "lt.galaktika.model.service", })
-public class MemoryBeansConfig {
+public class ModelBeansConfig {
 
 	@Bean
 	public IShipGroupDao getShipGroupDao() {

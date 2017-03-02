@@ -15,6 +15,7 @@
 		<module>galaktika-model</module>
 		<module>galaktika-web</module>
 		<module>galaktika-ejb</module>
+		<module>galaktika-mock</module>
 	</modules>
 
 	<dependencies>

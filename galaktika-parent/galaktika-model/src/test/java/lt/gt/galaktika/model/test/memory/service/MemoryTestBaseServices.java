@@ -15,19 +15,19 @@ import lt.gt.galaktika.core.SpaceLocation;
 import lt.gt.galaktika.core.Technologies;
 import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.ShipDesign;
+import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetService;
 import lt.gt.galaktika.model.service.ShipDesignService;
 import lt.gt.galaktika.model.service.ShipService;
 import lt.gt.galaktika.model.service.SpaceLocationService;
 import lt.gt.galaktika.model.service.TechnologiesService;
-import lt.gt.galaktika.model.test.memory.MemoryBeansConfig;
 import lt.gt.galaktika.model.test.memory.MemoryTestConfig;
 import lt.gt.galaktika.model.test.memory.ShipMemoryTest;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { MemoryTestConfig.class, MemoryBeansConfig.class })
+@ContextConfiguration(classes = { MemoryTestConfig.class, ModelBeansConfig.class })
 public class MemoryTestBaseServices {
 	final static Logger LOG = LoggerFactory.getLogger(ShipMemoryTest.class);
 
