@@ -1,5 +1,6 @@
 package lt.gt.galaktika.model.entity.noturn;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +26,8 @@ public class User
 	@Size(min = 2, max = 80)
 	private String name;
 	
-	@Size(min = 8, max = 32)
+	@Size(min = 4, max = 32)
+	@Column (unique=true)
 	private String login; 
 
 	@Size(max = 32)

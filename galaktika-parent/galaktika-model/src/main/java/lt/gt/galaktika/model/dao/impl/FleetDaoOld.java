@@ -24,7 +24,7 @@ import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DShip;
 import lt.gt.galaktika.utils.Utils;
 
-@Deprecated
+@Deprecated // DFleetDao instead
 @Repository
 @Transactional
 public class FleetDaoOld implements IFleetDaoOld

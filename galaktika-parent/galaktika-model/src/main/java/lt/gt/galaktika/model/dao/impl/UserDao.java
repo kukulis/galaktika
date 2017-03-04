@@ -2,11 +2,11 @@ package lt.gt.galaktika.model.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import lt.gt.galaktika.model.dao.IUserDao;
@@ -17,18 +17,17 @@ import lt.gt.galaktika.model.entity.noturn.User;
 public class UserDao implements IUserDao
 {
 
-	@Autowired
-	private SessionFactory _sessionFactory;
+	@PersistenceContext
+	private EntityManager em;
 
 	private Session getSession ()
 	{
-		return _sessionFactory.getCurrentSession();
+		return em.unwrap(Session.class);
 	}
 
-	public void save ( User user )
+	public Long save ( User user )
 	{
-		getSession().save(user);
-		return;
+		return (Long) getSession().save(user);
 	}
 
 	public void delete ( User user )

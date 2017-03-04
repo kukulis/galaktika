@@ -6,7 +6,7 @@ import lt.gt.galaktika.model.entity.noturn.User;
 
 public interface IUserDao
 {
-	public void save ( User user );
+	public Long save ( User user );
 	public void delete ( User user );
 	public List<User> getAll ();
 	public User getByEmail ( String email );
