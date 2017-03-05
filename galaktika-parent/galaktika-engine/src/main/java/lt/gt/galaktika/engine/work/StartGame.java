@@ -8,6 +8,11 @@ import lt.gt.galaktika.engine.config.MockDbConfig;
 import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.service.GalaxyService;
 
+/**
+ * This is work.
+ * @author Lenovo
+ *
+ */
 public class StartGame {
 	public final static void main (String args[]) {
 		System.out.println( "StartGame main called" );
