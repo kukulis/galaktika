@@ -8,6 +8,7 @@ import lt.gt.math.PlaneVector;
 public class Galaxy
 {
 	private double sizeX, sizeY;
+	private int turn;
 	
 	public Galaxy(double sizeX, double sizeY)
 	{
@@ -106,5 +107,13 @@ public class Galaxy
 	
 	public GalaxyLocation normalize ( GalaxyLocation orig ) {
 		return new SpaceLocation( orig.getX(), orig.getY() );
+	}
+
+	public int getTurn() {
+		return turn;
+	}
+
+	public void setTurn(int turn) {
+		this.turn = turn;
 	}
 }

@@ -8,6 +8,7 @@ import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.dao.IFleetDao;
 import lt.gt.galaktika.model.dao.IFleetDaoOld;
 import lt.gt.galaktika.model.dao.IFleetDataDao;
+import lt.gt.galaktika.model.dao.IGalaxyDao;
 import lt.gt.galaktika.model.dao.IPlanetDao;
 import lt.gt.galaktika.model.dao.IPlanetSurfaceDao;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
@@ -17,10 +18,12 @@ import lt.gt.galaktika.model.dao.impl.DFleetDao;
 import lt.gt.galaktika.model.dao.impl.DFleetDataDao;
 import lt.gt.galaktika.model.dao.impl.DPlanetSurfaceDao;
 import lt.gt.galaktika.model.dao.impl.FleetDaoOld;
+import lt.gt.galaktika.model.dao.impl.DGalaxyDao;
 import lt.gt.galaktika.model.dao.impl.PlanetDao;
 import lt.gt.galaktika.model.dao.impl.ShipGroupDao;
 import lt.gt.galaktika.model.dao.impl.UserDao;
 import lt.gt.galaktika.model.service.FleetsService;
+import lt.gt.galaktika.model.service.GalaxyService;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetDataService;
 import lt.gt.galaktika.model.service.PlanetService;
@@ -73,6 +76,11 @@ public class ModelBeansConfig {
 		return new DPlanetSurfaceDao();
 	}
 	
+	@Bean(name="galaxyDao")
+	public IGalaxyDao getGalaxyDao () {
+		return new DGalaxyDao();
+	}
+	
 	@Bean
 	public NationService getNationService () {
 		return new NationService();
@@ -111,6 +119,11 @@ public class ModelBeansConfig {
 	@Bean
 	public PlanetDataService getPlanetDataService() {
 		return new PlanetDataService();
+	}
+	
+	@Bean
+	public GalaxyService getGalaxyService ( ) {
+		return new GalaxyService ();
 	}
 	
 }

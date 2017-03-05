@@ -44,7 +44,9 @@ public abstract class AbstractGalaktikaService <D,C> {
 		return coreObject;
 	}
 	
+	// TODO may be its possible to create with reflection
 	public abstract D createDbObject ();
+	// TODO may be its possible to create with reflection
 	public abstract C createCoreObject();
 	
 	public C create( C c ) {

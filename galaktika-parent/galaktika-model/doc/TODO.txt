@@ -7,3 +7,16 @@ Klaida PlanetDataService klasëje, eilutëje [214], dao.create metode, kuris kuria
 		1) debuginti ðità vietà ir þiûrëti koks DSurfaceCommand objektas sukuriamas.
 		2) taip pat debuginti tà vietà kur vyksta DSurfaceCommand objekto kûrimas.
 	Klaida mapinant DShipService á ShipService (OK, pataisyta)
+	
+----
+2017-03-05
+
+DGalaxy (TODO)
+DGalaxyDao (TODO)
+GalaxyService (TODO)
+Assume, that there is only one galaxy in the database.
+Wrong amounts exceptions should be generated in the GalaxyService.
+
+TestGalaxyService must pass; (TODO)
+Next StartGame tests (TODO)
+

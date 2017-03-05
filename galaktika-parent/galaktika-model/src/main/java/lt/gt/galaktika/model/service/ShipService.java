@@ -13,9 +13,6 @@ import lt.gt.galaktika.model.entity.noturn.DShip;
 public class ShipService extends AbstractGalaktikaService<DShip, Ship> {
 	final static Logger LOG = LoggerFactory.getLogger(ShipService.class);
 
-	@Autowired
-	IDAO dao;
-
 	@Override
 	public DShip createDbObject() {
 		return new DShip();
