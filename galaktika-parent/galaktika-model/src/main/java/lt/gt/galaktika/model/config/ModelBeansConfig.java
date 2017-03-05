@@ -48,7 +48,7 @@ public class ModelBeansConfig {
 		return new PlanetDao();
 	}
 	
-	@Bean
+	@Bean(name="userDao")
 	public IUserDao getUserDao () {
 		return new UserDao();
 	}
