@@ -89,4 +89,12 @@ public class ShipFactory
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "ShipFactory [ship=" + ship + ", shipDesign=" + shipDesign + ", technologies=" + technologies
+				+ ", donePart=" + donePart + "]";
+	}
+	
+	
 }

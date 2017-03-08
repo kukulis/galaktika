@@ -11,12 +11,16 @@ Klaida PlanetDataService klasëje, eilutëje [214], dao.create metode, kuris kuria
 ----
 2017-03-05
 
-DGalaxy (TODO)
-DGalaxyDao (TODO)
-GalaxyService (TODO)
+DGalaxy (OK)
+DGalaxyDao (OK)
+GalaxyService (OK)
 Assume, that there is only one galaxy in the database.
 Wrong amounts exceptions should be generated in the GalaxyService.
 
-TestGalaxyService must pass; (TODO)
-Next StartGame tests (TODO)
+TestGalaxyService must pass; (OK)
+Next StartGame tests (?)
+
+Galaxy to nation to user relation (TODO)
+2017-03-08
+	create and implement additional DNationDao methods (TODO)
 

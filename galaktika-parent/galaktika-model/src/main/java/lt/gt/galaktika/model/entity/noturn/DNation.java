@@ -3,9 +3,11 @@ package lt.gt.galaktika.model.entity.noturn;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -17,16 +19,19 @@ public class DNation
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Access(AccessType.PROPERTY)
 	long nationId;
+	
 	String nationName;
-	long userId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	User user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	DGalaxy galaxy;
 	
 	
 	
-	public DNation(long nationId, String nationName, long userId) {
-		super();
+	public DNation(long nationId, String nationName) {
 		this.nationId = nationId;
 		this.nationName = nationName;
-		this.userId = userId;
 	}
 
 	public DNation() {
@@ -45,14 +50,6 @@ public class DNation
 		this.nationId = nationId;
 	}
 	
-	public long getUserId ()
-	{
-		return userId;
-	}
-	public void setUserId ( long userId )
-	{
-		this.userId = userId;
-	}
 	public String getNationName ()
 	{
 		return nationName;
@@ -61,12 +58,6 @@ public class DNation
 	{
 		this.nationName = nationName;
 	}
-
-//	@Override
-//	public String toString() {
-//		return "DNation["+nationId+", "+nationName+"]";
-//	}
-	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -80,7 +71,22 @@ public class DNation
 
 	@Override
 	public String toString() {
-		return "DNation [nationId=" + nationId + ", nationName=" + nationName + ", userId=" + userId + "]";
+		return "DNation [nationId=" + nationId + ", nationName=" + nationName + "]";
 	}
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public DGalaxy getGalaxy() {
+		return galaxy;
+	}
+
+	public void setGalaxy(DGalaxy galaxy) {
+		this.galaxy = galaxy;
+	}
 }

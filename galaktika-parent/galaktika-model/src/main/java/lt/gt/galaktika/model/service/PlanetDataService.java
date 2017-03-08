@@ -52,13 +52,13 @@ public class PlanetDataService {
 
 	@Autowired
 	NationService nationService;
-	
+
 	@Autowired
 	ShipService shipService;
-	
+
 	@Autowired
 	ShipDesignService shipDesignService;
-	
+
 	@Autowired
 	TechnologiesService technologiesService;
 
@@ -94,46 +94,43 @@ public class PlanetDataService {
 		dPlanetSurface.setIndustry(surface.getIndustry());
 		dPlanetSurface.setCapital(surface.getCapital());
 		dPlanetSurface.setOwner(pContract.getNation());
-		
+
 		dPlanetSurface = dao.create(dPlanetSurface);
 
 		if (surface.getSurfaceCommand() != null) {
-			DSurfaceCommand dCommand = dao.create(mapDSurfaceCommand(surface.getSurfaceCommand(), planet.getPlanetId(), turnNumber,
-					pContract));
+			DSurfaceCommand dCommand = dao.create(
+					mapDSurfaceCommand(surface.getSurfaceCommand(), planet.getPlanetId(), turnNumber, pContract));
 			if (dPlanetSurface.getCommands().size() == 0)
 				dPlanetSurface.getCommands().add(dCommand);
 			else {
 				dPlanetSurface.getCommands().clear();
-				dPlanetSurface.getCommands().add( dCommand);
+				dPlanetSurface.getCommands().add(dCommand);
 			}
 		}
 
 		if (surface.getShipFactory() != null) {
 			DShipFactory dFactory = dao.create(mapDFactory(surface.getShipFactory(), pContract));
-			
+
 			if (dPlanetSurface.getShipFactories().size() == 0)
 				dPlanetSurface.getShipFactories().add(dFactory);
 			else {
 				dPlanetSurface.getShipFactories().clear();
-				dPlanetSurface.getShipFactories().add( dFactory);
+				dPlanetSurface.getShipFactories().add(dFactory);
 			}
 		}
-		
-		dao.update( dPlanetSurface );
 
-		
+		dao.update(dPlanetSurface);
 
 		// TODO the update variant
 
 	}
-	
-	public void storePlanetSurface2 (PlanetSurface planetSurface, Planet planet, int turnNumber ) {
+
+	public void storePlanetSurface2(PlanetSurface planetSurface, Planet planet, int turnNumber) {
 		// TODO
-		DPlanetSurface dPlanetSurface = mapToDPlanetSurface2( planetSurface, planet,turnNumber );
-		fullSaveDPlanetSurface ( dPlanetSurface );
+		DPlanetSurface dPlanetSurface = mapToDPlanetSurface2(planetSurface, planet, turnNumber);
+		fullSaveDPlanetSurface(dPlanetSurface);
 	}
-	
-	
+
 	/**
 	 * Maps to DPlanetSurface *without* accessing outside resources.
 	 * 
@@ -142,100 +139,114 @@ public class PlanetDataService {
 	 * @param turnNumber
 	 * @return
 	 */
-	public DPlanetSurface mapToDPlanetSurface2 (PlanetSurface planetSurface, Planet planet, int turnNumber) {
-//		DPlanetSurface dPlanetSurface = new DPlanetSurface();
-		
+	public DPlanetSurface mapToDPlanetSurface2(PlanetSurface planetSurface, Planet planet, int turnNumber) {
+		// DPlanetSurface dPlanetSurface = new DPlanetSurface();
+
 		DPlanetSurface dPlanetSurface = new DPlanetSurface(planet.getPlanetId(), turnNumber);
-//		PlanetContractData pContract = new PlanetContractData();
-//		pContract.loadContractData(planetSurface);
+		// PlanetContractData pContract = new PlanetContractData();
+		// pContract.loadContractData(planetSurface);
 		dPlanetSurface.setName(planetSurface.getName());
 		dPlanetSurface.setPopulation(planetSurface.getPopulation());
 		dPlanetSurface.setIndustry(planetSurface.getIndustry());
 		dPlanetSurface.setCapital(planetSurface.getCapital());
-		dPlanetSurface.setOwner(nationService.mapToDbObject( planetSurface.getNation()));
-		
+		dPlanetSurface.setOwner(nationService.mapToDbObject(planetSurface.getNation()));
+
 		if (planetSurface.getSurfaceCommand() != null) {
-			DSurfaceCommand dCommand = mapDSurfaceCommand2(planetSurface.getSurfaceCommand(), planet.getPlanetId(), turnNumber );
+			DSurfaceCommand dCommand = mapDSurfaceCommand2(planetSurface.getSurfaceCommand(), planet.getPlanetId(),
+					turnNumber);
 			if (dPlanetSurface.getCommands().size() == 0)
 				dPlanetSurface.getCommands().add(dCommand);
 			else {
 				dPlanetSurface.getCommands().clear();
-				dPlanetSurface.getCommands().add( dCommand);
+				dPlanetSurface.getCommands().add(dCommand);
 			}
 		}
 
-		if ( planetSurface.getShipFactory() != null) {
+		if (planetSurface.getShipFactory() != null) {
 			DShipFactory dFactory = mapDFactory2(planetSurface.getShipFactory(), planet.getPlanetId(), turnNumber);
-			
+
 			if (dPlanetSurface.getShipFactories().size() == 0)
 				dPlanetSurface.getShipFactories().add(dFactory);
 			else {
 				dPlanetSurface.getShipFactories().clear();
-				dPlanetSurface.getShipFactories().add( dFactory);
+				dPlanetSurface.getShipFactories().add(dFactory);
 			}
 		}
-//		TODO remaining fields
-		
+		// TODO remaining fields
+
 		return dPlanetSurface;
 	}
 
 	/**
-	 * Fills the DPlanetSurface by loading data from outside resources, but does *no* writing to outside resources.
+	 * Fills the DPlanetSurface by loading data from outside resources, but does
+	 * *no* writing to outside resources.
+	 * 
 	 * @param dPlanetSurface
 	 * @return
 	 */
-	public DPlanetSurface upfillDPlanetSurface (DPlanetSurface dPlanetSurface ) {
-		dPlanetSurface.setOwner( dao.find(DNation.class, dPlanetSurface.getOwner().getNationId() ) );
-		LOG.trace( "after upfilling owner");
-		
+	public DPlanetSurface upfillDPlanetSurface(DPlanetSurface dPlanetSurface) {
+		dPlanetSurface.setOwner(dao.find(DNation.class, dPlanetSurface.getOwner().getNationId()));
+		LOG.trace("after upfilling owner");
+
 		// other presaved data
- 		for ( DSurfaceCommand dcommand :  dPlanetSurface.getCommands() ) {
- 			DShipDesign design = dcommand.getDesign();
- 			if ( design != null && ! dao.contains(design)) {
- 				DShipDesign foundDesign = dao.find( DShipDesign.class, design.getDesignId());
- 				if ( foundDesign == null )
- 					throw new GalaktikaModelException( String.format( "Ship design with id %d was not found", design.getDesignId() ) );
- 				dcommand.setDesign( foundDesign );
- 			}
-  			DTechnologies technologies = dcommand.getTechnologies();
-  			if ( technologies != null && ! dao.contains(technologies) ) {
-  				DTechnologies foundTechnologies = dao.find( DTechnologies.class, technologies.getTechnologiesId() );
-  				if ( foundTechnologies == null ) 
-  					throw new GalaktikaModelException( String.format("Technologies with id %d was not found",technologies.getTechnologiesId()) );
-  			}
- 		}
-		
+		for (DSurfaceCommand dcommand : dPlanetSurface.getCommands()) {
+			DShipDesign design = dcommand.getDesign();
+			if (design != null && !dao.contains(design)) {
+				DShipDesign foundDesign = dao.find(DShipDesign.class, design.getDesignId());
+				if (foundDesign == null)
+					throw new GalaktikaModelException(
+							String.format("Ship design with id %d was not found", design.getDesignId()));
+				dcommand.setDesign(foundDesign);
+			}
+			DTechnologies technologies = dcommand.getTechnologies();
+			if (technologies != null && !dao.contains(technologies)) {
+				DTechnologies foundTechnologies = dao.find(DTechnologies.class, technologies.getTechnologiesId());
+				if (foundTechnologies == null)
+					throw new GalaktikaModelException(
+							String.format("Technologies with id %d was not found", technologies.getTechnologiesId()));
+			}
+		}
+
+		for (DShipFactory f : dPlanetSurface.getShipFactories()) {
+			if (f.getShip() != null) {
+				DShip foundShip = dao.find(DShip.class, f.getShip().getId());
+				if (foundShip != null)
+					f.setShip(foundShip);
+			}
+		}
+
 		return dPlanetSurface;
 	}
-	
-	public boolean fullSaveDPlanetSurface ( DPlanetSurface dPlanetSurface ) {
-		
+
+	public boolean fullSaveDPlanetSurface(DPlanetSurface dPlanetSurface) {
+
 		// TODO check if needed separate savings
-		upfillDPlanetSurface( dPlanetSurface );
-		
+		upfillDPlanetSurface(dPlanetSurface);
 
 		Set<DSurfaceCommand> commands = new HashSet<>();
-		commands.addAll( dPlanetSurface.getCommands() );
+		commands.addAll(dPlanetSurface.getCommands());
 		dPlanetSurface.getCommands().clear();
-		
+
 		Set<DShipFactory> factories = new HashSet<>();
-		factories.addAll(  dPlanetSurface.getShipFactories() );
+		factories.addAll(dPlanetSurface.getShipFactories());
 		dPlanetSurface.getShipFactories().clear();
 
-		
 		// must create planet surface before commands
-//		DPlanetSurface dbPlanetSurface = 
-		dao.create( dPlanetSurface );
-		
-//		command
-		for ( DSurfaceCommand sc : commands )
-			 dPlanetSurface.getCommands().add( dao.create( sc ) );
-		LOG.trace( "after storing commands" );
-		
-		for ( DShipFactory f : factories ) 
-			dPlanetSurface.getShipFactories().add( dao.create(f));
-		LOG.trace( "after storing factories" );
-		
+		// DPlanetSurface dbPlanetSurface =
+		dao.create(dPlanetSurface);
+
+		// command
+		for (DSurfaceCommand sc : commands)
+			dPlanetSurface.getCommands().add(dao.create(sc));
+		LOG.trace("after storing commands");
+
+		for (DShipFactory f : factories) {
+			if (!dao.contains(f.getShip()))
+				dao.create(f.getShip());
+			dPlanetSurface.getShipFactories().add(dao.create(f));
+		}
+		LOG.trace("after storing factories");
+
 		return true;
 	}
 
@@ -268,13 +279,13 @@ public class PlanetDataService {
 
 		return dCommand;
 	}
-	
+
 	public DSurfaceCommand mapDSurfaceCommand2(SurfaceCommand surfaceCommand, long planetId, int turnNumber) {
 		DSurfaceCommand dCommand = new DSurfaceCommand();
 		dCommand.setPlanetId(planetId);
 		dCommand.setTurnNumber(turnNumber);
 		dCommand.setActivity(surfaceCommand.getActivityType());
-		
+
 		if (surfaceCommand instanceof SurfaceCommandIndustry) {
 			// nothing
 		} else if (surfaceCommand instanceof SurfaceCommandTechnologies) {
@@ -282,37 +293,31 @@ public class PlanetDataService {
 			dCommand.setTechnologyToUpgrade(tCommand.getTechnologyToUpgrade());
 		} else if (surfaceCommand instanceof SurfaceCommandProduction) {
 			SurfaceCommandProduction pCommand = (SurfaceCommandProduction) surfaceCommand;
-			dCommand.setDesign( shipDesignService.mapToDbObject( pCommand.getShipDesign() ));
-			dCommand.setTechnologies( technologiesService.mapToDbObject( pCommand.getTechnologies() ) );
+			dCommand.setDesign(shipDesignService.mapToDbObject(pCommand.getShipDesign()));
+			dCommand.setTechnologies(technologiesService.mapToDbObject(pCommand.getTechnologies()));
 			dCommand.setMaxShips(pCommand.getMaxShips());
 		}
 		return dCommand;
 	}
-	
-	
-	public SurfaceCommand mapSurfaceCommand ( DSurfaceCommand dCommand ) {
-		if( SurfaceActivities.INDUSTRY.equals( dCommand.getActivity() )) {
+
+	public SurfaceCommand mapSurfaceCommand(DSurfaceCommand dCommand) {
+		if (SurfaceActivities.INDUSTRY.equals(dCommand.getActivity())) {
 			SurfaceCommandIndustry command = new SurfaceCommandIndustry();
 			return command;
-		}
-		else if (SurfaceActivities.PRODUCTION.equals( dCommand.getActivity() )) {
+		} else if (SurfaceActivities.PRODUCTION.equals(dCommand.getActivity())) {
 			SurfaceCommandProduction command = new SurfaceCommandProduction();
-			command.setMaxShips( dCommand.getMaxShips());
-			command.setShipDesign( shipDesignService.mapToCoreObject(dCommand.getDesign()) );
-			command.setTechnologies( technologiesService.mapToCoreObject( dCommand.getTechnologies()));
+			command.setMaxShips(dCommand.getMaxShips());
+			command.setShipDesign(shipDesignService.mapToCoreObject(dCommand.getDesign()));
+			command.setTechnologies(technologiesService.mapToCoreObject(dCommand.getTechnologies()));
 			return command;
-		}
-		else if (SurfaceActivities.TECHNOLOGIES.equals( dCommand.getActivity() )) {
+		} else if (SurfaceActivities.TECHNOLOGIES.equals(dCommand.getActivity())) {
 			SurfaceCommandTechnologies command = new SurfaceCommandTechnologies();
-			command.setTechnologyToUpgrade( dCommand.getTechnologyToUpgrade() );
+			command.setTechnologyToUpgrade(dCommand.getTechnologyToUpgrade());
 			return command;
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
-	
-	
 
 	/**
 	 * @deprecated use mapDFactory
@@ -328,47 +333,48 @@ public class PlanetDataService {
 		dFactory.setShip(pcd.getfShip());
 		return dFactory;
 	}
-	
-	public DShipFactory mapDFactory2(ShipFactory factory, long planetId, int turnNumber ) {
+
+	public DShipFactory mapDFactory2(ShipFactory factory, long planetId, int turnNumber) {
 		DShipFactory dFactory = new DShipFactory(planetId, turnNumber);
 		dFactory.setDonePart(factory.getDonePart());
-		dFactory.setDesign( shipDesignService.mapToDbObject( factory.getShipDesign() ) );
-		dFactory.setTechnologies( technologiesService.mapToDbObject( factory.getTechnologies()));
-		dFactory.setShip( shipService.mapToDbObject(factory.getShip()));
-		
+		dFactory.setDesign(shipDesignService.mapToDbObject(factory.getShipDesign()));
+		dFactory.setTechnologies(technologiesService.mapToDbObject(factory.getTechnologies()));
+		dFactory.setShip(shipService.mapToDbObject(factory.getShip()));
+
 		return dFactory;
 	}
-	
-	public ShipFactory mapFactory ( DShipFactory dFactory ) {
+
+	public ShipFactory mapFactory(DShipFactory dFactory) {
 		ShipFactory factory = new ShipFactory();
-		factory.setDonePart( dFactory.getDonePart());
-		factory.setShip( shipService.mapToCoreObject( dFactory.getShip() ) );
-		factory.setShipDesign( shipDesignService.mapToCoreObject( dFactory.getDesign() ) );
-		factory.setTechnologies(  technologiesService.mapToCoreObject(dFactory.getTechnologies() ) );
+		factory.setDonePart(dFactory.getDonePart());
+		dao.detach( dFactory.getShip() );
+		factory.setShip(shipService.mapToCoreObject(dFactory.getShip()));
+		factory.setShipDesign(shipDesignService.mapToCoreObject(dFactory.getDesign()));
+		factory.setTechnologies(technologiesService.mapToCoreObject(dFactory.getTechnologies()));
 		return factory;
 	}
 
-	public PlanetSurface loadPlanetSurface ( long planetId, int turnNumber ) {
+	public PlanetSurface loadPlanetSurface(long planetId, int turnNumber) {
 		DPlanetSurface dPS = dPlanetSurfaceDao.find(planetId, turnNumber);
-		
-		PlanetSurface surface = new PlanetSurface();
-		surface.setName( dPS.getName() );
-		surface.setPopulation ( dPS.getPopulation() );
-		surface.setIndustry( dPS.getIndustry() );
-		surface.setCapital( dPS.getCapital() );
-		surface.setNation( nationService.mapToCoreObject(dPS.getOwner() ));
 
-		LOG.trace( "factories amount = "+ dPS.getShipFactories().size() );
-		if ( dPS.getShipFactories().size() > 0 )
-			surface.setShipFactory( mapFactory( (DShipFactory) dPS.getShipFactories().toArray()[0] ));
-		
-		LOG.trace( "commands amount = "+ dPS.getCommands().size() );
-		if ( dPS.getCommands().size() > 0 )
-			surface.setSurfaceCommand( mapSurfaceCommand( (DSurfaceCommand) dPS.getCommands().toArray()[0] ) );
-		
+		PlanetSurface surface = new PlanetSurface();
+		surface.setName(dPS.getName());
+		surface.setPopulation(dPS.getPopulation());
+		surface.setIndustry(dPS.getIndustry());
+		surface.setCapital(dPS.getCapital());
+		surface.setNation(nationService.mapToCoreObject(dPS.getOwner()));
+
+		LOG.trace("factories amount = " + dPS.getShipFactories().size());
+		if (dPS.getShipFactories().size() > 0)
+			surface.setShipFactory(mapFactory((DShipFactory) dPS.getShipFactories().toArray()[0]));
+
+		LOG.trace("commands amount = " + dPS.getCommands().size());
+		if (dPS.getCommands().size() > 0)
+			surface.setSurfaceCommand(mapSurfaceCommand((DSurfaceCommand) dPS.getCommands().toArray()[0]));
+
 		return surface;
 	}
-	
+
 	/**
 	 * 
 	 * @author Giedrius Tumelis

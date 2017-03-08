@@ -128,6 +128,9 @@ public class Ship implements Serializable
 		return "["+id+":"+name+"]"+"{"+attack+"x"+guns+ ";"+defence+";"+speed+";"+cargo+ "}"+"("+totalMass+")";
 	}
 
+	
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -145,10 +148,33 @@ public class Ship implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		Ship other = (Ship) obj;
-		if (id != other.id)
-			return false;
+		
+		if ( id != 0 && other.id != 0 ) {
+			if (id != other.id)
+				return false;
+		}
+		else {
+			// compare all other fields
+			if (Double.doubleToLongBits(attack) != Double.doubleToLongBits(other.attack))
+				return false;
+			if (buildTurnId != other.buildTurnId)
+				return false;
+			if (Double.doubleToLongBits(cargo) != Double.doubleToLongBits(other.cargo))
+				return false;
+			if (Double.doubleToLongBits(defence) != Double.doubleToLongBits(other.defence))
+				return false;
+			if (guns != other.guns)
+				return false;
+			if (name == null) {
+				if (other.name != null)
+					return false;
+			} else if (!name.equals(other.name))
+				return false;
+			if (Double.doubleToLongBits(speed) != Double.doubleToLongBits(other.speed))
+				return false;
+			if (Double.doubleToLongBits(totalMass) != Double.doubleToLongBits(other.totalMass))
+				return false;
+		}
 		return true;
 	}
-	
-	
 }

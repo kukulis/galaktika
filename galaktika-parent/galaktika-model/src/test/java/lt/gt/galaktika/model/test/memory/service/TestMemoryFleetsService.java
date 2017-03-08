@@ -50,7 +50,7 @@ public class TestMemoryFleetsService {
 //	 @Ignore
 	public void testFleetsService() throws GalaktikaException {
 		LOG.trace("testFleetsService called");
-		Nation nation = nationService.create(new Nation("vokieciai "));
+		Nation nation = nationService.createNation(new Nation("vokieciai "), null, null );
 
 		int turnNumber = 1;
 
@@ -113,7 +113,7 @@ public class TestMemoryFleetsService {
 		Ship katinas = shipService.create(new Ship("katinas"));
 		Ship suva = shipService.create(new Ship("suva"));
 
-		Nation nation = nationService.create(new Nation("vokieciai "));
+		Nation nation = nationService.createNation(new Nation("vokieciai "), null, null);
 
 		int turnNumber = 1;
 

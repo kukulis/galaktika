@@ -29,6 +29,8 @@ public class DShip
 	private double speed;
 
 	private double totalMass;
+	
+	private int buildTurnId;
 
 
 	// TODO relations with owner,turn,shiptype, techonologies?
@@ -140,6 +142,14 @@ public class DShip
 	{
 		this.name = name;
 	}
+	
+	public int getBuildTurnId() {
+		return buildTurnId;
+	}
+
+	public void setBuildTurnId(int buildTurnId) {
+		this.buildTurnId = buildTurnId;
+	}
 
 	@Override
 	public String toString() {
@@ -147,9 +157,4 @@ public class DShip
 				+ ", cargo=" + cargo + ", speed=" + speed + ", totalMass=" + totalMass + "]";
 	}
 
-//	@Override
-//	public String toString() {
-//		return "DShip["+id+"] ("+name+")";
-//	}
-	
 }

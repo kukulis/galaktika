@@ -74,8 +74,13 @@ public class TestMemoryPlanetDataService2 {
 		TestData data = createTestData();
 		planetDataService.storePlanetSurface2(data.surface, data.planet, data.turnNumber);
 		PlanetSurface surface = planetDataService.loadPlanetSurface( data.planet.getPlanetId(), data.turnNumber );
-		
+
 		Assert.assertEquals( data.surface.getSurfaceCommand(), surface.getSurfaceCommand() );
+		
+		Assert.assertEquals( data.surface.getShipFactory().getDonePart(), surface.getShipFactory().getDonePart(), 0.001 );
+		Assert.assertEquals( data.surface.getShipFactory().getShip(), surface.getShipFactory().getShip() );
+		Assert.assertEquals( data.surface.getShipFactory().getShipDesign(), surface.getShipFactory().getShipDesign() );
+		Assert.assertEquals( data.surface.getShipFactory().getTechnologies(), surface.getShipFactory().getTechnologies() );
 		Assert.assertEquals( data.surface.getShipFactory(), surface.getShipFactory());
 //		LOG.trace( "factories hash codes original:" + data.surface.getShipFactory().hashCode() + " new:" + surface.getShipFactory().hashCode() );
 //		planetDataService.storePlanetSurface2(data.surface, data.planet, data.turnNumber );
@@ -109,7 +114,7 @@ public class TestMemoryPlanetDataService2 {
 	}
 
 	private TestData createTestData() {
-		Nation nation = nationService.create(new Nation("pacukai"));
+		Nation nation = nationService.createNation(new Nation("pacukai"), null, null );
 
 		Planet planet = new Planet();
 		planet = planetService.create(planet);
@@ -129,7 +134,7 @@ public class TestMemoryPlanetDataService2 {
 		SurfaceCommandProduction scProd = new SurfaceCommandProduction();
 		ShipDesign shipDesign = shipDesignService.create( new ShipDesign() );
 		
-		Ship ship = new Ship();
+		Ship ship = new Ship("shipas");
 		
 		scProd.setShipDesign(shipDesign);
 		scProd.setMaxShips( 2 );

@@ -46,7 +46,7 @@ public class MemoryTestBaseServices {
 	
 	@Test
 	public void testStoreBaseObjects () {
-		Nation naciai = nationService.create( new Nation ( "naciai"));
+		Nation naciai = nationService.createNation( new Nation ( "naciai"), null, null );
 		Planet marsas = planetService.create( new Planet(1, 2, 100, 1.5));
 		ShipDesign dizainas = shipDesignService.create( new ShipDesign( "dizaineris"));
 		Ship katinas = shipService.create( new Ship ( "katinas") );

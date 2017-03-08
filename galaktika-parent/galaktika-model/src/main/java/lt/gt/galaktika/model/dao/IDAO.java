@@ -20,4 +20,6 @@ public interface IDAO {
 	void work (Work w);
 	
 	boolean contains(Object obj);
+	
+	<E> E detach ( E e);
 }

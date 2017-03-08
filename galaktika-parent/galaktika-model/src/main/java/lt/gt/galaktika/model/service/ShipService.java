@@ -22,4 +22,21 @@ public class ShipService extends AbstractGalaktikaService<DShip, Ship> {
 	public Ship createCoreObject() {
 		return new Ship();
 	}
+
+//	@Override
+//	public Ship mapToCoreObject(DShip dShip) {
+//		Ship ship = createCoreObject();
+//		ship.setAttack( dShip.getAttack());
+//		ship.setBuildTurnId( dShip.getBuildTurnId() );
+//		ship.setCargo( dShip.getCargo() );
+//		ship.setDefence( dShip.getDefence());
+//		ship.setGuns(dShip.getGuns() );
+//		ship.setId( dShip.getId());
+//		ship.setName(dShip.getName());
+//		ship.setSpeed(dShip.getSpeed());
+//		ship.setTotalMass(dShip.getTotalMass());
+//		return ship;
+//	}
+	
+	
 }

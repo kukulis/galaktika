@@ -79,4 +79,12 @@ public class DAO implements IDAO{
     public boolean contains (Object obj) {
     	return em.contains(obj);
     }
+
+	@Override
+	public <E> E detach(E e) {
+		em.detach( e );
+		return e;
+	}
+    
+    
 }

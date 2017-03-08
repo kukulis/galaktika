@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import lt.gt.galaktika.model.GalaxiesFilter;
 import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.dao.IGalaxyDao;
 import lt.gt.galaktika.model.entity.noturn.DGalaxy;
@@ -32,7 +33,7 @@ public class TestMemoryDGalaxy extends MemoryTestBase  {
 		dGalaxy.setPurpose( EGalaxyPurposes.PLAY );
 		dGalaxy.setActive( true );
 		dao.create( dGalaxy );
-		List<DGalaxy> foundGalaxies = galaxyDao.find( EGalaxyPurposes.PLAY );
+		List<DGalaxy> foundGalaxies = galaxyDao.find( new GalaxiesFilter() );
 		Assert.assertNotNull( foundGalaxies);
 		Assert.assertEquals( 1, foundGalaxies.size());
 		Assert.assertNotEquals(0, foundGalaxies.get(0).getGalaxyId() );
