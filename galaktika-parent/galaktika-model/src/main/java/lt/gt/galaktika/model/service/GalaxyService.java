@@ -11,6 +11,7 @@ import lt.gt.galaktika.model.GalaxiesFilter;
 import lt.gt.galaktika.model.dao.IGalaxyDao;
 import lt.gt.galaktika.model.entity.noturn.DGalaxy;
 import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
+import lt.gt.galaktika.model.exception.GalaktikaModelException;
 
 /**
  * Assume that there is only one active galaxy of one purpose.
@@ -24,11 +25,12 @@ public class GalaxyService extends AbstractGalaktikaService<DGalaxy, Galaxy> {
 	@Autowired
 	IGalaxyDao galaxyDao;
 	
-	public void createGalaxy(Galaxy g, EGalaxyPurposes purpose, boolean active ) {
+	public Galaxy createGalaxy(Galaxy g, EGalaxyPurposes purpose, boolean active ) {
 		DGalaxy dGalaxy = mapToDbObject( g );
 		dGalaxy.setPurpose( purpose );
 		dGalaxy.setActive( active );
-		dao.create( dGalaxy );
+		dGalaxy = dao.create( dGalaxy );
+		return mapToCoreObject( dGalaxy );
 	}
 	
 	public List<Galaxy> getGalaxies (GalaxiesFilter gFilter) {
@@ -47,5 +49,11 @@ public class GalaxyService extends AbstractGalaktikaService<DGalaxy, Galaxy> {
 	@Override
 	public Galaxy createCoreObject() {
 		return new Galaxy();
+	}
+
+	@Override
+	@Deprecated
+	public Galaxy create(Galaxy c) {
+		throw new GalaktikaModelException("GalaxyService.create is deprecated, use createGalaxy instead");
 	}
 }

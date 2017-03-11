@@ -7,6 +7,7 @@ import lt.gt.math.PlaneVector;
 
 public class Galaxy
 {
+	private long galaxyId;
 	private double sizeX, sizeY;
 	private int turn;
 	
@@ -116,4 +117,14 @@ public class Galaxy
 	public void setTurn(int turn) {
 		this.turn = turn;
 	}
+
+	public long getGalaxyId() {
+		return galaxyId;
+	}
+
+	public void setGalaxyId(long galaxyId) {
+		this.galaxyId = galaxyId;
+	}
+	
+	
 }
