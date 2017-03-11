@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -23,11 +24,12 @@ public class DNation
 	String nationName;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "userId")
 	User user;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "galaxyId")
 	DGalaxy galaxy;
-	
-	
 	
 	public DNation(long nationId, String nationName) {
 		this.nationId = nationId;

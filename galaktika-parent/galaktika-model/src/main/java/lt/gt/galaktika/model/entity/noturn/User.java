@@ -1,5 +1,7 @@
 package lt.gt.galaktika.model.entity.noturn;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +18,7 @@ public class User
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Access(AccessType.PROPERTY)
 	private long id;
 
 	@NotNull

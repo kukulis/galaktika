@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.core.Galaxy;
 import lt.gt.galaktika.core.Nation;
+import lt.gt.galaktika.model.dao.INationDao;
 import lt.gt.galaktika.model.entity.noturn.DNation;
 import lt.gt.galaktika.model.entity.noturn.User;
 import lt.gt.galaktika.model.exception.GalaktikaModelException;
@@ -16,6 +17,9 @@ public class NationService extends AbstractGalaktikaService<DNation, Nation> {
 
 	@Autowired
 	GalaxyService galaxyService;
+	
+	@Autowired
+	INationDao nationDao;
 	
 	@Override
 	public DNation createDbObject() {
@@ -43,6 +47,8 @@ public class NationService extends AbstractGalaktikaService<DNation, Nation> {
 	
 	public Nation getNation ( User u, Galaxy g ) {
 		// TODO
+//		nationDao.getNationByUser(userId)
+		
 		return null;
 	}
 	
