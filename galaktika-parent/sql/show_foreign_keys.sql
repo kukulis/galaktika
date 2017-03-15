@@ -1,0 +1,2 @@
+USE information_schema;
+SELECT * FROM KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'users';
