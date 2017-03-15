@@ -94,6 +94,9 @@ public class MockDbConfig
 		dataSource.setUrl(DB_URL);
 		dataSource.setUsername(DB_USERNAME);
 		dataSource.setPassword(DB_PASSWORD);
+		Properties props = new Properties();
+		props.setProperty("useSSL", "false" );
+		dataSource.setConnectionProperties(props);
 		return dataSource;
 
 	}

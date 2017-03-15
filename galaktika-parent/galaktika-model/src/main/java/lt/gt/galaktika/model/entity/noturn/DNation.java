@@ -10,10 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 
 @Entity
-@Table(name = "nation")
+@Table(name = "nation",
+uniqueConstraints = {@UniqueConstraint(columnNames = {"nationName", "galaxyId", "userId"})})
 public class DNation
 {
 	@Id

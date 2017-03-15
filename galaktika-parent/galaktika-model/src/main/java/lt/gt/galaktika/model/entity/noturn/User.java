@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,6 +24,7 @@ public class User
 
 	@NotNull
 	@Size(min = 3, max = 80)
+	@Column(unique=true, nullable=false)
 	private String email;
 
 	@NotNull
@@ -30,7 +32,7 @@ public class User
 	private String name;
 	
 	@Size(min = 4, max = 32)
-	@Column (unique=true)
+	@Column (unique=true, nullable=false)
 	private String login; 
 
 	@Size(max = 32)
