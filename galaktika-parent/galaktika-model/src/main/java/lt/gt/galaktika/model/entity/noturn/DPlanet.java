@@ -3,9 +3,12 @@ package lt.gt.galaktika.model.entity.noturn;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +22,10 @@ public class DPlanet
 	
 	private double x, y;
 	private double planetSize, richness;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "galaxyId")
+	private DGalaxy galaxy;
 	
 	public DPlanet() {
 	}
@@ -93,4 +100,13 @@ public class DPlanet
 	public void setRichness(double richness) {
 		this.richness = richness;
 	}
+
+	public DGalaxy getGalaxy() {
+		return galaxy;
+	}
+
+	public void setGalaxy(DGalaxy galaxy) {
+		this.galaxy = galaxy;
+	}
+	
 }

@@ -36,8 +36,9 @@ public class TestMemoryNationService {
 	public void testNations () {
 		// prepare data
 		User u = new User();
-		u.setName("aaa");
+		u.setName("aaaqwe");
 		u.setEmail( "aaa@aaa.lt");
+		u.setLogin("aaaqwe");
 		userDao.save( u );
 		Assert.assertNotEquals(0, u.getId());
 		

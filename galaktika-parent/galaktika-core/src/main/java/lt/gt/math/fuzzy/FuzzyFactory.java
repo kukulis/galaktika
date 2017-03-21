@@ -30,9 +30,9 @@ public class FuzzyFactory
 	{
 		FuzzyFunction ff = new FuzzyFunction();
 
-		ff.addPoint(new FuzzyPoint(0.25, 0)); // if attack 4 times less than deffence - 0% probability
-		ff.addPoint(new FuzzyPoint(1, 0.5)); // if attack is equal to deffence - 50% probability
-		ff.addPoint(new FuzzyPoint(4, 1)); // if attack 4 times greater than deffence - 100 % probability
+		ff.addPoint(new SimplePlanePoint(0.25, 0)); // if attack 4 times less than deffence - 0% probability
+		ff.addPoint(new SimplePlanePoint(1, 0.5)); // if attack is equal to deffence - 50% probability
+		ff.addPoint(new SimplePlanePoint(4, 1)); // if attack 4 times greater than deffence - 100 % probability
 		return ff;
 	}
 }

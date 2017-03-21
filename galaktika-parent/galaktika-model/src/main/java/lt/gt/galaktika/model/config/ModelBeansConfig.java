@@ -21,7 +21,7 @@ import lt.gt.galaktika.model.dao.impl.DPlanetSurfaceDao;
 import lt.gt.galaktika.model.dao.impl.FleetDaoOld;
 import lt.gt.galaktika.model.dao.impl.DGalaxyDao;
 import lt.gt.galaktika.model.dao.impl.DNationDao;
-import lt.gt.galaktika.model.dao.impl.PlanetDao;
+//import lt.gt.galaktika.model.dao.impl.PlanetDao;
 import lt.gt.galaktika.model.dao.impl.ShipGroupDao;
 import lt.gt.galaktika.model.dao.impl.UserDao;
 import lt.gt.galaktika.model.service.FleetsService;
@@ -48,11 +48,11 @@ public class ModelBeansConfig {
 		return new FleetDaoOld();
 	}
 
-	@Bean
-	public IPlanetDao getPlanetDao() {
-		return new PlanetDao();
-	}
-	
+//	@Bean
+//	public IPlanetDao getPlanetDao() {
+//		return new PlanetDao();
+//	}
+//	
 	@Bean(name="userDao")
 	public IUserDao getUserDao () {
 		return new UserDao();

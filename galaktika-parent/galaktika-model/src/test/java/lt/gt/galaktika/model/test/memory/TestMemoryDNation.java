@@ -57,6 +57,7 @@ public class TestMemoryDNation  extends MemoryTestBase  {
 		
 		User tmpU = new User();
 		tmpU.setName( "Kiskis" );
+		tmpU.setLogin("grybas");
 		tmpU.setEmail( "jamailas@aaa.lt" );
 		
 		User u = dao.create( tmpU );

@@ -8,7 +8,7 @@ import lt.gt.math.Function;
 
 public class FuzzyFunction implements Function {
 	
-	private List <FuzzyPoint> points=new ArrayList<FuzzyPoint>();
+	private List <SimplePlanePoint> points=new ArrayList<SimplePlanePoint>();
 
 //	@Override
 	public double calculate(double parameter) {
@@ -32,8 +32,8 @@ public class FuzzyFunction implements Function {
 		}
 		else {
 			int lowerI = i - 1;
-			FuzzyPoint lowerPoint = points.get(lowerI);
-			FuzzyPoint upperPoint = points.get(i);
+			SimplePlanePoint lowerPoint = points.get(lowerI);
+			SimplePlanePoint upperPoint = points.get(i);
 			
 			double result = calculatePointY ( lowerPoint, upperPoint, parameter );
 			
@@ -41,7 +41,7 @@ public class FuzzyFunction implements Function {
 		}
 	}
 
-	public double calculatePointY ( FuzzyPoint p1, FuzzyPoint p2, double x3 ) {
+	public double calculatePointY ( SimplePlanePoint p1, SimplePlanePoint p2, double x3 ) {
 		return calculateY3 ( p1.getX(), p1.getY(), p2.getX(), p2.getY(), x3 ) ;
 	}
 	
@@ -53,13 +53,13 @@ public class FuzzyFunction implements Function {
 	/**
 	 * @return Read only  list of points.
 	 */
-	public List<FuzzyPoint> getPoints() {
+	public List<SimplePlanePoint> getPoints() {
 		return Collections.unmodifiableList(points);
 	}
 	
-	public void addPoint (FuzzyPoint point ) {
+	public void addPoint (SimplePlanePoint point ) {
 		if ( points.size() > 0 ) {
-			FuzzyPoint lastPoint = points.get( points.size() - 1 );
+			SimplePlanePoint lastPoint = points.get( points.size() - 1 );
 			if (  point.getX() <= lastPoint.getX() ) {
 				throw new RuntimeException ( "Bad x order. The new point should have greatest x, but now it is "+point.getX()+ " <= " + lastPoint.getX()  );
 			}

@@ -19,8 +19,7 @@ import lt.gt.galaktika.model.service.NationService;
 
 public class CreateNations {
 	public final static void main(String args[]) {
-		// TODO create nation for user1
-		// TODO create nation for user2
+	
 		ApplicationContext context = new AnnotationConfigApplicationContext(  MockDbConfig.class, ModelBeansConfig.class );
 //		INationDao nationDao = context.getBean( INationDao.class );
 //		IDAO dao = context.getBean( IDAO.class );
