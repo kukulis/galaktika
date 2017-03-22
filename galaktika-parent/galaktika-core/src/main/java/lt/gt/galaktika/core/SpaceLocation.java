@@ -1,5 +1,6 @@
 package lt.gt.galaktika.core;
 
+import lt.gt.math.PlanePoint;
 import lt.gt.math.Utils;
 
 public class SpaceLocation implements GalaxyLocation
@@ -81,6 +82,14 @@ public class SpaceLocation implements GalaxyLocation
 	
 //	public String toString () {
 //		return "Space ["+x+";"+y+"]";
+//	}
+//	@Override
+//	public int compareTo(PlanePoint o) {
+//		int rez = Double.compare(x, o.getX());
+//		if ( rez != 0)
+//			return rez;
+//		
+//		return Double.compare(y, o.getY());
 //	}
 	
 }

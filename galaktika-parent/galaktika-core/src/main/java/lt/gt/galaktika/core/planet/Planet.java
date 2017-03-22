@@ -1,6 +1,7 @@
 package lt.gt.galaktika.core.planet;
 
 import lt.gt.galaktika.core.GalaxyLocation;
+import lt.gt.math.PlanePoint;
 import lt.gt.math.Utils;
 
 public class Planet implements GalaxyLocation
@@ -100,4 +101,13 @@ public class Planet implements GalaxyLocation
 	public void setPlanetId(long planetId) {
 		this.planetId = planetId;
 	}
+	
+//	@Override
+//	public int compareTo(PlanePoint o) {
+//		int rez = Double.compare(x, o.getX());
+//		if ( rez != 0)
+//			return rez;
+//		
+//		return Double.compare(y, o.getY());
+//	}
 }

@@ -25,17 +25,14 @@ public class SimplePlaneContainer implements IPlaneContainer {
 	}
 
 	@Override
-	public List<PlanePoint> getRectanglePoints(PlanePoint minPoint, PlanePoint maxPoint) {
-		return planePoints.stream().filter(p -> p.getX() >= minPoint.getX() && p.getX() <= maxPoint.getX()
-				&& p.getY() >= minPoint.getY() && p.getY() <= maxPoint.getY()).collect(Collectors.toList());
+	public List<PlanePoint> getRectanglePoints(Rectangle rectangle) {
+		return planePoints.stream().filter(p -> rectangle.isInside(p)).collect(Collectors.toList());
 	}
 
 	@Override
-	public List<PlanePoint> getCirclePoints(PlanePoint center, double radius) {
-		double squareRadius = radius * radius;
+	public List<PlanePoint> getCirclePoints(Circle circle) {
 		return planePoints.stream()
-				.filter(p -> (p.getX() - center.getX()) * (p.getX() - center.getX())
-						+ (p.getY() - center.getY()) * (p.getY() - center.getY()) <= squareRadius)
+				.filter(p -> circle.isInside(p))
 				.collect(Collectors.toList());
 	}
 

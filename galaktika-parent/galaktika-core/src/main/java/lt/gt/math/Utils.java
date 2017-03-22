@@ -32,4 +32,15 @@ public class Utils {
 	public static boolean same ( PlanePoint point, double x, double y, double epsilon ) {
 		return same ( point.getX(), x, epsilon ) && same ( point.getY(), y, epsilon );
 	}
+	
+	public static int calculateSector ( long minSectorValue, long step, int maxSectors, double value ) {
+		if ( value <= minSectorValue )
+			return 0;
+		long longValue = (long) value;
+		long sector = (longValue-minSectorValue) / step;
+		if ( sector >= maxSectors )
+			return maxSectors - 1;
+		else
+			return (int) sector;
+	}
 }

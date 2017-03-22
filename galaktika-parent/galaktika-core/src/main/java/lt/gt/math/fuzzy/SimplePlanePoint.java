@@ -3,6 +3,8 @@ package lt.gt.math.fuzzy;
 import lt.gt.math.PlanePoint;
 
 public class SimplePlanePoint implements PlanePoint{
+	private static final long serialVersionUID = -6478501068801153395L;
+	
 	private double x, y;
 	
 	public SimplePlanePoint () {
@@ -57,5 +59,19 @@ public class SimplePlanePoint implements PlanePoint{
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "SimplePlanePoint [x=" + x + ", y=" + y + "]";
+	}
+
+//	@Override
+//	public int compareTo(PlanePoint o) {
+//		int rez = Double.compare(x, o.getX());
+//		if ( rez != 0)
+//			return rez;
+//		
+//		return Double.compare(y, o.getY());
+//	}
 	
 }

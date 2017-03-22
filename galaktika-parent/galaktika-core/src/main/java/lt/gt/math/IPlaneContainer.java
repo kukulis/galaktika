@@ -12,6 +12,6 @@ public interface IPlaneContainer {
 	 */
 	void add(PlanePoint point);
 	
-	List<PlanePoint> getRectanglePoints( PlanePoint minPoint, PlanePoint maxPoint );
-	List<PlanePoint> getCirclePoints(PlanePoint center, double radius);
+	List<PlanePoint> getRectanglePoints( Rectangle rectangle);
+	List<PlanePoint> getCirclePoints(Circle circle);
 }

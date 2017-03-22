@@ -30,4 +30,9 @@ public class Circle {
 	public void setRadius(double radius) {
 		this.radius = radius;
 	}
+	
+	public boolean isInside(PlanePoint p) {
+		return (this.center.getX() - p.getX()) * (this.center.getX() - p.getX())
+				+ (this.center.getY() - p.getY()) * (this.center.getY() - p.getY()) <= this.radius * this.radius;
+	}
 }

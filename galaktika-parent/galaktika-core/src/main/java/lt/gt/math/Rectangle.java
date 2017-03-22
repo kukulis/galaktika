@@ -29,4 +29,8 @@ public class Rectangle {
 	public void setMaxPoint(PlanePoint maxPoint) {
 		this.maxPoint = maxPoint;
 	}
+	public boolean isInside (PlanePoint point) {
+		return point.getX() >= minPoint.getX() && point.getX() <= maxPoint.getX()
+				&& point.getY() >= minPoint.getY() && point.getY() <= maxPoint.getY(); 
+	}
 }

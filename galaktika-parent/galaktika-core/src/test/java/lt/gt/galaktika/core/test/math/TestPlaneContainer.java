@@ -4,25 +4,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import lt.gt.galaktika.core.exception.GalaktikaException;
 import lt.gt.math.Circle;
 import lt.gt.math.IPlaneContainer;
 import lt.gt.math.PlanePoint;
+import lt.gt.math.PlanePointComparator;
 import lt.gt.math.Rectangle;
+import lt.gt.math.SectoredPlaneContainer;
 import lt.gt.math.SimplePlaneContainer;
 import lt.gt.math.fuzzy.SimplePlanePoint;
 
 public class TestPlaneContainer {
 	
 	@Test
+//	@Ignore
 	public void testSimpleRectangles () {
 		testRectangles( new SimplePlaneContainer() );
 	}
  	
 	@Test
+//	@Ignore
 	public void testSimpleCircles () {
 		testCircles( new SimplePlaneContainer() );
+	}
+	
+	private SectoredPlaneContainer createSectoredPlane() throws GalaktikaException {
+		return  new SectoredPlaneContainer(new SectoredPlaneContainer.Initializer()
+				.setMinLimits(-10,  -10) 
+				.setCounts(5,5)
+				.setSteps(4,4)) ;
+	}
+	
+	@Test
+//	@Ignore
+	public void testSectorRectangles () throws GalaktikaException {
+		testRectangles( createSectoredPlane() );
+	}
+ 	
+	@Test
+//	@Ignore
+	public void testSectorCircles ()  throws GalaktikaException {
+		testCircles( createSectoredPlane() );
 	}
 	
 	private void testRectangles ( IPlaneContainer pc ) {
@@ -69,12 +94,12 @@ public class TestPlaneContainer {
 					for ( int y=-10; y<=-1; y++)
 						expected6.add(new SimplePlanePoint(x, y));
 				
-				Assert.assertArrayEquals(expected1.toArray(), pc.getRectanglePoints(r1.getMinPoint(), r1.getMaxPoint()).toArray());
-				Assert.assertArrayEquals(expected2.toArray(), pc.getRectanglePoints(r2.getMinPoint(), r2.getMaxPoint()).toArray());
-				Assert.assertArrayEquals(expected3.toArray(), pc.getRectanglePoints(r3.getMinPoint(), r3.getMaxPoint()).toArray());
-				Assert.assertArrayEquals(expected4.toArray(), pc.getRectanglePoints(r4.getMinPoint(), r4.getMaxPoint()).toArray());
-				Assert.assertArrayEquals(expected5.toArray(), pc.getRectanglePoints(r5.getMinPoint(), r5.getMaxPoint()).toArray());
-				Assert.assertArrayEquals(expected6.toArray(), pc.getRectanglePoints(r6.getMinPoint(), r6.getMaxPoint()).toArray());
+				Assert.assertArrayEquals(expected1.toArray(), getSorted(pc.getRectanglePoints(r1)).toArray());
+				Assert.assertArrayEquals(expected2.toArray(), getSorted(pc.getRectanglePoints(r2)).toArray());
+				Assert.assertArrayEquals(expected3.toArray(), getSorted(pc.getRectanglePoints(r3)).toArray());
+				Assert.assertArrayEquals(expected4.toArray(), getSorted(pc.getRectanglePoints(r4)).toArray());
+				Assert.assertArrayEquals(expected5.toArray(), getSorted(pc.getRectanglePoints(r5)).toArray());
+				Assert.assertArrayEquals(expected6.toArray(), getSorted(pc.getRectanglePoints(r6)).toArray());
 	}
 	
 	private void testCircles (IPlaneContainer pc) {
@@ -195,12 +220,110 @@ public class TestPlaneContainer {
 		
 		// expected6 stays as it is
 		
-		Assert.assertArrayEquals( expected1.toArray(), pc.getCirclePoints(c1.getCenter(), c1.getRadius()).toArray());
-		Assert.assertArrayEquals( expected2.toArray(), pc.getCirclePoints(c2.getCenter(), c2.getRadius()).toArray());
-		Assert.assertArrayEquals( expected3.toArray(), pc.getCirclePoints(c3.getCenter(), c3.getRadius()).toArray());
-		Assert.assertArrayEquals( expected4.toArray(), pc.getCirclePoints(c4.getCenter(), c4.getRadius()).toArray());
-		Assert.assertArrayEquals( expected5.toArray(), pc.getCirclePoints(c5.getCenter(), c5.getRadius()).toArray());
-		Assert.assertArrayEquals( expected6.toArray(), pc.getCirclePoints(c6.getCenter(), c6.getRadius()).toArray());
+		Assert.assertArrayEquals( expected1.toArray(), getSorted(pc.getCirclePoints(c1)).toArray());
+		Assert.assertArrayEquals( expected2.toArray(), getSorted(pc.getCirclePoints(c2)).toArray());
+		Assert.assertArrayEquals( expected3.toArray(), getSorted(pc.getCirclePoints(c3)).toArray());
+		Assert.assertArrayEquals( expected4.toArray(), getSorted(pc.getCirclePoints(c4)).toArray());
+		Assert.assertArrayEquals( expected5.toArray(), getSorted(pc.getCirclePoints(c5)).toArray());
+		Assert.assertArrayEquals( expected6.toArray(), getSorted(pc.getCirclePoints(c6)).toArray());
+	}
+	
+	@Test
+	public  void testSectors () throws GalaktikaException {
+		SectoredPlaneContainer pc = new SectoredPlaneContainer(new SectoredPlaneContainer.Initializer()
+				.setMinLimits(-10,  -10) 
+				.setCounts(5,5)
+				.setSteps(4,4));
+		
+		for ( int x=-10; x <=10; x ++ )
+			for ( int y =-10; y<=10;y++)
+				pc.add(new SimplePlanePoint(x,y));
+		
+		// test sectors
+		for ( int xi=0; xi < 5; xi ++) 
+			for ( int yi=0; yi < 5; yi ++) {
+				List<PlanePoint> expected = new ArrayList<>();
+				int minX = -10 + xi * 4;
+				int minY = -10 + yi * 4;
+				int maxX = -10 + (xi+1) * 4;
+				int maxY = -10 + (yi+1) * 4;
+				
+				if ( maxX == 10 )
+					maxX = 11;
+				
+				if ( maxY == 10 )
+					maxY = 11;
+				
+				for (int x=minX; x < maxX; x++)
+					for ( int y=minY; y < maxY; y ++ )
+						expected.add( new SimplePlanePoint(x,y));
+				
+				Assert.assertArrayEquals( expected.toArray(), pc.getSectorPoints(xi, yi).toArray() );
+				
+//				System.out.println( "Asserted "+xi+" "+yi);
+			}
+	}
+	
+	@Test
+	public void testGetIndexes() throws GalaktikaException {
+		
+		SectoredPlaneContainer pc = new SectoredPlaneContainer(new SectoredPlaneContainer.Initializer()
+				.setMinLimits(-10,  -10) 
+				.setCounts(5,5)
+				.setSteps(4,4));
+		
+		// 0       1   2  3  4   
+		// -10, -6, -2, 2, 6, 10
 
+		// 2) Take multiple rectangles
+		Rectangle r1 = new Rectangle( -1,-1, 1, 1 );
+		Rectangle r2 = new Rectangle( -11,-11, 1, 1 );
+		Rectangle r3 = new Rectangle( -1,-1, 11, 11 );
+		Rectangle r4 = new Rectangle( -12,-12, -11, -11 ); // empty result
+		Rectangle r5 = new Rectangle( -8, 1, 1, 8 );
+		Rectangle r6 = new Rectangle( 1, -12, 8, -1);
+
+		
+		List<SectoredPlaneContainer.SectorKey> expected1 = new ArrayList<>();
+		expected1.add(new SectoredPlaneContainer.SectorKey(2,2) );
+		
+		List<SectoredPlaneContainer.SectorKey> expected2 = new ArrayList<>();
+		for ( int xi=0; xi <= 2; xi++)
+			for ( int yi=0; yi <= 2; yi++)
+				expected2.add( new SectoredPlaneContainer.SectorKey(xi,yi));
+		
+		List<SectoredPlaneContainer.SectorKey> expected3 = new ArrayList<>();
+		for ( int xi=2; xi <= 4; xi++)
+			for ( int yi=2; yi <= 4; yi++)
+				expected3.add( new SectoredPlaneContainer.SectorKey(xi,yi));
+
+		List<SectoredPlaneContainer.SectorKey> expected4 = new ArrayList<>();
+		expected4.add( new SectoredPlaneContainer.SectorKey(0,0));
+		
+		
+		List<SectoredPlaneContainer.SectorKey> expected5 = new ArrayList<>();
+		for ( int xi=0; xi <= 2; xi++)
+			for ( int yi=2; yi <= 4; yi++)
+				expected5.add( new SectoredPlaneContainer.SectorKey(xi,yi));
+		
+		List<SectoredPlaneContainer.SectorKey> expected6 = new ArrayList<>();
+		for ( int xi=2; xi <= 4; xi++)
+			for ( int yi=0; yi <= 2; yi++)
+				expected6.add( new SectoredPlaneContainer.SectorKey(xi,yi));
+		
+	    Assert.assertArrayEquals( expected1.toArray() , pc.getRectangleKeys( r1 ).toArray() );
+	    Assert.assertArrayEquals( expected2.toArray() , pc.getRectangleKeys( r2 ).toArray() );
+	    Assert.assertArrayEquals( expected3.toArray() , pc.getRectangleKeys( r3 ).toArray() );
+	    Assert.assertArrayEquals( expected4.toArray() , pc.getRectangleKeys( r4 ).toArray() );
+	    Assert.assertArrayEquals( expected5.toArray() , pc.getRectangleKeys( r5 ).toArray() );
+	    Assert.assertArrayEquals( expected6.toArray() , pc.getRectangleKeys( r6 ).toArray() );
+		
+	}
+	
+	private PlanePointComparator ppc = new PlanePointComparator();
+	
+	public List<PlanePoint> getSorted( List<PlanePoint> l) {
+		l.sort( ppc );
+		return l;
 	}
 }
