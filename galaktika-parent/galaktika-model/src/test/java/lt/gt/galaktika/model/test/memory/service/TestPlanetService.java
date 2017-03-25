@@ -1,5 +1,7 @@
 package lt.gt.galaktika.model.test.memory.service;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,5 +36,21 @@ public class TestPlanetService {
 		Planet rezP = planetService.createPlanet( p,g );
 		
 		Assert.assertEquals( p, rezP );
+	}
+	
+	@Test
+	public void testGalaxyPlanets() {
+		Planet p1 = new Planet ( 10,10,100, 2);
+		Planet p2 = new Planet ( 9,11,101, 1);
+		
+		Galaxy g = new Galaxy (100, 100);
+		g = galaxyService.createGalaxy(g, EGalaxyPurposes.PLAY, true);
+		
+		planetService.createPlanet(p1, g);
+		planetService.createPlanet(p2, g);
+		
+		List<Planet> planets = planetService.findPlanets(g);
+		
+		Assert.assertArrayEquals(new Object[]{p1,p2}, planets.toArray());
 	}
 }

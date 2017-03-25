@@ -33,6 +33,12 @@ import lt.gt.galaktika.utils.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { MemoryTestConfig.class, ModelBeansConfig.class })
+@Deprecated  
+/**
+ * 
+ * @deprecated Use TestMemoryPlanetDataService2 instead
+ *
+ */
 public class TestMemoryPlanetDataService {
 	final static Logger LOG = LoggerFactory.getLogger(TestMemoryPlanetDataService.class);
 	

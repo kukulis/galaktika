@@ -2,6 +2,7 @@ package lt.gt.galaktika.model.test.memory.service;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
@@ -17,12 +18,13 @@ import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
 import lt.gt.galaktika.model.exception.GalaktikaModelException;
 import lt.gt.galaktika.model.service.GalaxyService;
+import lt.gt.galaktika.model.test.memory.MemoryTestBase;
 import lt.gt.galaktika.model.test.memory.MemoryTestConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { MemoryTestConfig.class, ModelBeansConfig.class })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestGalaxyService {
+public class TestGalaxyService extends MemoryTestBase {
 	
 	@Autowired
 	GalaxyService galaxyService;
@@ -56,5 +58,10 @@ public class TestGalaxyService {
 		galaxyService.createGalaxy( new Galaxy(1000, 950), EGalaxyPurposes.PLAY, true );
 		galaxyService.createGalaxy( new Galaxy(500, 500), EGalaxyPurposes.PLAY, true );
 		galaxyService.getGalaxies(null);
+	}
+	
+	@Before
+	public void clearBefore () {
+		tearDown();
 	}
 }

@@ -16,7 +16,8 @@ import org.junit.runners.Suite.SuiteClasses;
         TestMemoryDShipFactory.class,
         TestMemoryDSurfaceCommand.class,
         TestMemoryTechnologies.class,
-        TurnMemoryTest.class
+        TurnMemoryTest.class,
+        TestMemoryPlanetDao.class
         })
 public class AllMemoryTests {
 

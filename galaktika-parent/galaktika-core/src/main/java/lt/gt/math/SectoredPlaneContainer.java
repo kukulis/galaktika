@@ -1,5 +1,6 @@
 package lt.gt.math;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,6 +8,10 @@ import java.util.List;
 import lt.gt.galaktika.core.exception.GalaktikaException;
 import lt.gt.math.fuzzy.SimplePlanePoint;
 
+/**
+ * Divides plane by sectors. This fastens search of points, because it searches not the whole points list, but only in several sectors.
+ *
+ */
 public class SectoredPlaneContainer implements IPlaneContainer {
 	private List<PlanePoint> planePoints = new ArrayList<>();
 	
@@ -18,7 +23,9 @@ public class SectoredPlaneContainer implements IPlaneContainer {
 	private long minSectorLimitY;
 	private int sectorsCountY;
 	
-	public SectoredPlaneContainer(Initializer initializer) throws GalaktikaException {
+
+	public SectoredPlaneContainer(Initializer initializer) throws GalaktikaException 	// This is more assert than exception 
+	{
 		initializer.haltUninitialized();
 		this.sectorStepX = initializer.sectorStepX;
 		this.minSectorLimitX = initializer.minSectorLimitX;
@@ -81,9 +88,16 @@ public class SectoredPlaneContainer implements IPlaneContainer {
 		return rez;
 	}
 	
+	@Override
+	public PlanePoint getAnyCirclePoint(Circle circle) {
+		List <SectorKey> keys = getCircleKeys(circle);
+		for (SectorKey key: keys)
+			for (  PlanePoint point : sectors[key.xi][key.yi] )
+				if( circle.isInside( point ))
+					return point;
+		return null;
+	}
 
-	
-	
 	public static class Initializer {
 		public Initializer() {
 		}
@@ -248,5 +262,13 @@ public class SectoredPlaneContainer implements IPlaneContainer {
 	
 	public List<PlanePoint> getSectorPoints(int xi, int yi) {
 		return this.sectors[xi][yi];
+	}
+	
+	public void printSectorsStatistics ( PrintStream ps ) {
+		for ( int xi=0; xi < sectorsCountX; xi++) {
+			for ( int yi=0; yi < sectorsCountY; yi ++)
+				ps.print( sectors[xi][yi].size() + ", " );
+			ps.println();
+		}
 	}
 }

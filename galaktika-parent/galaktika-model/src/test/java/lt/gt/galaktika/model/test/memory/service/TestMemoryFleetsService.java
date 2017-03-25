@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.FlightCommand;
+import lt.gt.galaktika.core.Galaxy;
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.Ship;
 import lt.gt.galaktika.core.ShipGroup;
@@ -18,7 +19,9 @@ import lt.gt.galaktika.core.SpaceLocation;
 import lt.gt.galaktika.core.exception.GalaktikaException;
 import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.model.config.ModelBeansConfig;
+import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
 import lt.gt.galaktika.model.service.FleetsService;
+import lt.gt.galaktika.model.service.GalaxyService;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetService;
 import lt.gt.galaktika.model.service.ShipService;
@@ -45,11 +48,17 @@ public class TestMemoryFleetsService {
 
 	@Autowired
 	PlanetService planetService;
+	
+	@Autowired
+	GalaxyService galaxyService;
 
 	@Test
 //	 @Ignore
 	public void testFleetsService() throws GalaktikaException {
 		LOG.trace("testFleetsService called");
+		
+		Galaxy g = galaxyService.createGalaxy(new Galaxy(), EGalaxyPurposes.PLAY, true);
+		
 		Nation nation = nationService.createNation(new Nation("vokieciai "), null, null );
 
 		int turnNumber = 1;
@@ -62,8 +71,8 @@ public class TestMemoryFleetsService {
 		Ship meska = shipService.create(new Ship("meska"));
 		Ship kelmas = shipService.create(new Ship("kelmas"));
 
-		Planet planet1 = planetService.create(new Planet(10, 10, 101, 0.9));
-		Planet planet2 = planetService.create(new Planet(5, 15, 101, 0.9));
+		Planet planet1 = planetService.createPlanet(new Planet(10, 10, 101, 0.9), g);
+		Planet planet2 = planetService.createPlanet(new Planet(5, 15, 101, 0.9), g);
 		// ========= end of contracted data
 
 		// ship groups

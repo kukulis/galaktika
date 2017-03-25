@@ -1,5 +1,10 @@
 package lt.gt.galaktika.model.dao;
 
-public interface IPlanetDao extends IDAO {
-	
+import java.util.List;
+
+import lt.gt.galaktika.model.entity.noturn.DGalaxy;
+import lt.gt.galaktika.model.entity.noturn.DPlanet;
+
+public interface IPlanetDao {
+	public List<DPlanet> getGalaxyPlanets (DGalaxy g); 
 }

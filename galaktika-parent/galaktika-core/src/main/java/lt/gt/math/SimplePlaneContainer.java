@@ -36,4 +36,15 @@ public class SimplePlaneContainer implements IPlaneContainer {
 				.collect(Collectors.toList());
 	}
 
+	@Override
+	public PlanePoint getAnyCirclePoint(Circle circle) {
+		for ( PlanePoint pp : planePoints )
+			if( circle.isInside( pp ))
+				return pp;
+		
+		return null;
+	}
+	
+	
+
 }

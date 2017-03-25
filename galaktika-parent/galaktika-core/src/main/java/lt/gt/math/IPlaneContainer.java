@@ -14,4 +14,5 @@ public interface IPlaneContainer {
 	
 	List<PlanePoint> getRectanglePoints( Rectangle rectangle);
 	List<PlanePoint> getCirclePoints(Circle circle);
+	PlanePoint getAnyCirclePoint ( Circle circle );
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import lt.gt.galaktika.core.Galaxy;
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.Ship;
 import lt.gt.galaktika.core.SpaceLocation;
@@ -16,6 +17,8 @@ import lt.gt.galaktika.core.Technologies;
 import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.ShipDesign;
 import lt.gt.galaktika.model.config.ModelBeansConfig;
+import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
+import lt.gt.galaktika.model.service.GalaxyService;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetService;
 import lt.gt.galaktika.model.service.ShipDesignService;
@@ -43,11 +46,14 @@ public class MemoryTestBaseServices {
 	SpaceLocationService spaceLocationService;
 	@Autowired
 	TechnologiesService technologiesService;
+	@Autowired
+	GalaxyService galaxyService;
 	
 	@Test
 	public void testStoreBaseObjects () {
+		Galaxy g = galaxyService.createGalaxy(new Galaxy(), EGalaxyPurposes.PLAY, true);
 		Nation naciai = nationService.createNation( new Nation ( "naciai"), null, null );
-		Planet marsas = planetService.create( new Planet(1, 2, 100, 1.5));
+		Planet marsas = planetService.createPlanet( new Planet(1, 2, 100, 1.5), g);
 		ShipDesign dizainas = shipDesignService.create( new ShipDesign( "dizaineris"));
 		Ship katinas = shipService.create( new Ship ( "katinas") );
 		SpaceLocation taskas = spaceLocationService.create( new SpaceLocation(1, 0.5 ));
@@ -59,6 +65,5 @@ public class MemoryTestBaseServices {
 		Assert.assertNotEquals( 0, katinas.getId());
 		Assert.assertNotEquals( 0, taskas.getLocationId());
 		Assert.assertNotEquals( 0, t1.getTechnologiesId());
-		
 	}
 }

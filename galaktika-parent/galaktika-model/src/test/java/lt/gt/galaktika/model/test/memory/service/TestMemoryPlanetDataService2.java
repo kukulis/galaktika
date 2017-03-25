@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import lt.gt.galaktika.core.Galaxy;
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.Ship;
 import lt.gt.galaktika.core.Technologies;
@@ -21,9 +22,11 @@ import lt.gt.galaktika.core.planet.SurfaceCommandIndustry;
 import lt.gt.galaktika.core.planet.SurfaceCommandProduction;
 import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.dao.IDAO;
+import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
 import lt.gt.galaktika.model.entity.turn.DPlanetSurface;
 import lt.gt.galaktika.model.entity.turn.DShipFactory;
 import lt.gt.galaktika.model.entity.turn.DSurfaceCommand;
+import lt.gt.galaktika.model.service.GalaxyService;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetDataService;
 import lt.gt.galaktika.model.service.PlanetService;
@@ -54,6 +57,11 @@ public class TestMemoryPlanetDataService2 {
 	
 	@Autowired
 	private TechnologiesService technologiesService;
+	
+	@Autowired
+	GalaxyService galaxyService;
+
+
 	
 	private class TestData {
 		PlanetSurface surface;
@@ -114,10 +122,13 @@ public class TestMemoryPlanetDataService2 {
 	}
 
 	private TestData createTestData() {
+		
+		Galaxy g = galaxyService.createGalaxy(new Galaxy(), EGalaxyPurposes.PLAY, true);
+		
 		Nation nation = nationService.createNation(new Nation("pacukai"), null, null );
 
 		Planet planet = new Planet();
-		planet = planetService.create(planet);
+		planet = planetService.createPlanet(planet, g);
 		Assert.assertNotEquals(0, planet.getPlanetId());
 
 		PlanetSurface surface = new PlanetSurface();
