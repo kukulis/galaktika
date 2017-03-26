@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.core.planet.Planet;
@@ -184,7 +185,7 @@ public class PlanetDataService {
 	 * @param dPlanetSurface
 	 * @return
 	 */
-	public DPlanetSurface upfillDPlanetSurface(DPlanetSurface dPlanetSurface) {
+	protected DPlanetSurface upfillDPlanetSurface(DPlanetSurface dPlanetSurface) {
 		dPlanetSurface.setOwner(dao.find(DNation.class, dPlanetSurface.getOwner().getNationId()));
 		LOG.trace("after upfilling owner");
 
@@ -218,7 +219,7 @@ public class PlanetDataService {
 		return dPlanetSurface;
 	}
 
-	public boolean fullSaveDPlanetSurface(DPlanetSurface dPlanetSurface) {
+	protected boolean fullSaveDPlanetSurface(DPlanetSurface dPlanetSurface) {
 
 		// TODO check if needed separate savings
 		upfillDPlanetSurface(dPlanetSurface);
@@ -355,7 +356,13 @@ public class PlanetDataService {
 	}
 
 	public PlanetSurface loadPlanetSurface(long planetId, int turnNumber) {
-		DPlanetSurface dPS = dPlanetSurfaceDao.find(planetId, turnNumber);
+		DPlanetSurface dPS = null;
+		try {
+			dPS = dPlanetSurfaceDao.find(planetId, turnNumber);
+		} catch ( EmptyResultDataAccessException e ) {
+			LOG.debug("No surface for planet "+planetId+" turn="+turnNumber );
+			return null;
+		}
 
 		PlanetSurface surface = new PlanetSurface();
 		surface.setName(dPS.getName());
@@ -376,8 +383,6 @@ public class PlanetDataService {
 	}
 
 	/**
-	 * 
-	 * @author Giedrius Tumelis
 	 * 
 	 * @deprecated will implement without it.
 	 *

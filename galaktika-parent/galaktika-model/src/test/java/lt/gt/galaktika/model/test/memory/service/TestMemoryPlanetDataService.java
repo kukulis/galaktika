@@ -24,7 +24,6 @@ import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DPlanet;
 import lt.gt.galaktika.model.entity.turn.DFleetData;
-import lt.gt.galaktika.model.entity.turn.DTurn;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetDataService;
 import lt.gt.galaktika.model.service.PlanetService;
@@ -61,25 +60,26 @@ public class TestMemoryPlanetDataService {
 		LOG.trace( "testOrbit called" );
 //		planetDataService.loadPlanetOrbit( , turnNumber)
 		
-		DTurn turn = dao.create(new DTurn(4));
+//		DTurn turn = dao.create(new DTurn(4));
+		int turn = 4;
 		DPlanet planet = dao.create( new DPlanet());
 		
 		DFleet fleet1 = dao.create( new DFleet( "pirmas" ) );
 		DFleet fleet2 = dao.create( new DFleet( "antras" ) );
 		
-		DFleetData fd1 = new DFleetData(fleet1.getFleetId(), turn.getTurnNumber() );
+		DFleetData fd1 = new DFleetData(fleet1.getFleetId(), turn);
 		fd1.setPlanetLocation( planet );
-		DFleetData fd2 = new DFleetData(fleet2.getFleetId(), turn.getTurnNumber() );
+		DFleetData fd2 = new DFleetData(fleet2.getFleetId(), turn);
 		fd2.setPlanetLocation( planet );
 		
 		dao.create( fd1 );
 		dao.create( fd2 );
 		
-		PlanetOrbit planetOrbit = planetDataService.loadPlanetOrbit( planet.getPlanetId(), turn.getTurnNumber(), false );
+		PlanetOrbit planetOrbit = planetDataService.loadPlanetOrbit( planet.getPlanetId(), turn, false );
 		Assert.assertEquals( 2,  planetOrbit.getFleets().size() );
 		planetOrbit.getFleets().forEach( f -> LOG.trace( f.toString() ) );
 
-		planetOrbit = planetDataService.loadPlanetOrbit( planet.getPlanetId(), turn.getTurnNumber(), true );
+		planetOrbit = planetDataService.loadPlanetOrbit( planet.getPlanetId(), turn, true );
 		Assert.assertEquals( 2,  planetOrbit.getFleets().size() );
 		planetOrbit.getFleets().forEach( f -> LOG.trace( f.toString() ) );
 

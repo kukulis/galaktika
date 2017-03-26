@@ -21,7 +21,6 @@ import lt.gt.galaktika.model.entity.turn.DPlanetSurface;
 import lt.gt.galaktika.model.entity.turn.DShipFactory;
 import lt.gt.galaktika.model.entity.turn.DSurfaceCommand;
 import lt.gt.galaktika.model.entity.turn.DTechnologies;
-import lt.gt.galaktika.model.entity.turn.DTurn;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { MemoryTestConfig.class, ModelBeansConfig.class })
@@ -52,7 +51,8 @@ public class MemoryTestDPlanetSurface extends MemoryTestBase {
 
 		// create all the planet surface components
 		// then store them to repository
-		DTurn turn = dao.create(new DTurn(1));
+//		DTurn turn = dao.create(new DTurn(1));
+		int turnNumber = 1;
 		DPlanet planet = dao.create(new DPlanet(1, 1));
 		DNation nation = dao.create(new DNation("kalniečiai"));
 		DShipFactory factory = createShipFactory();
@@ -70,7 +70,7 @@ public class MemoryTestDPlanetSurface extends MemoryTestBase {
 		// then create planet surface, add the components to it
 		// then store planet surface
 
-		DPlanetSurface surface = new DPlanetSurface(planet.getPlanetId(), turn.getTurnNumber());
+		DPlanetSurface surface = new DPlanetSurface(planet.getPlanetId(), turnNumber);
 		surface.setOwner(nation);
 
 		surface.setCapital(100);
@@ -83,15 +83,15 @@ public class MemoryTestDPlanetSurface extends MemoryTestBase {
 		dao.create(surface);
 
 		// then load it and check for elements values
-		DPlanetSurface loadedSurface = dPlanetSurfaceDao.find(planet.getPlanetId(), turn.getTurnNumber());
+		DPlanetSurface loadedSurface = dPlanetSurfaceDao.find(planet.getPlanetId(), turnNumber);
 		Assert.assertNotEquals(0, loadedSurface.getPlanetId());
 
 		// assert planetId and turnId for factory and for command before adding
 		// to surface
 		Assert.assertEquals(new Long(planet.getPlanetId()), ((DShipFactory)loadedSurface.getShipFactories().toArray()[0]).getPlanetId());
-		Assert.assertEquals(new Integer(turn.getTurnNumber()), ((DShipFactory) loadedSurface.getShipFactories().toArray()[0]).getTurnNumber());
+		Assert.assertEquals(new Integer(turnNumber), ((DShipFactory) loadedSurface.getShipFactories().toArray()[0]).getTurnNumber());
 		Assert.assertEquals(new Long(planet.getPlanetId()), ((DSurfaceCommand) loadedSurface.getCommands().toArray()[0]).getPlanetId());
-		Assert.assertEquals(new Integer(turn.getTurnNumber()), ((DSurfaceCommand)loadedSurface.getCommands().toArray()[0]).getTurnNumber());
+		Assert.assertEquals(new Integer(turnNumber), ((DSurfaceCommand)loadedSurface.getCommands().toArray()[0]).getTurnNumber());
 
 	}
 
