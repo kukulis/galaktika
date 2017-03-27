@@ -32,9 +32,6 @@ public class DShip
 	
 	private int buildTurnId;
 
-
-	// TODO relations with owner,turn,shiptype, techonologies?
-	
 	public DShip () {
 		
 	}
@@ -48,8 +45,6 @@ public class DShip
 		this.id = id;
 		this.name = name;
 	}
-
-	
 
 	public DShip(long id, String name, double attack, int guns, double defence, double cargo, double speed,
 			double totalMass) {

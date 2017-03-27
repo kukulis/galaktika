@@ -49,7 +49,6 @@ public class DSurfaceCommand {
 	@JoinColumn(name = "technologiesId")
 	private DTechnologies technologies;
 	
-//	private double donePart; // TODO move to shipFactory
 	private int maxShips;
 	
 	public DSurfaceCommand() {

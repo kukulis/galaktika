@@ -56,5 +56,4 @@ public abstract class AbstractGalaktikaService <D,C> {
 		c = mapToCoreObject( d );
 		return c;
 	}
-	
 }

@@ -38,7 +38,7 @@ public class ShipGroupDao implements IShipGroupDao
 //		em.
 //		Session session = em.unwrap(Session.class);
 //		session.
-		// TODO Auto-generated method stub
+		//  Auto-generated method stub
 		return em.find(DShipGroup.class, shipGroupId);
 	}
 
@@ -71,7 +71,7 @@ public class ShipGroupDao implements IShipGroupDao
 	@Transactional
 	public DataSearchResult<DShipGroup> loadShipGroupPortion ( DataSearchLimits li )
 	{
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 		return null;
 	}
 

@@ -47,7 +47,7 @@ public class FleetDaoOld implements IFleetDaoOld
 			return Utils.value(id, 0);
 		}
 		else
-		{ // TODO ? move to different object, the id check condition to outside
+		{ //  move to different object, the id check condition to outside
 			// from this method
 			fleet = (DFleet) getSession().merge(fleet);
 			return fleet.getFleetId();

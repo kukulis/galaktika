@@ -1,5 +1,7 @@
 package lt.gt.galaktika.model.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -8,6 +10,8 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import lt.gt.galaktika.model.dao.IPlanetSurfaceDao;
+import lt.gt.galaktika.model.entity.noturn.DNation;
+import lt.gt.galaktika.model.entity.noturn.DPlanet;
 import lt.gt.galaktika.model.entity.turn.DPlanetSurface;
 
 @Repository
@@ -33,6 +37,16 @@ public class DPlanetSurfaceDao implements IPlanetSurfaceDao {
 		query.setParameter("turnNumber", turnNumber);
 
 		return (DPlanetSurface) query.getSingleResult();
+	}
+	
+	public List<Long> findPlanets(Long nationId, int turnNumber) {
+		String queryStr = "select s.planetId from DPlanetSurface s "
+				+ "where s.owner.nationId=:nationId "
+				+ " and s.turnNumber=:turnNumber";
+		Query query = em.createQuery(queryStr, Long.class);
+		query.setParameter( "nationId", nationId);
+		query.setParameter("turnNumber", turnNumber);
+		return query.getResultList();
 	}
 
 }

@@ -111,7 +111,7 @@ public class DShipFactory {
 
 	@Override
 	public int hashCode() {
-		// TODO not sure if this is correct
+		// not sure if this is correct
 		return Long.hashCode(shipFactoryId );
 	}
 
