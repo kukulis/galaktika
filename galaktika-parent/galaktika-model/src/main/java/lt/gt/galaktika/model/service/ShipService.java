@@ -23,6 +23,11 @@ public class ShipService extends AbstractGalaktikaService<DShip, Ship> {
 		return new Ship();
 	}
 
+	@Override
+	public Class<DShip> getDClazz() {
+		return DShip.class;
+	}
+
 //	@Override
 //	public Ship mapToCoreObject(DShip dShip) {
 //		Ship ship = createCoreObject();

@@ -55,5 +55,10 @@ public class PlanetService extends AbstractGalaktikaService<DPlanet, Planet>{
 		List<DPlanet> dPlanets = planetDao.getGalaxyPlanets(galaxyService.mapToDbObject(g));
 		return dPlanets.stream().map(dp -> mapToCoreObject(dp)).collect(Collectors.toList());
 	}
+
+	@Override
+	public Class<DPlanet> getDClazz() {
+		return DPlanet.class;
+	}
 	
 }

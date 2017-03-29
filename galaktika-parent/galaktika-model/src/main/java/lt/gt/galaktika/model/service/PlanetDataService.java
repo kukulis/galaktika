@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.planet.Planet;
+import lt.gt.galaktika.core.planet.PlanetData;
 import lt.gt.galaktika.core.planet.PlanetOrbit;
 import lt.gt.galaktika.core.planet.PlanetSurface;
 import lt.gt.galaktika.core.planet.ShipFactory;
@@ -62,6 +63,9 @@ public class PlanetDataService {
 
 	@Autowired
 	TechnologiesService technologiesService;
+	
+	@Autowired
+	PlanetService planetService;
 
 	public PlanetOrbit loadPlanetOrbit(long planetId, int turnNumber, boolean withGroups) {
 		List<DFleetData> fleetDatas = dFleetDataDao.findInOrbit(planetId, turnNumber, withGroups);
@@ -469,5 +473,11 @@ public class PlanetDataService {
 //		}
 //
 //	}
-
+	
+	public PlanetData loadPlanetData ( long planetId, int turn ) {
+		return new PlanetData(
+			planetService.load( planetId ),
+			loadPlanetSurface(planetId, turn),
+			loadPlanetOrbit(planetId, turn, false) );
+	}
 }

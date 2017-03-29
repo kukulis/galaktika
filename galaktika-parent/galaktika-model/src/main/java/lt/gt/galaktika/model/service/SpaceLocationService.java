@@ -14,4 +14,9 @@ public class SpaceLocationService extends AbstractGalaktikaService<DSpaceLocatio
 	public SpaceLocation createCoreObject() {
 		return new SpaceLocation();
 	}
+
+	@Override
+	public Class<DSpaceLocation> getDClazz() {
+		return DSpaceLocation.class;
+	}
 }

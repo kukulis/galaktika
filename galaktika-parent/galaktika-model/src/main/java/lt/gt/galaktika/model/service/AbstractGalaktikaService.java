@@ -44,16 +44,28 @@ public abstract class AbstractGalaktikaService <D,C> {
 		return coreObject;
 	}
 	
-	// TODO may be its possible to create with reflection
-	public abstract D createDbObject ();
+	public D createDbObject () {
+		try {
+			return getDClazz().newInstance();
+		} catch ( IllegalAccessException | InstantiationException iae ) {
+			throw new GalaktikaRuntimeException( iae );
+		}
+	}
+	
 	// TODO may be its possible to create with reflection
 	public abstract C createCoreObject();
 	
+	public abstract Class<D> getDClazz();
+	
 	public C create( C c ) {
-		
 		D d = mapToDbObject( c );
 		d = dao.create( d );
 		c = mapToCoreObject( d );
 		return c;
+	}
+	
+	public C load ( long id) {
+		D d = dao.find( getDClazz(), id);
+		return mapToCoreObject( d );
 	}
 }

@@ -53,7 +53,7 @@ public class CreateNations {
 		Assert.assertNotEquals(0, nation2.getNationId());
 		
 	
-		
+		// TODO create technologies for nations
 		
 		
 		

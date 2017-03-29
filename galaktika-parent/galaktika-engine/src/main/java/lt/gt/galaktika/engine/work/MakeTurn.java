@@ -7,7 +7,13 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import lt.gt.galaktika.core.Galaxy;
 import lt.gt.galaktika.core.Nation;
+import lt.gt.galaktika.core.Technologies;
+import lt.gt.galaktika.core.engines.PlanetEngine;
 import lt.gt.galaktika.core.planet.Planet;
+import lt.gt.galaktika.core.planet.PlanetData;
+import lt.gt.galaktika.core.planet.SurfaceCommandIndustry;
+import lt.gt.galaktika.core.planet.SurfaceCommandProduction;
+import lt.gt.galaktika.core.planet.SurfaceCommandTechnologies;
 import lt.gt.galaktika.engine.config.MockDbConfig;
 import lt.gt.galaktika.model.GalaxiesFilter;
 import lt.gt.galaktika.model.config.ModelBeansConfig;
@@ -16,6 +22,7 @@ import lt.gt.galaktika.model.service.GalaxyService;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetDataService;
 import lt.gt.galaktika.model.service.PlanetService;
+import lt.gt.galaktika.model.service.TechnologiesService;
 
 /**
  * This is engine.
@@ -44,8 +51,7 @@ public class MakeTurn {
 		orbitActions(g);
 		flightActions(g);
 		combatActions(g);
-
-//		updateTurn(g); // TODO enable later
+		updateTurn(g);
 	}
 	private void surfaceActions(Galaxy g) {
 		// for each nation
@@ -53,15 +59,38 @@ public class MakeTurn {
 		// do surface command
 		NationService ns = context.getBean( NationService.class);
 		PlanetService ps = context.getBean(PlanetService.class);
-		PlanetDataService pds = context.getBean( PlanetDataService.class ); 
+		PlanetDataService pds = context.getBean( PlanetDataService.class );
+	    PlanetEngine planetEngine = new PlanetEngine();
+	    TechnologiesService ts = context.getBean( TechnologiesService.class );
+
 		List<Nation> nations = ns.getNations( g );
 		for ( Nation n : nations ) {
 			List<Long> planets = pds.findPlanetsIds( n, g.getTurn() );
+			Technologies t = ts.getNationTechnologies(n, g.getTurn());
+			
 			for ( Long planetId: planets ) {
-				System.out.println( "Working with planet "+planetId );
-				pds.loadPlanetSurface(planetId, g.getTurn());
-				// TODO
+				 System.out.println( "Working with planet "+planetId );
+//				 PlanetSurface planetSurface = pds.loadPlanetSurface(planetId, g.getTurn());
+				 PlanetData pd = pds.loadPlanetData(planetId, g.getTurn() );
+				 planetEngine.executePopulation( pd );
+				 Planet p = ps.load( planetId );
+				 if ( pd.getSurface().getSurfaceCommand() instanceof SurfaceCommandProduction ) {
+					 SurfaceCommandProduction scp = (SurfaceCommandProduction) pd.getSurface().getSurfaceCommand();
+					 planetEngine.executeProduction(pd, t);
+				 }
+				 else if ( pd.getSurface().getSurfaceCommand() instanceof SurfaceCommandIndustry ) {
+					 SurfaceCommandIndustry sci = (SurfaceCommandIndustry) pd.getSurface().getSurfaceCommand();
+					 planetEngine.executeIndustry(pd);
+				 }
+				 else if ( pd.getSurface().getSurfaceCommand() instanceof SurfaceCommandTechnologies ) {
+					 SurfaceCommandTechnologies sct = (SurfaceCommandTechnologies) pd.getSurface().getSurfaceCommand();
+					 planetEngine.executeTechnologies(pd, t);
+				 }
+				 
+				 // TODO store planet data to a new turn
 			}
+			
+			// TODO store technologies to a new turn
 		}
 	}
 	

@@ -15,6 +15,11 @@ public class ShipDesignService extends AbstractGalaktikaService<DShipDesign, Shi
 		return new ShipDesign();
 	}
 
+	@Override
+	public Class<DShipDesign> getDClazz() {
+		return DShipDesign.class;
+	}
+
 //	@Override
 //	public ShipDesign mapToCoreObject(DShipDesign dbObject) {
 //		if ( dbObject == null )

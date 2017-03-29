@@ -13,6 +13,7 @@ import lt.gt.galaktika.model.dao.INationDao;
 import lt.gt.galaktika.model.dao.IPlanetDao;
 import lt.gt.galaktika.model.dao.IPlanetSurfaceDao;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
+import lt.gt.galaktika.model.dao.ITechnologiesDao;
 import lt.gt.galaktika.model.dao.IUserDao;
 import lt.gt.galaktika.model.dao.impl.DAO;
 import lt.gt.galaktika.model.dao.impl.DFleetDao;
@@ -21,6 +22,7 @@ import lt.gt.galaktika.model.dao.impl.DGalaxyDao;
 import lt.gt.galaktika.model.dao.impl.DNationDao;
 import lt.gt.galaktika.model.dao.impl.DPlanetDao;
 import lt.gt.galaktika.model.dao.impl.DPlanetSurfaceDao;
+import lt.gt.galaktika.model.dao.impl.DTechnologiesDao;
 import lt.gt.galaktika.model.dao.impl.FleetDaoOld;
 //import lt.gt.galaktika.model.dao.impl.PlanetDao;
 import lt.gt.galaktika.model.dao.impl.ShipGroupDao;
@@ -132,6 +134,11 @@ public class ModelBeansConfig {
 	@Bean(name="nationDao")
 	public INationDao getNationDao () {
 		return new DNationDao();
+	}
+	
+	@Bean
+	public ITechnologiesDao getTechnologiesDao() {
+		return new DTechnologiesDao();
 	}
 	
 }

@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lt.gt.galaktika.model.entity.noturn.DNation;
+import lt.gt.galaktika.utils.Utils;
 
 @Entity
 @Table ( name="technologies")
@@ -104,24 +105,29 @@ public class DTechnologies
 		this.engines = engines;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "DTechnologies["+technologiesId+"]("+attack+","+defence+","+cargo+","+engines+")";
-//	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if ( obj instanceof DTechnologies ) {
 			DTechnologies t = (DTechnologies) obj;
-			return technologiesId == t.technologiesId;
+			if ( technologiesId > 0 && t.technologiesId > 0 )
+				return technologiesId == t.technologiesId;
+			else {
+				boolean rez = lt.gt.math.Utils.same(attack, t.attack, Utils.EPSILON)
+						&& lt.gt.math.Utils.same(cargo, t.cargo, Utils.EPSILON)
+						&& lt.gt.math.Utils.same(defence, t.defence, Utils.EPSILON)
+						&& lt.gt.math.Utils.same(engines, t.engines, Utils.EPSILON);
+				return rez;
+			}
 		}
 		else return false;
 	}
 
 	@Override
 	public String toString() {
-		return "DTechnologies [technologiesId=" + technologiesId + ", owner=" + owner + ", turnNumber=" + turnNumber
+		long ownerId = 0;
+		if ( owner != null )
+			ownerId = owner.getNationId();
+		return "DTechnologies [technologiesId=" + technologiesId + ", owner=" + ownerId + ", turnNumber=" + turnNumber
 				+ ", attack=" + attack + ", defence=" + defence + ", cargo=" + cargo + ", engines=" + engines + "]";
 	}
-	
 }

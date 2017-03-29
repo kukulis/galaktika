@@ -71,4 +71,12 @@ public class GalaxyService extends AbstractGalaktikaService<DGalaxy, Galaxy> {
 		dao.update( dg );
 		return true;
 	}
+
+	@Override
+	public Class<DGalaxy> getDClazz() {
+		return DGalaxy.class;
+	}
+	
+	
+	
 }

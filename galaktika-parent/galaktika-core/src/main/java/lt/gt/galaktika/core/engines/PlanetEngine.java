@@ -225,6 +225,7 @@ public class PlanetEngine
 	 * 
 	 * @param planetData
 	 * @param nationTechnologies
+	 * @deprecated lets not use map.
 	 */
 	public void executeTechnologies ( List<PlanetData> planetData, Map<Nation, Technologies> nationTechnologies )
 	{
@@ -232,6 +233,16 @@ public class PlanetEngine
 				.filter(s -> SurfaceActivities.TECHNOLOGIES.equals(s.getSurfaceCommand().getActivityType()))
 				.forEach(s -> addReasearchPower(nationTechnologies.get(s.getNation()), getResearchPower(s),
 						((SurfaceCommandTechnologies) s.getSurfaceCommand()).getTechnologyToUpgrade()));
+	}
+	
+	/**
+	 * 
+	 * @param planetData
+	 * @param t
+	 */
+	public void executeTechnologies ( PlanetData planetData, Technologies t )
+	{
+		addReasearchPower(t, getResearchPower(planetData.getSurface()) , ((SurfaceCommandTechnologies) planetData.getSurface().getSurfaceCommand()).getTechnologyToUpgrade() );
 	}
 
 	/**

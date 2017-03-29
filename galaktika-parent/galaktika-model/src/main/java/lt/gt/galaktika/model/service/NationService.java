@@ -70,5 +70,9 @@ public class NationService extends AbstractGalaktikaService<DNation, Nation> {
 	public Nation create(Nation c) {
 		throw new GalaktikaModelException( "The method 'create' in the NationService is deprecated" );
 	}
-	
+
+	@Override
+	public Class<DNation> getDClazz() {
+		return DNation.class;
+	}
 }
