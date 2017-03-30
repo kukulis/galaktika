@@ -11,7 +11,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	TestMemoryNationService.class,
 	TestMemoryPlanetDataService2.class,
 	TestShipDesignService.class,
-	TestPlanetService.class
+	TestPlanetService.class,
+	TestTechnologiesService.class
         })
 public class RunAllServicesTests {
 

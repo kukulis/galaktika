@@ -8,12 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lt.gt.galaktika.model.entity.noturn.DNation;
 import lt.gt.galaktika.utils.Utils;
 
 @Entity
-@Table ( name="technologies")
+@Table ( name="technologies",
+uniqueConstraints = {@UniqueConstraint(columnNames={"nationId", "turnNumber"})})
 public class DTechnologies
 {
 	@Id

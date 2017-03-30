@@ -24,3 +24,7 @@ Galaxy to nation to user relation (TODO)
 2017-03-08
 	create and implement additional DNationDao methods (TODO)
 
+---------	
+2017-03-30
+TODO unique constraint names human readable 
+

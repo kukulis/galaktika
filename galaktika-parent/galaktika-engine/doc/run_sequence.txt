@@ -1,0 +1,14 @@
+The current test sequence, which is not ideal and might be changed.
+
+May be the whole sequence scripts should be moved to one package; 
+but the problem is that some of these classes might be reused later, 
+so the package name should reflect its logic in global scope, 
+not only this test scope.
+
+1) CreateUsers
+2) StartGame // TODO change class name may be
+3) CreateMap
+4) CreateNations
+5) AssignNationsPlanets
+6) Make turn
+7) ValidateTurn1
