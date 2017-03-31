@@ -84,22 +84,6 @@ public class Technologies implements Serializable
 				+ ", cargo=" + cargo + ", engines=" + engines + "]";
 	}
 
-//	@Override
-//	public int hashCode() {
-//		final int prime = 31;
-//		int result = 1;
-//		long temp;
-//		temp = Double.doubleToLongBits(attack);
-//		result = prime * result + (int) (temp ^ (temp >>> 32));
-//		temp = Double.doubleToLongBits(cargo);
-//		result = prime * result + (int) (temp ^ (temp >>> 32));
-//		temp = Double.doubleToLongBits(defence);
-//		result = prime * result + (int) (temp ^ (temp >>> 32));
-//		temp = Double.doubleToLongBits(engines);
-//		result = prime * result + (int) (temp ^ (temp >>> 32));
-//		result = prime * result + (int) (technologiesId ^ (technologiesId >>> 32));
-//		return result;
-//	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -122,7 +106,5 @@ public class Technologies implements Serializable
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

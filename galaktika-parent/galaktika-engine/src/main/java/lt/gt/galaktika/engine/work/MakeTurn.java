@@ -87,10 +87,13 @@ public class MakeTurn {
 					 planetEngine.executeTechnologies(pd, t);
 				 }
 				 
-				 // TODO store planet data to a new turn
+				 // store planet data (surface only for now) to a new turn
+				 pds.storePlanetSurface2(pd.getSurface(), p, g.getTurn()+1);
 			}
 			
-			// TODO store technologies to a new turn
+			// store technologies to a new turn
+			t.setTechnologiesId(0);
+			ts.createTechnologies(t, n, g.getTurn()+1);
 		}
 	}
 	
