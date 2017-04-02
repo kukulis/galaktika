@@ -1,4 +1,4 @@
-package lt.gt.galaktika.model.test.memory;
+package lt.gt.galaktika.model.config;
 
 import java.util.Properties;
 

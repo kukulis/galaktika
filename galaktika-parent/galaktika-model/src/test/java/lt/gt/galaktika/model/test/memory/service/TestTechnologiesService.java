@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import lt.gt.galaktika.core.Galaxy;
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.Technologies;
+import lt.gt.galaktika.model.config.MemoryTestConfig;
 import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.dao.IUserDao;
 import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
@@ -20,7 +21,6 @@ import lt.gt.galaktika.model.entity.noturn.User;
 import lt.gt.galaktika.model.service.GalaxyService;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.TechnologiesService;
-import lt.gt.galaktika.model.test.memory.MemoryTestConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { MemoryTestConfig.class, ModelBeansConfig.class })

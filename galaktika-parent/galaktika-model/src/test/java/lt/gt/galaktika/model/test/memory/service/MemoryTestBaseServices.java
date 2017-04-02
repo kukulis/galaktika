@@ -16,6 +16,7 @@ import lt.gt.galaktika.core.SpaceLocation;
 import lt.gt.galaktika.core.Technologies;
 import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.ShipDesign;
+import lt.gt.galaktika.model.config.MemoryTestConfig;
 import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
 import lt.gt.galaktika.model.service.GalaxyService;
@@ -25,7 +26,6 @@ import lt.gt.galaktika.model.service.ShipDesignService;
 import lt.gt.galaktika.model.service.ShipService;
 import lt.gt.galaktika.model.service.SpaceLocationService;
 import lt.gt.galaktika.model.service.TechnologiesService;
-import lt.gt.galaktika.model.test.memory.MemoryTestConfig;
 import lt.gt.galaktika.model.test.memory.ShipMemoryTest;
 
 

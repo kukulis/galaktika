@@ -18,6 +18,7 @@ import lt.gt.galaktika.core.ShipGroup;
 import lt.gt.galaktika.core.SpaceLocation;
 import lt.gt.galaktika.core.exception.GalaktikaException;
 import lt.gt.galaktika.core.planet.Planet;
+import lt.gt.galaktika.model.config.MemoryTestConfig;
 import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
 import lt.gt.galaktika.model.service.FleetsService;
@@ -26,7 +27,6 @@ import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetService;
 import lt.gt.galaktika.model.service.ShipService;
 import lt.gt.galaktika.model.service.SpaceLocationService;
-import lt.gt.galaktika.model.test.memory.MemoryTestConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { MemoryTestConfig.class, ModelBeansConfig.class })
