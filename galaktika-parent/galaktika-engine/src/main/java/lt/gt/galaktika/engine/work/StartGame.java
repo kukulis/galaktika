@@ -15,7 +15,7 @@ import lt.gt.galaktika.model.service.GalaxyService;
 
 /**
  * This is work.
- *
+ * @deprecated use GameService instead or transform to use it
  */
 public class StartGame {
 	public final static void main (String args[]) {

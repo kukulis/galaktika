@@ -4,3 +4,8 @@ May be this project could be called Engine instead of "mock"
 
  
 Create more users and nations to test other surface commands.
+
+-----
+2017-04-03
+Reproduce GameTest with a real database actions, by calling separate classes
+Write script for calling these separate classes

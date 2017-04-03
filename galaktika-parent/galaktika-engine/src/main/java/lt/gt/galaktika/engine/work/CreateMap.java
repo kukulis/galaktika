@@ -21,6 +21,13 @@ import lt.gt.math.SectoredPlaneContainer;
 import lt.gt.math.SectoredPlaneContainer.Initializer;
 import lt.gt.math.fuzzy.SimplePlanePoint;
 
+/** 
+ * 
+ * @author 
+ * 
+ * @deprecated use GameService or transform this class to use it
+ *
+ */
 public class CreateMap {
 	public final static double MIN_DISTANCE = 5;
 	public final static int MAX_FAILS = 100;

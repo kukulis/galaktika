@@ -42,6 +42,14 @@ public class GalaxyService extends AbstractGalaktikaService<DGalaxy, Galaxy> {
 		return dGalaxies.stream().map( dg -> mapToCoreObject(dg) ).collect(Collectors.toList());
 	}
 
+	public Galaxy getGalaxy (GalaxiesFilter gFilter) {
+		List<Galaxy> galaxies = getGalaxies(gFilter);
+		if ( galaxies.size() > 0 )
+			return galaxies.get(0);
+		
+		return null;
+	}
+
 	@Override
 	public DGalaxy createDbObject() {
 		return new DGalaxy();

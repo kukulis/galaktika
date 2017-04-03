@@ -10,7 +10,7 @@ import lt.gt.galaktika.model.entity.noturn.User;
 
 /**
  * This class will be used to create initial data in the database.
- *
+ * @deprecated use GameService instead, or transform to use it
  */
 public class PrepareInitialData {
 	IUserDao userDao;

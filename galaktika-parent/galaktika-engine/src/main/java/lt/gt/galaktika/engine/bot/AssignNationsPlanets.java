@@ -21,6 +21,14 @@ import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetDataService;
 import lt.gt.galaktika.model.service.PlanetService;
 
+
+/**
+ * 
+ * @author
+ * 
+ * @deprecated use GameService instead or call it from here
+ *
+ */
 public class AssignNationsPlanets {
 	public final static void main(String args[]) {
 		System.out.println ( "TODO assign nations planets" );

@@ -5,7 +5,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import lt.gt.galaktika.engine.SessionsManager;
-import lt.gt.galaktika.engine.work.TurnMaker;
+import lt.gt.galaktika.engine.bot.UsersBot;
+import lt.gt.galaktika.engine.work.GameService;
 
 @Configuration
 @ComponentScan(basePackages = { "lt.gt.galaktika.mock" })
@@ -16,7 +17,12 @@ public class AdditionalBeansConfig {
 	}
 	
 	@Bean
-	public TurnMaker getTurnMaker() {
-		return new TurnMaker();
+	public GameService getTurnMaker() {
+		return new GameService();
+	}
+	
+	@Bean
+	public UsersBot getUsersBot() {
+		return new UsersBot();
 	}
 }
