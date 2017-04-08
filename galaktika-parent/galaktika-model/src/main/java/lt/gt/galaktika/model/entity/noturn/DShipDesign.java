@@ -18,6 +18,8 @@ public class DShipDesign {
 	private double defenceMass;
 	private double cargoMass;
 	private double engineMass;
+	
+	// TODO add owner to ship design
 
 	public DShipDesign() {
 	}

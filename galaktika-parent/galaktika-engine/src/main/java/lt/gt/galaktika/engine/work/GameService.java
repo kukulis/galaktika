@@ -85,6 +85,11 @@ public class GameService {
 				// PlanetSurface planetSurface = pds.loadPlanetSurface(planetId,
 				// g.getTurn());
 				PlanetData pd = planetDataService.loadPlanetData(planetId, g.getTurn());
+				// -- TODO remove after debugging
+				if ( pd.getSurface().getName()== "Technocrats") {
+					System.out.println( "Found Technocrats");
+				}
+				// --------
 				planetEngine.executePopulation(pd);
 				Planet p = planetService.load(planetId);
 				if (pd.getSurface().getSurfaceCommand() instanceof SurfaceCommandProduction) {
@@ -100,6 +105,8 @@ public class GameService {
 
 				// store planet data (surface only for now) to a new turn
 				planetDataService.storePlanetSurface2(pd.getSurface(), p, g.getTurn() + 1);
+//				planetDataService.
+				// TODO store orbit
 			}
 
 			// store technologies to a new turn

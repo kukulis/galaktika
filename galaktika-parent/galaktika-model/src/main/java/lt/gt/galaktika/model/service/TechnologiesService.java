@@ -1,6 +1,7 @@
 package lt.gt.galaktika.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.Technologies;
@@ -30,7 +31,11 @@ public class TechnologiesService extends AbstractGalaktikaService<DTechnologies,
 	}
 	
 	public Technologies getNationTechnologies ( Nation n, int turn ) {
-		return mapToCoreObject(technologiesDao.getNationTechnologies(n.getNationId(), turn) );
+		try {
+			return mapToCoreObject(technologiesDao.getNationTechnologies(n.getNationId(), turn) );
+		} catch ( EmptyResultDataAccessException e ) {
+			return null;
+		}
 	}
 	
 	public Technologies createTechnologies ( Technologies t, Nation n, int turn ) {

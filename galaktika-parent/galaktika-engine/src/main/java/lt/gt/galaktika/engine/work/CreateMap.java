@@ -89,11 +89,9 @@ public class CreateMap {
 		}
 		
 		System.out.println( "Points inserted="+ planeContainer.getAllPoints().size() );
-		
 		System.out.println( "Sector statistics:");
 		((SectoredPlaneContainer) planeContainer).printSectorsStatistics(System.out);
 		// create these planets to galaxy
 		planeContainer.getAllPoints().stream().forEach(p -> ps.createPlanet((Planet)p, g));
-		
 	}
 }

@@ -43,4 +43,8 @@ public class Utils {
 		else
 			return (int) sector;
 	}
+	
+	public static boolean between0And1 ( double val, double epsilon ) {
+		return val > epsilon && val < 1 - epsilon;
+	}
 }

@@ -10,6 +10,11 @@ import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.dao.IUserDao;
 import lt.gt.galaktika.model.entity.noturn.User;
 
+/**
+ * 
+ * @author 
+ * @deprecated call UsersBot instead
+ */
 public class CreateUsers {
 	public static void main (String args[] ) {
 		

@@ -28,3 +28,11 @@ Galaxy to nation to user relation (TODO)
 2017-03-30
 TODO unique constraint names human readable 
 
+
+--
+2017-04-04
+TODO add owner to ship design
+
+--------
+2017-04-08
+Store planet orbit

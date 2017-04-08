@@ -78,60 +78,7 @@ public class PlanetDataService {
 		return orbit;
 	}
 
-//	/**
-//	 * Contract: planet should be already stored to database; nation should be
-//	 * already stored to database; DShip for factory , DShipDesign for factory
-//	 * and command, DTechnologies for factory and for command should be already
-//	 * stored to database.
-//	 * 
-//	 * @param surface
-//	 * @param planet
-//	 * @param turnNumber
-//	 * @deprecated implementing in different way with storePlanetSurface2
-//	 */
-//	public void storePlanetSurface(PlanetSurface surface, Planet planet, int turnNumber)
-//			throws PlanetSurfaceContractException {
-//		DPlanetSurface dPlanetSurface = new DPlanetSurface(planet.getPlanetId(), turnNumber);
-//		PlanetContractData pContract = new PlanetContractData();
-//		pContract.loadContractData(surface);
-//		dPlanetSurface.setName(surface.getName());
-//		dPlanetSurface.setPopulation(surface.getPopulation());
-//		dPlanetSurface.setIndustry(surface.getIndustry());
-//		dPlanetSurface.setCapital(surface.getCapital());
-//		dPlanetSurface.setOwner(pContract.getNation());
-//
-//		dPlanetSurface = dao.create(dPlanetSurface);
-//
-//		if (surface.getSurfaceCommand() != null) {
-//			DSurfaceCommand dCommand = dao.create(
-//					mapDSurfaceCommand(surface.getSurfaceCommand(), planet.getPlanetId(), turnNumber, pContract));
-//			if (dPlanetSurface.getCommands().size() == 0)
-//				dPlanetSurface.getCommands().add(dCommand);
-//			else {
-//				dPlanetSurface.getCommands().clear();
-//				dPlanetSurface.getCommands().add(dCommand);
-//			}
-//		}
-//
-//		if (surface.getShipFactory() != null) {
-//			DShipFactory dFactory = dao.create(mapDFactory(surface.getShipFactory(), pContract));
-//
-//			if (dPlanetSurface.getShipFactories().size() == 0)
-//				dPlanetSurface.getShipFactories().add(dFactory);
-//			else {
-//				dPlanetSurface.getShipFactories().clear();
-//				dPlanetSurface.getShipFactories().add(dFactory);
-//			}
-//		}
-//
-//		dao.update(dPlanetSurface);
-//
-//		// TODO the update variant
-//
-//	}
-
 	public void storePlanetSurface2(PlanetSurface planetSurface, Planet planet, int turnNumber) {
-		// TODO
 		DPlanetSurface dPlanetSurface = mapToDPlanetSurface2(planetSurface, planet, turnNumber);
 		fullSaveDPlanetSurface(dPlanetSurface);
 	}
@@ -145,11 +92,7 @@ public class PlanetDataService {
 	 * @return
 	 */
 	public DPlanetSurface mapToDPlanetSurface2(PlanetSurface planetSurface, Planet planet, int turnNumber) {
-		// DPlanetSurface dPlanetSurface = new DPlanetSurface();
-
 		DPlanetSurface dPlanetSurface = new DPlanetSurface(planet.getPlanetId(), turnNumber);
-		// PlanetContractData pContract = new PlanetContractData();
-		// pContract.loadContractData(planetSurface);
 		dPlanetSurface.setName(planetSurface.getName());
 		dPlanetSurface.setPopulation(planetSurface.getPopulation());
 		dPlanetSurface.setIndustry(planetSurface.getIndustry());
@@ -177,7 +120,7 @@ public class PlanetDataService {
 				dPlanetSurface.getShipFactories().add(dFactory);
 			}
 		}
-		// TODO remaining fields
+		// TODO remaining fields. Which ones?
 
 		return dPlanetSurface;
 	}
@@ -200,7 +143,7 @@ public class PlanetDataService {
 				DShipDesign foundDesign = dao.find(DShipDesign.class, design.getDesignId());
 				if (foundDesign == null)
 					throw new GalaktikaModelException(
-							String.format("Ship design with id %d was not found", design.getDesignId()));
+							String.format("Ship design with id %d was not found. It must be created before saving the factory, by contract.", design.getDesignId()));
 				dcommand.setDesign(foundDesign);
 			}
 			DTechnologies technologies = dcommand.getTechnologies();
@@ -224,20 +167,23 @@ public class PlanetDataService {
 	}
 
 	protected boolean fullSaveDPlanetSurface(DPlanetSurface dPlanetSurface) {
-
-		// TODO check if needed separate savings
 		upfillDPlanetSurface(dPlanetSurface);
 
+		// clearing before saving, to prevent bulk save
 		Set<DSurfaceCommand> commands = new HashSet<>();
 		commands.addAll(dPlanetSurface.getCommands());
 		dPlanetSurface.getCommands().clear();
 
+		// clearing before saving, to prevent bulk save
 		Set<DShipFactory> factories = new HashSet<>();
 		factories.addAll(dPlanetSurface.getShipFactories());
 		dPlanetSurface.getShipFactories().clear();
 
 		// must create planet surface before commands
-		// DPlanetSurface dbPlanetSurface =
+		dPlanetSurfaceDao.deleteDSurfaceCommands(dPlanetSurface.getPlanetId(), dPlanetSurface.getTurnNumber());
+		dPlanetSurfaceDao.deleteDShipFactories(dPlanetSurface.getPlanetId(), dPlanetSurface.getTurnNumber());
+		dPlanetSurfaceDao.delete(dPlanetSurface.getPlanetId(), dPlanetSurface.getTurnNumber());
+		
 		dao.create(dPlanetSurface);
 
 		// command
@@ -255,35 +201,6 @@ public class PlanetDataService {
 		return true;
 	}
 
-//	/**
-//	 * @deprecated will implement with different way mapDSurfaceCommand2
-//	 * @param surfaceCommand
-//	 * @param planetId
-//	 * @param turnNumber
-//	 * @param pContract
-//	 * @return
-//	 */
-//	public DSurfaceCommand mapDSurfaceCommand(SurfaceCommand surfaceCommand, long planetId, int turnNumber,
-//			PlanetContractData pContract) {
-//		DSurfaceCommand dCommand = new DSurfaceCommand();
-//		dCommand.setPlanetId(planetId);
-//		dCommand.setTurnNumber(turnNumber);
-//		dCommand.setActivity(surfaceCommand.getActivityType());
-//
-//		if (surfaceCommand instanceof SurfaceCommandIndustry) {
-//			// nothing
-//		} else if (surfaceCommand instanceof SurfaceCommandTechnologies) {
-//			SurfaceCommandTechnologies tCommand = (SurfaceCommandTechnologies) surfaceCommand;
-//			dCommand.setTechnologyToUpgrade(tCommand.getTechnologyToUpgrade());
-//		} else if (surfaceCommand instanceof SurfaceCommandProduction) {
-//			SurfaceCommandProduction pCommand = (SurfaceCommandProduction) surfaceCommand;
-//			dCommand.setDesign(pContract.getDesign());
-//			dCommand.setTechnologies(pContract.getTechnologies());
-//			dCommand.setMaxShips(pCommand.getMaxShips());
-//		}
-//
-//		return dCommand;
-//	}
 
 	public DSurfaceCommand mapDSurfaceCommand2(SurfaceCommand surfaceCommand, long planetId, int turnNumber) {
 		DSurfaceCommand dCommand = new DSurfaceCommand();
@@ -323,21 +240,6 @@ public class PlanetDataService {
 			return null;
 		}
 	}
-
-//	/**
-//	 * @deprecated use mapDFactory
-//	 * @param factory
-//	 * @param pcd
-//	 * @return
-//	 */
-//	public DShipFactory mapDFactory(ShipFactory factory, PlanetContractData pcd) {
-//		DShipFactory dFactory = new DShipFactory();
-//		dFactory.setDonePart(factory.getDonePart());
-//		dFactory.setDesign(pcd.getfDesign());
-//		dFactory.setTechnologies(pcd.getfTechnologies());
-//		dFactory.setShip(pcd.getfShip());
-//		return dFactory;
-//	}
 
 	public DShipFactory mapDFactory2(ShipFactory factory, long planetId, int turnNumber) {
 		DShipFactory dFactory = new DShipFactory(planetId, turnNumber);
@@ -390,94 +292,15 @@ public class PlanetDataService {
 		return dPlanetSurfaceDao.findPlanets(n.getNationId(), turnNumber);
 	}
 
-//	/**
-//	 * 
-//	 * @deprecated will implement without it.
-//	 *
-//	 */
-//	private class PlanetContractData {
-//		private DNation nation;
-//		private DShipDesign design;
-//		private DTechnologies technologies;
-//
-//		private DShipDesign fDesign;
-//		private DTechnologies fTechnologies;
-//		private DShip fShip;
-//
-//		public DNation getNation() {
-//			return nation;
-//		}
-//
-//		public DShipDesign getDesign() {
-//			return design;
-//		}
-//
-//		public DTechnologies getTechnologies() {
-//			return technologies;
-//		}
-//
-//		public DShipDesign getfDesign() {
-//			return fDesign;
-//		}
-//
-//		public DTechnologies getfTechnologies() {
-//			return fTechnologies;
-//		}
-//
-//		public DShip getfShip() {
-//			return fShip;
-//		}
-//
-//		public void loadContractData(PlanetSurface surface) throws PlanetSurfaceContractException {
-//			nation = dao.find(DNation.class, surface.getNation().getNationId());
-//			if (nation == null)
-//				throw new PlanetSurfaceContractException(
-//						"could not load dNation with id=" + surface.getNation().getNationId());
-//
-//			if (surface.getSurfaceCommand() instanceof SurfaceCommandProduction) {
-//				SurfaceCommandProduction pCommand = (SurfaceCommandProduction) surface.getSurfaceCommand();
-//				technologies = dao.find(DTechnologies.class, pCommand.getTechnologies().getTechnologiesId());
-//				if (technologies == null)
-//					throw new PlanetSurfaceContractException(
-//							"could not load dTechnologies with id=" + pCommand.getTechnologies().getTechnologiesId());
-//
-//				design = dao.find(DShipDesign.class, pCommand.getShipDesign().getDesignId());
-//				if (design == null)
-//					throw new PlanetSurfaceContractException(
-//							"could not load dShipDesign with id=" + pCommand.getShipDesign().getDesignId());
-//			}
-//
-//			if (surface.getShipFactory() != null) {
-//				if (surface.getShipFactory().getShipDesign() != null) {
-//					fDesign = dao.find(DShipDesign.class, surface.getShipFactory().getShipDesign().getDesignId());
-//					if (fDesign == null)
-//						throw new PlanetSurfaceContractException("could not load factory dShipDesign with id="
-//								+ surface.getShipFactory().getShipDesign().getDesignId());
-//				}
-//
-//				if (surface.getShipFactory().getTechnologies() != null) {
-//					fTechnologies = dao.find(DTechnologies.class,
-//							surface.getShipFactory().getTechnologies().getTechnologiesId());
-//					if (technologies == null)
-//						throw new PlanetSurfaceContractException("could not load dTechnologies with id="
-//								+ surface.getShipFactory().getTechnologies().getTechnologiesId());
-//				}
-//
-//				if (surface.getShipFactory().getShip() != null) {
-//					fShip = dao.find(DShip.class, surface.getShipFactory().getShip().getId());
-//					if (fShip == null)
-//						throw new PlanetSurfaceContractException(
-//								"could not load dShip with id=" + surface.getShipFactory().getShip().getId());
-//				}
-//			}
-//		}
-//
-//	}
-	
 	public PlanetData loadPlanetData ( long planetId, int turn ) {
 		return new PlanetData(
 			planetService.load( planetId ),
 			loadPlanetSurface(planetId, turn),
 			loadPlanetOrbit(planetId, turn, false) );
 	}
+	
+	// TODO store planet orbit
+	
 }
+
+

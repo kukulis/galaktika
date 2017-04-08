@@ -10,8 +10,6 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import lt.gt.galaktika.model.dao.IPlanetSurfaceDao;
-import lt.gt.galaktika.model.entity.noturn.DNation;
-import lt.gt.galaktika.model.entity.noturn.DPlanet;
 import lt.gt.galaktika.model.entity.turn.DPlanetSurface;
 
 @Repository
@@ -49,4 +47,29 @@ public class DPlanetSurfaceDao implements IPlanetSurfaceDao {
 		return query.getResultList();
 	}
 
+	@Override
+	public int delete(long planetId, int turnNumber) {
+		Query q = em.createQuery("delete DPlanetSurface where planetId=:planetId and turnNumber=:turnNumber");
+		q.setParameter("planetId", planetId);
+		q.setParameter("turnNumber", turnNumber);
+		return q.executeUpdate();
+	}
+
+	@Override
+	public int deleteDSurfaceCommands(long planetId, int turnNumber) {
+		Query q = em.createQuery("delete DSurfaceCommand where planetId=:planetId and turnNumber=:turnNumber");
+		q.setParameter("planetId", planetId);
+		q.setParameter("turnNumber", turnNumber);
+		return q.executeUpdate();
+	}
+
+	@Override
+	public int deleteDShipFactories(long planetId, int turnNumber) {
+		Query q = em.createQuery("delete DShipFactory where planetId=:planetId and turnNumber=:turnNumber");
+		q.setParameter("planetId", planetId);
+		q.setParameter("turnNumber", turnNumber);
+		return q.executeUpdate();
+	}
+
+	
 }
