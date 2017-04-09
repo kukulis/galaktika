@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.PlanetData;
@@ -33,6 +34,7 @@ import lt.gt.galaktika.model.entity.turn.DPlanetSurface;
 import lt.gt.galaktika.model.entity.turn.DShipFactory;
 import lt.gt.galaktika.model.entity.turn.DSurfaceCommand;
 import lt.gt.galaktika.model.entity.turn.DTechnologies;
+import lt.gt.galaktika.model.exception.FleetContractException;
 import lt.gt.galaktika.model.exception.GalaktikaModelException;
 
 @Service
@@ -66,7 +68,8 @@ public class PlanetDataService {
 	
 	@Autowired
 	PlanetService planetService;
-
+	
+	
 	public PlanetOrbit loadPlanetOrbit(long planetId, int turnNumber, boolean withGroups) {
 		List<DFleetData> fleetDatas = dFleetDataDao.findInOrbit(planetId, turnNumber, withGroups);
 
@@ -299,7 +302,12 @@ public class PlanetDataService {
 			loadPlanetOrbit(planetId, turn, false) );
 	}
 	
-	// TODO store planet orbit
+	public void storeOrbit ( PlanetData planetData, int turnNumber ) throws FleetContractException {
+		for ( Fleet f : planetData.getOrbit().getFleets() ) {
+			f.setGalaxyLocation( planetData.getPlanet());
+			fleetsService.saveFleet(f, turnNumber);
+		}
+	}
 	
 }
 

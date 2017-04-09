@@ -12,12 +12,15 @@ import lt.gt.galaktika.core.engines.PlanetEngine;
 import lt.gt.galaktika.core.exception.GalaktikaException;
 import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.PlanetData;
+import lt.gt.galaktika.core.planet.PlanetOrbit;
 import lt.gt.galaktika.core.planet.PlanetSurface;
 import lt.gt.galaktika.core.planet.SurfaceCommandIndustry;
 import lt.gt.galaktika.core.planet.SurfaceCommandProduction;
 import lt.gt.galaktika.core.planet.SurfaceCommandTechnologies;
 import lt.gt.galaktika.model.GalaxiesFilter;
 import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
+import lt.gt.galaktika.model.exception.FleetContractException;
+import lt.gt.galaktika.model.service.FleetsService;
 import lt.gt.galaktika.model.service.GalaxyService;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetDataService;
@@ -50,6 +53,9 @@ public class GameService {
 
 	@Autowired
 	TechnologiesService technologiesService;
+
+	@Autowired
+	FleetsService fleetsService;
 	
 	public void makeTurn() {
 		List<Galaxy> galaxies = galaxyService
@@ -82,14 +88,7 @@ public class GameService {
 
 			for (Long planetId : planets) {
 				System.out.println("Working with planet " + planetId);
-				// PlanetSurface planetSurface = pds.loadPlanetSurface(planetId,
-				// g.getTurn());
 				PlanetData pd = planetDataService.loadPlanetData(planetId, g.getTurn());
-				// -- TODO remove after debugging
-				if ( pd.getSurface().getName()== "Technocrats") {
-					System.out.println( "Found Technocrats");
-				}
-				// --------
 				planetEngine.executePopulation(pd);
 				Planet p = planetService.load(planetId);
 				if (pd.getSurface().getSurfaceCommand() instanceof SurfaceCommandProduction) {
@@ -105,8 +104,12 @@ public class GameService {
 
 				// store planet data (surface only for now) to a new turn
 				planetDataService.storePlanetSurface2(pd.getSurface(), p, g.getTurn() + 1);
-//				planetDataService.
-				// TODO store orbit
+				try {
+					planetDataService.storeOrbit( pd, g.getTurn() + 1);
+				}
+				catch ( FleetContractException fce ) {
+					fce.printStackTrace();
+				}
 			}
 
 			// store technologies to a new turn
@@ -217,4 +220,5 @@ public class GameService {
 		}
 		return true;
 	}
+	
 }
