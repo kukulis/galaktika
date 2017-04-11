@@ -3,15 +3,19 @@ package lt.gt.galaktika.model.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.core.Ship;
-import lt.gt.galaktika.model.dao.IDAO;
+import lt.gt.galaktika.model.dao.IShipGroupDao;
 import lt.gt.galaktika.model.entity.noturn.DShip;
 
 @Service
 public class ShipService extends AbstractGalaktikaService<DShip, Ship> {
 	final static Logger LOG = LoggerFactory.getLogger(ShipService.class);
+
+	@Autowired
+	IShipGroupDao dShipGroupDao;
 
 	@Override
 	public DShip createDbObject() {
@@ -43,5 +47,14 @@ public class ShipService extends AbstractGalaktikaService<DShip, Ship> {
 //		return ship;
 //	}
 	
-	
+	public Ship findShip ( String name, double attack, int guns, double defence, double cargo, double speed, double totalMass ) {
+		try {
+			DShip dShip = dShipGroupDao.findShip ( name, attack, guns, defence, cargo, speed, totalMass );
+			if ( dShip == null )
+				return null;
+			return mapToCoreObject( dShip );
+		} catch ( EmptyResultDataAccessException e ) {
+			return null;
+		}
+	}
 }

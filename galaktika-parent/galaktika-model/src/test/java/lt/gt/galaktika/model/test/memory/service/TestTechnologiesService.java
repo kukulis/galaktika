@@ -43,8 +43,8 @@ public class TestTechnologiesService {
 
 	@Test
 	public void test1Service() {
-		User u = new User("aaa@aaa.lt", "Uzeris");
-		u.setLogin("uzeris");
+		User u = new User("baaa@aaa.lt", "Uzeris");
+		u.setLogin("luzeris");
 		Long userId = userDao.save(u);
 		Assert.assertNotNull(userId);
 

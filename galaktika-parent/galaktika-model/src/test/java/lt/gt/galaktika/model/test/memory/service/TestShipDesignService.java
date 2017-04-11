@@ -27,4 +27,19 @@ public class TestShipDesignService {
 		
 		Assert.assertNotEquals(0, shipDesign.getDesignId());
 	}
+	
+	@Test
+	public void testFindShipDesign () {
+		ShipDesign shipDesign = new ShipDesign();
+		shipDesign.setDesignName("Katinas");
+		shipDesign.setAttackMass(1);
+		shipDesign.setGuns(2);
+		shipDesign.setDefenceMass(3);
+		shipDesign.setCargoMass(4);
+		shipDesign.setEngineMass(5);
+		shipDesignService.create( shipDesign );
+		ShipDesign foundShipDesign = shipDesignService.findShipDesign(shipDesign.getDesignName(), shipDesign.getAttackMass(), shipDesign.getGuns(), shipDesign.getDefenceMass(), shipDesign.getCargoMass(), shipDesign.getEngineMass());
+		foundShipDesign.setDesignId(0);
+		Assert.assertEquals( shipDesign, foundShipDesign);
+	}
 }

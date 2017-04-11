@@ -16,7 +16,8 @@ public class Ship implements Serializable
 	private double speed;
 	private double cargo;
 	private double totalMass;
-	private long buildTurnId; // should not reference to turn, use as informative field only
+	// TODO may be remove it is not needed in core
+	private int buildTurnNumber; // should not reference to turn, use as informative field only
 	
 	public Ship()
 	{
@@ -33,7 +34,7 @@ public class Ship implements Serializable
 	}
 	
 	public Ship(long id, String name, double attack, int guns, double defence, double speed, double cargo,
-			double totalMass, long buildTurnId) {
+			double totalMass, int buildTurnNumber) {
 		this.id = id;
 		this.name = name;
 		this.attack = attack;
@@ -42,7 +43,7 @@ public class Ship implements Serializable
 		this.speed = speed;
 		this.cargo = cargo;
 		this.totalMass = totalMass;
-		this.buildTurnId = buildTurnId;
+		this.buildTurnNumber = buildTurnNumber;
 	}
 
 	public Ship ( String name ) {
@@ -114,14 +115,14 @@ public class Ship implements Serializable
 		this.name = name;
 	}
 
-	public long getBuildTurnId ()
+	public long getBuildTurnNumber ()
 	{
-		return buildTurnId;
+		return buildTurnNumber;
 	}
 
-	public void setBuildTurnId ( long buildTurnId )
+	public void setBuildTurnNumber ( int buildTurnNumber )
 	{
-		this.buildTurnId = buildTurnId;
+		this.buildTurnNumber = buildTurnNumber;
 	}
 	
 	public String toString () {
@@ -157,7 +158,7 @@ public class Ship implements Serializable
 			// compare all other fields
 			if (Double.doubleToLongBits(attack) != Double.doubleToLongBits(other.attack))
 				return false;
-			if (buildTurnId != other.buildTurnId)
+			if (buildTurnNumber != other.buildTurnNumber)
 				return false;
 			if (Double.doubleToLongBits(cargo) != Double.doubleToLongBits(other.cargo))
 				return false;

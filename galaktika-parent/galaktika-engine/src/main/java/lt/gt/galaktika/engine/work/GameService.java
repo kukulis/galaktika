@@ -10,9 +10,9 @@ import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.Technologies;
 import lt.gt.galaktika.core.engines.PlanetEngine;
 import lt.gt.galaktika.core.exception.GalaktikaException;
+import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
 import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.PlanetData;
-import lt.gt.galaktika.core.planet.PlanetOrbit;
 import lt.gt.galaktika.core.planet.PlanetSurface;
 import lt.gt.galaktika.core.planet.SurfaceCommandIndustry;
 import lt.gt.galaktika.core.planet.SurfaceCommandProduction;
@@ -74,6 +74,7 @@ public class GameService {
 		updateTurn(g);
 	}
 
+	
 	private void surfaceActions(Galaxy g) {
 		PlanetEngine planetEngine = new PlanetEngine();
 
@@ -93,6 +94,8 @@ public class GameService {
 				Planet p = planetService.load(planetId);
 				if (pd.getSurface().getSurfaceCommand() instanceof SurfaceCommandProduction) {
 //					SurfaceCommandProduction scp = (SurfaceCommandProduction) pd.getSurface().getSurfaceCommand();
+					planetEngine.prepareProduction(pd, t);
+					planetDataService.storeNoTurnPlanetSurfaceObjects(pd.getSurface());
 					planetEngine.executeProduction(pd, t);
 				} else if (pd.getSurface().getSurfaceCommand() instanceof SurfaceCommandIndustry) {
 //					SurfaceCommandIndustry sci = (SurfaceCommandIndustry) pd.getSurface().getSurfaceCommand();
@@ -108,7 +111,9 @@ public class GameService {
 					planetDataService.storeOrbit( pd, g.getTurn() + 1);
 				}
 				catch ( FleetContractException fce ) {
-					fce.printStackTrace();
+//					fce.printStackTrace();
+//					return;
+					throw new GalaktikaRuntimeException(fce);
 				}
 			}
 

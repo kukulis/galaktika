@@ -80,6 +80,7 @@ public class TestMemoryPlanetDataService2 {
 	public void testStorePlanetSurface2() {
 		LOG.trace("testStorePlanetSurface2 called");
 		TestData data = createTestData();
+		planetDataService.storeNoTurnPlanetSurfaceObjects(data.surface);
 		planetDataService.storePlanetSurface2(data.surface, data.planet, data.turnNumber);
 		PlanetSurface surface = planetDataService.loadPlanetSurface( data.planet.getPlanetId(), data.turnNumber );
 

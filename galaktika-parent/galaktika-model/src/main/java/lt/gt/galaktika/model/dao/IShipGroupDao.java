@@ -7,9 +7,7 @@ import lt.gt.galaktika.model.entity.turn.DShipGroup;
 
 public interface IShipGroupDao
 {
-
 	public void test();
-	
 	public DShipGroup getShipGroup ( long shipGroupId );
 	public long saveShipGroup (DShipGroup shipGroup);
 	public DShipGroup updateShipGroup (DShipGroup shipGroup );
@@ -21,6 +19,6 @@ public interface IShipGroupDao
 	public DataSearchResult <DShip> loadShipsPortion(DataSearchLimits li);
 	public void flush();
 	
-//	public 
-//	public 
+	DShip findShip (String name, double attack, int guns, double defence, double cargo, double speed, double totalMass);
+
 }

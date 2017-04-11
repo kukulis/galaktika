@@ -6,12 +6,12 @@ import org.springframework.context.annotation.Configuration;
 
 import lt.gt.galaktika.model.dao.IDAO;
 import lt.gt.galaktika.model.dao.IFleetDao;
-import lt.gt.galaktika.model.dao.IFleetDaoOld;
 import lt.gt.galaktika.model.dao.IFleetDataDao;
 import lt.gt.galaktika.model.dao.IGalaxyDao;
 import lt.gt.galaktika.model.dao.INationDao;
 import lt.gt.galaktika.model.dao.IPlanetDao;
 import lt.gt.galaktika.model.dao.IPlanetSurfaceDao;
+import lt.gt.galaktika.model.dao.IShipDesignDao;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
 import lt.gt.galaktika.model.dao.ITechnologiesDao;
 import lt.gt.galaktika.model.dao.IUserDao;
@@ -22,10 +22,10 @@ import lt.gt.galaktika.model.dao.impl.DGalaxyDao;
 import lt.gt.galaktika.model.dao.impl.DNationDao;
 import lt.gt.galaktika.model.dao.impl.DPlanetDao;
 import lt.gt.galaktika.model.dao.impl.DPlanetSurfaceDao;
-import lt.gt.galaktika.model.dao.impl.DTechnologiesDao;
-import lt.gt.galaktika.model.dao.impl.FleetDaoOld;
+import lt.gt.galaktika.model.dao.impl.DShipDesignDao;
 //import lt.gt.galaktika.model.dao.impl.PlanetDao;
-import lt.gt.galaktika.model.dao.impl.ShipGroupDao;
+import lt.gt.galaktika.model.dao.impl.DShipGroupDao;
+import lt.gt.galaktika.model.dao.impl.DTechnologiesDao;
 import lt.gt.galaktika.model.dao.impl.UserDao;
 import lt.gt.galaktika.model.service.FleetsService;
 import lt.gt.galaktika.model.service.GalaxyService;
@@ -43,12 +43,7 @@ public class ModelBeansConfig {
 
 	@Bean
 	public IShipGroupDao getShipGroupDao() {
-		return new ShipGroupDao();
-	}
-
-	@Bean
-	public IFleetDaoOld getFleetDao() {
-		return new FleetDaoOld();
+		return new DShipGroupDao();
 	}
 
 	@Bean
@@ -139,6 +134,11 @@ public class ModelBeansConfig {
 	@Bean
 	public ITechnologiesDao getTechnologiesDao() {
 		return new DTechnologiesDao();
+	}
+	
+	@Bean
+	public IShipDesignDao getShipDesignDao() {
+		return new DShipDesignDao();
 	}
 	
 }

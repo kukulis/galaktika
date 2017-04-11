@@ -50,7 +50,8 @@ public class DFleetDataDao implements IFleetDataDao {
 	@Override
 	public List<DFleetData> findInOrbit(long planetId, int turnNumber, boolean withGroups ) {
 		String queryStr = "select d from DFleetData d left join fetch d.planetLocation as p left join fetch d.spaceLocation "
-				+ "join fetch d.fleet "
+				+ "join fetch d.fleet f "
+				+ "left join fetch f.nation "
 				+ (withGroups ? " left join fetch d.shipGroups left join fetch d.flightSource left join fetch d.flightDestination ": " ")
 				+ "where p.planetId=:planetId and d.turnNumber=:turnNumber order by d.fleetId";  
 		Query query = em.createQuery(queryStr, DFleetData.class);

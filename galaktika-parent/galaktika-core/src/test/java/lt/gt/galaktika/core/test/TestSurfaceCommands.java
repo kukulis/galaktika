@@ -60,6 +60,7 @@ public class TestSurfaceCommands {
 		
 		PlanetEngine pe = new PlanetEngine();
 		Technologies t = new Technologies();
+		pe.prepareProduction(pd, t);
 		pe.executeProduction(pd, t);
 		
 		// -- assertions
@@ -72,6 +73,12 @@ public class TestSurfaceCommands {
 		ShipGroup g = f.getShipGroups().get(0);
 		Assert.assertEquals(1, g.getCount() );
 		Assert.assertEquals(10, g.getShip().getAttack(), Utils.EPSILON );
+		
+		// TODO test ship values
+		// TODO make repeated builds
+		// TODO test done part values
+		
+		// TODO adding to existing fleets
 	}
 	
 	// TODO test more ships, test when there are extra capital and so on ..

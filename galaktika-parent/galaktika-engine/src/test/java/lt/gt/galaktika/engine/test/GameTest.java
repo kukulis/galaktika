@@ -29,6 +29,7 @@ import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.dao.IUserDao;
 import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
 import lt.gt.galaktika.model.entity.noturn.User;
+import lt.gt.galaktika.model.service.FleetsService;
 import lt.gt.galaktika.model.service.GalaxyService;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetDataService;
@@ -65,6 +66,9 @@ public class GameTest {
 	
 	@Autowired
 	PlanetDataService planetDataService;
+	
+	@Autowired
+	FleetsService fleetsService;
 
 	@Test
 	public void test001Users() {
@@ -123,7 +127,7 @@ public class GameTest {
 	}
 
 	@Test
-	public void test005PlanetSurfaces() {
+	public void test005MakeTurn1Commands() {
 		System.out.println("Creating planet surfaces with initial commands...");
 		gameService.assignSurfaces();
 		usersBot.makeTurn1Commands();
@@ -183,10 +187,26 @@ public class GameTest {
 		Assert.assertNotNull( pd3.getOrbit().getFleets() );
 		Assert.assertNotEquals( 0, pd3.getOrbit().getFleets().size() );
 		Fleet f = pd3.getOrbit().getFleets().get(0);
-		Assert.assertNotEquals( 0, f.getShipGroups().size() ); 
-		ShipGroup group = f.getShipGroups().get(0);
-		Assert.assertEquals(1, group.getCount() );
+		Assert.assertEquals( f.getOwner(), surface3.getNation() );
+		
+		// now load fleet and test shipGroups
+		Fleet fullFleet = fleetsService.loadFleet( f.getFleetId(), 2);
+		Assert.assertNotEquals( 0, fullFleet.getShipGroups().size() ); 
+		ShipGroup group = fullFleet.getShipGroups().get(0);
+		Assert.assertEquals(2, group.getCount() );
 		Assert.assertEquals(10, group.getShip().getAttack(), Utils.EPSILON );
 		
 	}
+	
+	@Test
+	public void test030MakeTurn2Commands() {
+		System.out.println( "TODO second turn commands" );
+		// lets make same commands again
+	}
+	@Test
+	public void test031ExecuteTurn2() {
+		System.out.println( "TODO second turn" );
+		// execute turn 2
+	}
+	
 }

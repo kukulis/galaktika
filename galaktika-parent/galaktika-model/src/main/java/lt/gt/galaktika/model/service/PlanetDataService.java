@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.Nation;
+import lt.gt.galaktika.core.Ship;
 import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.PlanetData;
 import lt.gt.galaktika.core.planet.PlanetOrbit;
 import lt.gt.galaktika.core.planet.PlanetSurface;
+import lt.gt.galaktika.core.planet.ShipDesign;
 import lt.gt.galaktika.core.planet.ShipFactory;
 import lt.gt.galaktika.core.planet.SurfaceActivities;
 import lt.gt.galaktika.core.planet.SurfaceCommand;
@@ -195,8 +197,8 @@ public class PlanetDataService {
 		LOG.trace("after storing commands");
 
 		for (DShipFactory f : factories) {
-			if (!dao.contains(f.getShip()))
-				dao.create(f.getShip());
+//			if (!dao.contains(f.getShip())) // ship is created by contract, no need to create it here
+//				dao.create(f.getShip());
 			dPlanetSurface.getShipFactories().add(dao.create(f));
 		}
 		LOG.trace("after storing factories");
@@ -307,6 +309,45 @@ public class PlanetDataService {
 			f.setGalaxyLocation( planetData.getPlanet());
 			fleetsService.saveFleet(f, turnNumber);
 		}
+	}
+	
+	public void storeNoTurnPlanetSurfaceObjects( PlanetSurface planetSurface) {
+		// store ships, ship designs, and write them back to planetData with ids
+		Ship ship = planetSurface.getShipFactory().getShip();
+		ShipDesign shipDesign = planetSurface.getShipFactory().getShipDesign();
+		
+		// 1) Find the ship
+		// a) Find by id
+		// b) Find by other fields:
+		//     name, attack, guns, defense, cargo, speed, totalMass
+		// if not found create it
+		
+		Ship loadedShip = null;
+		if ( ship.getId() != 0)
+			loadedShip = shipService.load(ship.getId());
+		if ( loadedShip == null ) {
+			loadedShip = shipService.findShip ( ship.getName(), ship.getAttack(), ship.getGuns(), ship.getDefence(), ship.getCargo(), ship.getSpeed(), ship.getTotalMass() );
+			if ( loadedShip == null ) 
+				loadedShip = shipService.create( ship ); 
+			planetSurface.getShipFactory().setShip( loadedShip );
+		}
+		
+		// 2) Find the ship design
+		// a) Find by id
+		// b) Find by other fields:
+		//  name, attack, guns, defense, cargo, engines
+		// if not found, create it
+
+		ShipDesign loadedShipDesign = null;
+		if ( shipDesign.getDesignId() != 0)
+			loadedShipDesign = shipDesignService.load( shipDesign.getDesignId() );
+		if ( loadedShipDesign == null ) {
+			loadedShipDesign = shipDesignService.findShipDesign ( shipDesign.getDesignName(), shipDesign.getAttackMass(), shipDesign.getGuns(), shipDesign.getDefenceMass(), shipDesign.getCargoMass(), shipDesign.getEngineMass() );
+			if ( loadedShipDesign == null )
+				loadedShipDesign = shipDesignService.create(loadedShipDesign);
+			planetSurface.getShipFactory().setShipDesign( loadedShipDesign );
+		}
+		
 	}
 	
 }

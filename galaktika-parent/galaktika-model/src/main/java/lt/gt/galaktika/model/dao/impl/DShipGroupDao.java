@@ -2,6 +2,7 @@ package lt.gt.galaktika.model.dao.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -12,13 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import lt.gt.galaktika.model.DataSearchLimits;
 import lt.gt.galaktika.model.DataSearchResult;
 import lt.gt.galaktika.model.dao.IShipGroupDao;
-import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DShip;
 import lt.gt.galaktika.model.entity.turn.DShipGroup;
+import lt.gt.galaktika.utils.Utils;
 
 @Repository
-@Deprecated // DShipGroupDao instead 
-public class ShipGroupDao implements IShipGroupDao
+public class DShipGroupDao implements IShipGroupDao
 {
 	@PersistenceContext
 	private EntityManager em;	
@@ -124,5 +124,32 @@ public class ShipGroupDao implements IShipGroupDao
 	{
 		em.flush();
 	}
-	
+
+	@Override
+	@Transactional
+	public DShip findShip(String name, double attack, int guns, double defence, double cargo, double speed,
+			double totalMass) {
+		String queryStr = "select s from DShip s "
+				+ "where s.name=:name "
+				+ "and s.attack>=:attackFrom and s.attack <= :attackTo "
+				+ "and s.guns=:guns "
+				+ "and s.defence>=:defenceFrom and s.defence <= :defenceTo "
+				+ "and s.cargo>=:cargoFrom and s.cargo <= :cargoTo "
+				+ "and s.speed>=:speedFrom and s.speed <= :speedTo "
+				+ "and s.totalMass>=:totalMassFrom and s.totalMass <= :totalMassTo ";
+		Query query = em.createQuery(queryStr, DShip.class);
+		query.setParameter("name", name);
+		query.setParameter("attackFrom", attack-Utils.EPSILON);
+		query.setParameter("attackTo", attack+Utils.EPSILON);
+		query.setParameter("guns", guns);
+		query.setParameter("defenceFrom", defence-Utils.EPSILON);
+		query.setParameter("defenceTo", defence+Utils.EPSILON);
+		query.setParameter("cargoFrom", cargo-Utils.EPSILON);
+		query.setParameter("cargoTo", cargo+Utils.EPSILON);
+		query.setParameter("speedFrom", speed-Utils.EPSILON);
+		query.setParameter("speedTo", speed+Utils.EPSILON);
+		query.setParameter("totalMassFrom", totalMass-Utils.EPSILON);
+		query.setParameter("totalMassTo", totalMass+Utils.EPSILON);
+		return (DShip) query.getSingleResult();
+	}
 }

@@ -140,17 +140,13 @@ public class PlanetEngine {
 		}
 
 	}
-
+	
 	/**
 	 * 
 	 * @param pd
 	 * @param t
 	 */
-	public void executeProduction(PlanetData pd, Technologies t) {
-		double unepmloyedPopulation = pd.getSurface().getPopulation();
-		double unusedCapital = pd.getSurface().getCapital();
-		double unusedIndustry = pd.getSurface().getIndustry();
-
+	public void prepareProduction ( PlanetData pd, Technologies t) {
 		if (pd.getPlanet() == null)
 			throw new GalaktikaRuntimeException("The planet is null");
 
@@ -164,25 +160,37 @@ public class PlanetEngine {
 		if (!validateShipDesign(productionCommand.getShipDesign()))
 			throw new GalaktikaRuntimeException("Invalid ship design " + productionCommand.getShipDesign());
 
-		Ship ship = null;
 		if (pd.getSurface().getShipFactory() == null) {
-			pd.getSurface().setShipFactory(new ShipFactory());
-			pd.getSurface().getShipFactory().setShipDesign(productionCommand.getShipDesign());
+			pd.getSurface().setShipFactory(new ShipFactory()); // TODO remove this as it will be done in prepare step
+			pd.getSurface().getShipFactory().setShipDesign(productionCommand.getShipDesign()); // TODO remove this
 		}
+		
 		// create ship factory if there is none
 		if (pd.getSurface().getShipFactory().getDonePart() > EPSILON
 				&& productionCommand.getShipDesign().equals(pd.getSurface().getShipFactory().getShipDesign())) {
-			// if there is unfinished ship, then
-			// continue the same ship
-			ship = pd.getSurface().getShipFactory().getShip();
+			// nothing
 		} else {
 			// create new ship
-			ship = makeShip(productionCommand.getShipDesign(), t);
+			Ship ship = makeShip(productionCommand.getShipDesign(), t);
 			pd.getSurface().getShipFactory().setShip(ship);
 			pd.getSurface().getShipFactory().setShipDesign(productionCommand.getShipDesign());
 			pd.getSurface().getShipFactory().setTechnologies(t);
 			pd.getSurface().getShipFactory().setDonePart(0);
 		}
+	}
+
+	/**
+	 * 
+	 * @param pd
+	 * @param t
+	 */
+	public void executeProduction(PlanetData pd, Technologies t) {
+		double unepmloyedPopulation = pd.getSurface().getPopulation();
+		double unusedCapital = pd.getSurface().getCapital();
+		double unusedIndustry = pd.getSurface().getIndustry();
+
+		SurfaceCommandProduction productionCommand = (SurfaceCommandProduction) pd.getSurface().getSurfaceCommand();
+		Ship ship = pd.getSurface().getShipFactory().getShip();
 
 		int shipsToBuild = productionCommand.getMaxShips();
 		int shipsMade = 0;
@@ -254,10 +262,8 @@ public class PlanetEngine {
 				fleet.setOwner(pd.getSurface().getNation());
 				pd.getOrbit().getFleets().add(fleet);
 			}
-
 			fleet.addShipGroup(new ShipGroup(ship, shipsMade));
 		}
-
 	}
 
 	/**
