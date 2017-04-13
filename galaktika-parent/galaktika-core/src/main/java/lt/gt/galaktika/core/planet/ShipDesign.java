@@ -118,13 +118,13 @@ public class ShipDesign
 		if (getClass() != obj.getClass())
 			return false;
 		ShipDesign other = (ShipDesign) obj;
+		if ( other.designId != 0 && designId != 0 && designId != other.designId)
+			return false;
 		if (Double.doubleToLongBits(attackMass) != Double.doubleToLongBits(other.attackMass))
 			return false;
 		if (Double.doubleToLongBits(cargoMass) != Double.doubleToLongBits(other.cargoMass))
 			return false;
 		if (Double.doubleToLongBits(defenceMass) != Double.doubleToLongBits(other.defenceMass))
-			return false;
-		if (designId != other.designId)
 			return false;
 		if (designName == null) {
 			if (other.designName != null)

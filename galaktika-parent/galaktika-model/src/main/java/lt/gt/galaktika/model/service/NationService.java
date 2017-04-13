@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.core.Galaxy;
 import lt.gt.galaktika.core.Nation;
+import lt.gt.galaktika.model.GalaxiesFilter;
 import lt.gt.galaktika.model.NationsFilter;
+import lt.gt.galaktika.model.dao.IGalaxyDao;
 import lt.gt.galaktika.model.dao.INationDao;
+import lt.gt.galaktika.model.entity.noturn.DGalaxy;
 import lt.gt.galaktika.model.entity.noturn.DNation;
 import lt.gt.galaktika.model.entity.noturn.User;
 import lt.gt.galaktika.model.exception.GalaktikaModelException;
@@ -17,8 +20,11 @@ import lt.gt.galaktika.model.exception.GalaktikaModelException;
 @Service
 public class NationService extends AbstractGalaktikaService<DNation, Nation> {
 
+//	@Autowired
+//	GalaxyService galaxyService;
+	
 	@Autowired
-	GalaxyService galaxyService;
+	IGalaxyDao galaxyDao;
 	
 	@Autowired
 	INationDao nationDao;
@@ -41,7 +47,8 @@ public class NationService extends AbstractGalaktikaService<DNation, Nation> {
 	 */
 	public Nation createNation (  Nation n, User u, Galaxy g ) {
 		DNation dNation = mapToDbObject( n );
-		dNation.setGalaxy( galaxyService.mapToDbObject( g ) );
+		DGalaxy dg = dao.find(DGalaxy.class, g.getGalaxyId());
+		dNation.setGalaxy(dg);
 		dNation.setUser( u );
 		DNation rez =  dao.create( dNation );
 		return mapToCoreObject( rez );

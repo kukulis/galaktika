@@ -1,9 +1,12 @@
 package lt.gt.galaktika.model.entity.noturn;
 
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class DShipDesign {
@@ -18,8 +21,10 @@ public class DShipDesign {
 	private double defenceMass;
 	private double cargoMass;
 	private double engineMass;
-	
-	// TODO add owner to ship design
+
+	@ManyToOne
+	@JoinColumn(name="nationId", foreignKey=@ForeignKey(name="FK_SHIPDESIGN_OWNER"))
+	private DNation owner;
 
 	public DShipDesign() {
 	}
@@ -105,6 +110,14 @@ public class DShipDesign {
 
 	public void setDefenceMass(double defenceMass) {
 		this.defenceMass = defenceMass;
+	}
+	
+	public DNation getOwner() {
+		return owner;
+	}
+
+	public void setOwner(DNation owner) {
+		this.owner = owner;
 	}
 
 	@Override

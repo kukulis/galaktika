@@ -1,16 +1,26 @@
 package lt.gt.galaktika.model.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.planet.ShipDesign;
+import lt.gt.galaktika.model.dao.INationDao;
 import lt.gt.galaktika.model.dao.IShipDesignDao;
+import lt.gt.galaktika.model.entity.noturn.DNation;
 import lt.gt.galaktika.model.entity.noturn.DShipDesign;
+import lt.gt.galaktika.model.exception.GalaktikaModelException;
 
 public class ShipDesignService extends AbstractGalaktikaService<DShipDesign, ShipDesign>{
 	
 	@Autowired
 	IShipDesignDao shipDesignDao;
+	
+	@Autowired
+	INationDao nationDao;
 	
 	@Override
 	public DShipDesign createDbObject() {
@@ -26,6 +36,8 @@ public class ShipDesignService extends AbstractGalaktikaService<DShipDesign, Shi
 	public Class<DShipDesign> getDClazz() {
 		return DShipDesign.class;
 	}
+	
+	
 
 //	@Override
 //	public ShipDesign mapToCoreObject(DShipDesign dbObject) {
@@ -43,15 +55,31 @@ public class ShipDesignService extends AbstractGalaktikaService<DShipDesign, Shi
 //		return shipDesign;
 //	}
 	
-	// TODO owner in parameters
-	public ShipDesign findShipDesign ( String name, double attackMass, int guns, double defenseMass, double cargoMass, double engineMass ) {
+	@Override
+	@Deprecated
+	public ShipDesign create(ShipDesign c) {
+		throw new GalaktikaModelException("Deprecated. Use createShipDesign instead.");
+	}
+	
+	public ShipDesign createShipDesign(ShipDesign sd, Nation owner) {
+		DShipDesign dShipDesign = mapToDbObject(sd);
+		DNation dNation = nationDao.getNation( owner.getNationId() );
+		dShipDesign.setOwner(dNation);
+		return mapToCoreObject(dao.create( dShipDesign ) );
+	}
+
+	public ShipDesign findShipDesign ( String name, double attackMass, int guns, double defenseMass, double cargoMass, double engineMass, Nation n ) {
 		try {
-			DShipDesign dShipDesign = shipDesignDao.findShipDesign(name, attackMass, guns, defenseMass, cargoMass, engineMass);
+			DShipDesign dShipDesign = shipDesignDao.findShipDesign( n.getNationId(), name, attackMass, guns, defenseMass, cargoMass, engineMass);
 			if ( dShipDesign == null )
 				return null;
 			return mapToCoreObject( dShipDesign);
 		} catch ( EmptyResultDataAccessException e ) {
 			return null;
 		}
+	}
+	
+	public List<ShipDesign> getNationShipDesigns ( Nation n ) {
+		return shipDesignDao.findNationShipDesigns(n.getNationId()).stream().map(this::mapToCoreObject).collect(Collectors.toList());
 	}
 }

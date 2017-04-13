@@ -31,7 +31,6 @@ public class User
 	@Column(nullable=false)
 	private String email;
 
-	@NotNull
 	@Size(min = 2, max = 80)
 	private String name;
 	
@@ -51,10 +50,10 @@ public class User
 		this.id = id;
 	}
 
-	public User(String email, String name)
+	public User(String email, String login)
 	{
 		this.email = email;
-		this.name = name;
+		this.login = login;
 	}
 
 	public long getId ()

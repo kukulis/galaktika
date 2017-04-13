@@ -208,7 +208,7 @@ public class UsersBot {
 		shipDesign.setDesignName("grybas");
 		shipDesign.setGuns( 1 );
 		
-		shipDesign = shipDesignService.create(shipDesign);
+		shipDesign = shipDesignService.createShipDesign(shipDesign, ps3.getNation());
 		productionCommand.setShipDesign(shipDesign);
 		productionCommand.setMaxShips(3);
 		ps3.setSurfaceCommand(productionCommand);

@@ -144,7 +144,7 @@ public class TestMemoryPlanetDataService2 {
 		SurfaceCommandIndustry sci = new SurfaceCommandIndustry();
 //		sci.se
 		SurfaceCommandProduction scProd = new SurfaceCommandProduction();
-		ShipDesign shipDesign = shipDesignService.create( new ShipDesign() );
+		ShipDesign shipDesign = shipDesignService.createShipDesign( new ShipDesign(), nation);
 		
 		Ship ship = new Ship("shipas");
 		

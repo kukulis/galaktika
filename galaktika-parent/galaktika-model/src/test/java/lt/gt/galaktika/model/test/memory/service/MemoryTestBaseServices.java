@@ -54,7 +54,7 @@ public class MemoryTestBaseServices {
 		Galaxy g = galaxyService.createGalaxy(new Galaxy(), EGalaxyPurposes.PLAY, true);
 		Nation naciai = nationService.createNation( new Nation ( "naciai"), null, null );
 		Planet marsas = planetService.createPlanet( new Planet(1, 2, 100, 1.5), g);
-		ShipDesign dizainas = shipDesignService.create( new ShipDesign( "dizaineris"));
+		ShipDesign dizainas = shipDesignService.createShipDesign( new ShipDesign( "dizaineris"), naciai);
 		Ship katinas = shipService.create( new Ship ( "katinas") );
 		SpaceLocation taskas = spaceLocationService.create( new SpaceLocation(1, 0.5 ));
 		Technologies t1 = technologiesService.create( new Technologies(0, 1, 2, 3, 4));

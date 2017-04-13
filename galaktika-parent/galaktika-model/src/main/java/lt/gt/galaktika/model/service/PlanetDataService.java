@@ -342,9 +342,9 @@ public class PlanetDataService {
 		if ( shipDesign.getDesignId() != 0)
 			loadedShipDesign = shipDesignService.load( shipDesign.getDesignId() );
 		if ( loadedShipDesign == null ) {
-			loadedShipDesign = shipDesignService.findShipDesign ( shipDesign.getDesignName(), shipDesign.getAttackMass(), shipDesign.getGuns(), shipDesign.getDefenceMass(), shipDesign.getCargoMass(), shipDesign.getEngineMass() );
+			loadedShipDesign = shipDesignService.findShipDesign ( shipDesign.getDesignName(), shipDesign.getAttackMass(), shipDesign.getGuns(), shipDesign.getDefenceMass(), shipDesign.getCargoMass(), shipDesign.getEngineMass(), planetSurface.getNation() );
 			if ( loadedShipDesign == null )
-				loadedShipDesign = shipDesignService.create(loadedShipDesign);
+				loadedShipDesign = shipDesignService.createShipDesign(loadedShipDesign, planetSurface.getNation());
 			planetSurface.getShipFactory().setShipDesign( loadedShipDesign );
 		}
 		
