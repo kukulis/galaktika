@@ -3,6 +3,7 @@ package lt.gt.galaktika.model.entity.turn;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,15 +28,15 @@ public class DShipFactory {
 	private Integer turnNumber;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "shipId")
+	@JoinColumn(name = "shipId", foreignKey=@ForeignKey(name="FK_SHIP_IN_FACTORY"))
 	private DShip ship;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "designId")
+	@JoinColumn(name = "designId", foreignKey=@ForeignKey(name="FK_SHIPDESIGN_IN_FACTORY"))
 	private DShipDesign design;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "technologiesId")
+	@JoinColumn(name = "technologiesId", foreignKey=@ForeignKey(name="FK_TECHNOLOGIES_IN_FACTORY"))
 	private DTechnologies technologies;
 	
 	private double donePart;

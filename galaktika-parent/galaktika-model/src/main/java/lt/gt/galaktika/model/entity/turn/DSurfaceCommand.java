@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,11 +43,11 @@ public class DSurfaceCommand {
 	// in case it is production
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "designId")
+	@JoinColumn(name = "designId", foreignKey=@ForeignKey(name="FK_DESIGN_IN_SURFACE_COMMAND"))
 	private DShipDesign design;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "technologiesId")
+	@JoinColumn(name = "technologiesId", foreignKey=@ForeignKey(name="FK_TECHNOLOGIES_IN_SURFACE_COMMAND"))
 	private DTechnologies technologies;
 	
 	private int maxShips;

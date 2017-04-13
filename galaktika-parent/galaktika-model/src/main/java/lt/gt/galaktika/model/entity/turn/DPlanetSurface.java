@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -31,7 +32,7 @@ public class DPlanetSurface {
 	private String name;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "nationId", nullable = true)
+	@JoinColumn(name = "nationId", nullable = true, foreignKey=@ForeignKey(name="FK_PLANET_OWNER"))
 	private DNation owner;
 	private double population;
 	private double industry;
@@ -43,7 +44,6 @@ public class DPlanetSurface {
 	 */
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumns({@JoinColumn(name = "planetId"),@JoinColumn(name = "turnNumber")})
-//	@IndexColumn(name="INDEX_COMMAND") // this is used to avoid multiple bags exception
 	private Set<DSurfaceCommand> commands = new HashSet<DSurfaceCommand>();
 	
 	/**
@@ -51,7 +51,6 @@ public class DPlanetSurface {
 	 */
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumns({@JoinColumn(name = "planetId"),@JoinColumn(name = "turnNumber")})
-//	@IndexColumn(name="INDEX_SHIP_FACT") // this is used to avoid multiple bags exception
 	private Set<DShipFactory> shipFactories = new HashSet<>();
 	
 	public DPlanetSurface() {

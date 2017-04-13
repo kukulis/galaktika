@@ -2,6 +2,7 @@ package lt.gt.galaktika.model.entity.turn;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,9 +21,9 @@ public class DShipGroup
 	private long shipGroupId;
 
 	@ManyToOne
-	@JoinColumn(name = "shipId", nullable = false)
+	@JoinColumn(name = "shipId", nullable = false, foreignKey=@ForeignKey(name="FK_SHIP_IN_GROUP"))
 	private DShip ship;
-	
+
 	@Column(nullable=true)
 	private Long fleetId;
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -30,25 +31,25 @@ public class DFleetData {
 	private List<DShipGroup> shipGroups = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "planetId", nullable = true)
+	@JoinColumn(name = "planetId", nullable = true, foreignKey=@ForeignKey(name="FK_FLEET_LOCATION_PLANET"))
 	private DPlanet planetLocation;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "spaceLocationId", nullable = true)
+	@JoinColumn(name = "spaceLocationId", nullable = true, foreignKey=@ForeignKey(name="FK_FLEET_LOCATION_SPACE"))
 	private DSpaceLocation spaceLocation;
 	
 	// flightCommand
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "flightSourceId", nullable = true )
+	@JoinColumn(name = "flightSourceId", nullable = true, foreignKey=@ForeignKey(name="FK_FLEET_FLIGHT_SOURCE_PLANET"))
 	private DPlanet flightSource;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "flightDestinationId", nullable = true)
+	@JoinColumn(name = "flightDestinationId", nullable = true, foreignKey=@ForeignKey(name="FK_FLEET_FLIGHT_DESTINATION_PLANET"))
 	private DPlanet flightDestination;
 	
 	@ManyToOne
 	@JoinColumn(name = "fleetId", referencedColumnName = "fleetId",
-	insertable =  false, updatable = false)
+	insertable =  false, updatable = false, foreignKey=@ForeignKey(name="FK_FLEET_OF_FLEETDATA"))
 	private DFleet fleet;
 	
 	public DFleetData() {
@@ -136,6 +137,4 @@ public class DFleetData {
 	public void setFleet(DFleet fleet) {
 		this.fleet = fleet;
 	}
-	
-	
 }

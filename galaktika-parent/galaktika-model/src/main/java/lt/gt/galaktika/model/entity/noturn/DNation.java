@@ -4,6 +4,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,7 +16,7 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "nation",
-uniqueConstraints = {@UniqueConstraint(columnNames = {"nationName", "galaxyId", "userId"})})
+uniqueConstraints = {@UniqueConstraint(name="UK_ONE_NATION_IN_GALAXY_PER_USER", columnNames = {"nationName", "galaxyId", "userId"})})
 public class DNation
 {
 	@Id
@@ -26,11 +27,11 @@ public class DNation
 	String nationName;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "userId", foreignKey=@ForeignKey(name="FK_NATIONS_USER"))
 	User user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "galaxyId")
+	@JoinColumn(name = "galaxyId", foreignKey=@ForeignKey(name="FK_NATIONS_GALAXY"))
 	DGalaxy galaxy;
 	
 	public DNation(long nationId, String nationName) {

@@ -2,6 +2,7 @@ package lt.gt.galaktika.model.entity.turn;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,7 +16,7 @@ import lt.gt.galaktika.utils.Utils;
 
 @Entity
 @Table ( name="technologies",
-uniqueConstraints = {@UniqueConstraint(columnNames={"nationId", "turnNumber"})})
+uniqueConstraints = {@UniqueConstraint(columnNames={"nationId", "turnNumber"}, name="UK_TECHNOLOGY_FOR_NATION_TURN")})
 public class DTechnologies
 {
 	@Id
@@ -23,7 +24,7 @@ public class DTechnologies
 	private long technologiesId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "nationId", nullable = true)
+	@JoinColumn(name = "nationId", nullable = true, foreignKey=@ForeignKey(name="FK_OWNER_OF_TECHNOLOGIES"))
 	private DNation owner;
 	
 	private int turnNumber;

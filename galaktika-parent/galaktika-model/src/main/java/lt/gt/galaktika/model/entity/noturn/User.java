@@ -8,11 +8,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+uniqueConstraints={
+		@UniqueConstraint(columnNames={"email"},name="UK_USER_EMAIL"),
+		@UniqueConstraint(columnNames={"login"},name="UK_USER_LOGIN")
+})
 public class User
 {
 
@@ -23,7 +28,7 @@ public class User
 
 	@NotNull
 	@Size(min = 3, max = 80)
-	@Column(unique=true, nullable=false)
+	@Column(nullable=false)
 	private String email;
 
 	@NotNull
@@ -31,7 +36,7 @@ public class User
 	private String name;
 	
 	@Size(min = 4, max = 32)
-	@Column (unique=true, nullable=false)
+	@Column (nullable=false)
 	private String login; 
 
 	@Size(max = 32)

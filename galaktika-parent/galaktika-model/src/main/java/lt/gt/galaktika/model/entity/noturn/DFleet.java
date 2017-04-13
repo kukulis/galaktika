@@ -2,6 +2,7 @@ package lt.gt.galaktika.model.entity.noturn;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,7 @@ public class DFleet {
 	// relations
 	// private long nationId;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "nationId", nullable = true)
+	@JoinColumn(name = "nationId", nullable = true, foreignKey=@ForeignKey(name="FK_FLEET_TO_NATION"))
 	private DNation nation;
 
 	private boolean deleted;
