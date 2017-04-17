@@ -1,5 +1,6 @@
 package lt.gt.galaktika.core.engines;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -81,7 +82,7 @@ public class PlanetEngine {
 			return false;
 		}
 		// forbid values between 0 and 1
-		if (Utils.between0And1(design.getAttackMass()/ design.getGuns(), lt.gt.galaktika.utils.Utils.EPSILON)) {
+		if (Utils.between0And1(design.getAttackMass() / design.getGuns(), lt.gt.galaktika.utils.Utils.EPSILON)) {
 			LOG.error("Attack mass for a gun in (0;1)");
 			return false;
 		}
@@ -94,7 +95,7 @@ public class PlanetEngine {
 			LOG.error("Cargo mass in (0;1)");
 			return false;
 		}
-		if (Utils.between0And1(design.getEngineMass() , lt.gt.galaktika.utils.Utils.EPSILON)) {
+		if (Utils.between0And1(design.getEngineMass(), lt.gt.galaktika.utils.Utils.EPSILON)) {
 			LOG.error("Engine mass in (0;1)");
 			return false;
 		}
@@ -140,19 +141,22 @@ public class PlanetEngine {
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * @param pd
 	 * @param t
 	 */
-	public void prepareProduction ( PlanetData pd, Technologies t) {
+	public void prepareProduction(PlanetData pd, Technologies t) {
 		if (pd.getPlanet() == null)
 			throw new GalaktikaRuntimeException("The planet is null");
 
 		SurfaceCommandProduction productionCommand = (SurfaceCommandProduction) pd.getSurface().getSurfaceCommand();
 		if (productionCommand == null)
 			throw new GalaktikaRuntimeException("The command is null planet=" + pd.getPlanet());
+
+		if (pd.getSurface().getNation() == null)
+			throw new GalaktikaRuntimeException("No nation to planet " + pd.getPlanet() + " to make any productsion");
 
 		if (productionCommand.getShipDesign() == null)
 			throw new GalaktikaRuntimeException("No ship design assigned to production command " + pd.getPlanet());
@@ -161,10 +165,10 @@ public class PlanetEngine {
 			throw new GalaktikaRuntimeException("Invalid ship design " + productionCommand.getShipDesign());
 
 		if (pd.getSurface().getShipFactory() == null) {
-			pd.getSurface().setShipFactory(new ShipFactory()); // TODO remove this as it will be done in prepare step
-			pd.getSurface().getShipFactory().setShipDesign(productionCommand.getShipDesign()); // TODO remove this
+			pd.getSurface().setShipFactory(new ShipFactory());
+			pd.getSurface().getShipFactory().setShipDesign(productionCommand.getShipDesign());
 		}
-		
+
 		// create ship factory if there is none
 		if (pd.getSurface().getShipFactory().getDonePart() > EPSILON
 				&& productionCommand.getShipDesign().equals(pd.getSurface().getShipFactory().getShipDesign())) {
@@ -183,8 +187,9 @@ public class PlanetEngine {
 	 * 
 	 * @param pd
 	 * @param t
+	 * @deprecated
 	 */
-	public void executeProduction(PlanetData pd, Technologies t) {
+	public void executeProductionOld(PlanetData pd, Technologies t) {
 		double unepmloyedPopulation = pd.getSurface().getPopulation();
 		double unusedCapital = pd.getSurface().getCapital();
 		double unusedIndustry = pd.getSurface().getIndustry();
@@ -250,10 +255,10 @@ public class PlanetEngine {
 		}
 
 		// create orbit if none exists
-		if ( pd.getOrbit() == null ) {
-			pd.setOrbit( new PlanetOrbit());
+		if (pd.getOrbit() == null) {
+			pd.setOrbit(new PlanetOrbit());
 		}
-		
+
 		// add the build ships to the orbit
 		if (shipsMade > 0) {
 			Fleet fleet = pd.getOrbit().findNationFleet(pd.getSurface().getNation());
@@ -262,8 +267,115 @@ public class PlanetEngine {
 				fleet.setOwner(pd.getSurface().getNation());
 				pd.getOrbit().getFleets().add(fleet);
 			}
-			fleet.addShipGroup(new ShipGroup(ship, shipsMade));
+			fleet.mergeToShipGroups(ship, shipsMade);
 		}
+	}
+
+	/**
+	 * 
+	 * @param pd
+	 * @param t
+	 * 
+	 */
+	public void executeProduction(PlanetData pd, Technologies t) {
+		ProductionResults r = calculateProduction(pd, t);
+		useProductionResults(pd, t, r);
+	}
+
+	/**
+	 * This function is as a part of executeProduction, but might be called separately.
+	 * @param pd
+	 * @param t
+	 * @return
+	 */
+	public ProductionResults calculateProduction(PlanetData pd, Technologies t) {
+		// A
+		double unusedIndustry = pd.getSurface().getIndustry(); // i*
+		double unusedPopulation = pd.getSurface().getPopulation(); // p*
+		double unusedCapital = pd.getSurface().getCapital(); // c
+
+		double usedResources_c = Utils.min(unusedIndustry, unusedPopulation, unusedCapital); // pic*
+		double productionPower_c = usedResources_c * 2; // g_c
+		// --
+		unusedIndustry -= usedResources_c;
+		unusedPopulation -= usedResources_c;
+		unusedCapital -= usedResources_c;
+
+		// B
+		double productionPower_0 = 0;
+		double a = pd.getPlanet().getRichness();
+		if (unusedCapital <= lt.gt.galaktika.utils.Utils.EPSILON) {
+			double availableResources_pi = Utils.min(unusedIndustry, unusedPopulation); // pi*
+			double usedResources_0 = availableResources_pi * a / (a + 1); // pi_g
+			productionPower_0 = usedResources_0 * 2; // g_0
+		}
+
+		double totalProductionPower = productionPower_0 + productionPower_c;
+
+		SurfaceCommandProduction productionCommand = (SurfaceCommandProduction) pd.getSurface().getSurfaceCommand();
+
+		// now lets use the prodution power
+		// m1
+		double oneShipTotalMass = productionCommand.getShipDesign().getAttackMass()
+				+ productionCommand.getShipDesign().getDefenceMass() + productionCommand.getShipDesign().getCargoMass()
+				+ productionCommand.getShipDesign().getEngineMass();
+
+		// check old ship production part and if the previous ship was the same
+		// as as in the current command, then add the used production to the
+		// totalProductionPower
+		if (productionCommand.getShipDesign().equals(pd.getSurface().getShipFactory().getShipDesign())) {
+			totalProductionPower += oneShipTotalMass * pd.getSurface().getShipFactory().getDonePart();
+		}
+
+		int n = productionCommand.getMaxShips();
+
+		double requiredProductionPower = oneShipTotalMass * n; // g_r
+
+		int builtAmount = 0; // n_a
+		double x = 0;
+		double remainingCapital = 0; // c_+
+		if (requiredProductionPower > totalProductionPower) {
+			// not enough
+			builtAmount = (int) Math.floor(totalProductionPower / oneShipTotalMass);
+			double remainingMass = totalProductionPower - builtAmount * oneShipTotalMass; // m_l
+			x = remainingMass / oneShipTotalMass;
+		} else {
+			// enough
+			builtAmount = n;
+			double remainingBuildPower = totalProductionPower - requiredProductionPower; // g_l
+			remainingCapital = remainingBuildPower * (1 + a);
+		}
+
+		return new ProductionResults(builtAmount, totalProductionPower, unusedCapital + remainingCapital, x);
+	}
+
+	public void useProductionResults(PlanetData pd, Technologies t, ProductionResults r) {
+		// use the values to store to objects
+
+		Ship ship = pd.getSurface().getShipFactory().getShip();
+
+		// create orbit if none exists
+		if (pd.getOrbit() == null) {
+			pd.setOrbit(new PlanetOrbit());
+		}
+
+		if (r.getBuiltAmount() != 0) {
+			Fleet fleet = pd.getOrbit().findNationFleet(pd.getSurface().getNation());
+			if (fleet == null) {
+				fleet = new Fleet(ship.getName() + " fleet");
+				fleet.setOwner(pd.getSurface().getNation());
+				pd.getOrbit().getFleets().add(fleet);
+			}
+			fleet.mergeToShipGroups(ship, r.getBuiltAmount());
+		}
+
+		pd.getSurface().getShipFactory().setDonePart(r.getBuildPart());
+		pd.getSurface().setCapital(r.getResultCapital());
+
+		SurfaceCommandProduction productionCommand = (SurfaceCommandProduction) pd.getSurface().getSurfaceCommand();
+
+		// modify the command for remaining ships
+		productionCommand.setMaxShips(productionCommand.getMaxShips() - r.getBuiltAmount());
 	}
 
 	/**
@@ -327,7 +439,7 @@ public class PlanetEngine {
 		else if (TechnologyType.DEFENCE == tt)
 			t.setDefence(t.getDefence() + researchPower);
 		else if (TechnologyType.ENGINE == tt)
-			t.setEngines(t.getEngines()+ researchPower);
+			t.setEngines(t.getEngines() + researchPower);
 	}
 
 	public void executePopulation(PlanetData pd) {
@@ -335,4 +447,37 @@ public class PlanetEngine {
 				Utils.limit(pd.getSurface().getPopulation() * POPULATION_GROWTH, pd.getPlanet().getPlanetSize()));
 	}
 
+	/**
+	 * Immutable class
+	 *
+	 */
+	public static class ProductionResults {
+		public ProductionResults(int builtAmount, double productionPower, double resultCapital, double buildPart) {
+			this.builtAmount = builtAmount;
+			this.productionPower = productionPower;
+			this.resultCapital = resultCapital;
+			this.buildPart = buildPart;
+		}
+
+		private int builtAmount;
+		private double productionPower;
+		private double resultCapital;
+		private double buildPart;
+
+		public int getBuiltAmount() {
+			return builtAmount;
+		}
+
+		public double getProductionPower() {
+			return productionPower;
+		}
+
+		public double getResultCapital() {
+			return resultCapital;
+		}
+
+		public double getBuildPart() {
+			return buildPart;
+		}
+	}
 }

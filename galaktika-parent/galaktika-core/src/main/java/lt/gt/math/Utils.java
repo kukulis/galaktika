@@ -1,5 +1,8 @@
 package lt.gt.math;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Utils {
 	public static double sqrt3 ( double f ) {
 		return Math.exp( Math.log( f ) / 3 );
@@ -46,5 +49,9 @@ public class Utils {
 	
 	public static boolean between0And1 ( double val, double epsilon ) {
 		return val > epsilon && val < 1 - epsilon;
+	}
+	
+	public static double min( Double ...ds ) {
+		return Arrays.asList(ds).stream().min(Double::compareTo).get();
 	}
 }

@@ -18,7 +18,9 @@ import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.ShipDesign;
 import lt.gt.galaktika.model.config.MemoryTestConfig;
 import lt.gt.galaktika.model.config.ModelBeansConfig;
+import lt.gt.galaktika.model.dao.IUserDao;
 import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
+import lt.gt.galaktika.model.entity.noturn.User;
 import lt.gt.galaktika.model.service.GalaxyService;
 import lt.gt.galaktika.model.service.NationService;
 import lt.gt.galaktika.model.service.PlanetService;
@@ -49,10 +51,16 @@ public class MemoryTestBaseServices {
 	@Autowired
 	GalaxyService galaxyService;
 	
+	@Autowired
+	IUserDao userDao;
+	
 	@Test
 	public void testStoreBaseObjects () {
 		Galaxy g = galaxyService.createGalaxy(new Galaxy(), EGalaxyPurposes.PLAY, true);
-		Nation naciai = nationService.createNation( new Nation ( "naciai"), null, null );
+		
+		User u = new User("aaa@aaa.lt", "katinas");
+		userDao.save(u);
+		Nation naciai = nationService.createNation( new Nation ( "naciai"), u, g );
 		Planet marsas = planetService.createPlanet( new Planet(1, 2, 100, 1.5), g);
 		ShipDesign dizainas = shipDesignService.createShipDesign( new ShipDesign( "dizaineris"), naciai);
 		Ship katinas = shipService.create( new Ship ( "katinas") );

@@ -23,7 +23,9 @@ import lt.gt.galaktika.core.planet.SurfaceCommandProduction;
 import lt.gt.galaktika.model.config.MemoryTestConfig;
 import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.dao.IDAO;
+import lt.gt.galaktika.model.dao.IUserDao;
 import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
+import lt.gt.galaktika.model.entity.noturn.User;
 import lt.gt.galaktika.model.entity.turn.DPlanetSurface;
 import lt.gt.galaktika.model.entity.turn.DShipFactory;
 import lt.gt.galaktika.model.entity.turn.DSurfaceCommand;
@@ -61,6 +63,8 @@ public class TestMemoryPlanetDataService2 {
 	@Autowired
 	GalaxyService galaxyService;
 
+	@Autowired
+	IUserDao userDao;
 
 	
 	private class TestData {
@@ -81,7 +85,7 @@ public class TestMemoryPlanetDataService2 {
 		LOG.trace("testStorePlanetSurface2 called");
 		TestData data = createTestData();
 		planetDataService.storeNoTurnPlanetSurfaceObjects(data.surface);
-		planetDataService.storePlanetSurface2(data.surface, data.planet, data.turnNumber);
+		planetDataService.storePlanetSurface(data.surface, data.planet, data.turnNumber);
 		PlanetSurface surface = planetDataService.loadPlanetSurface( data.planet.getPlanetId(), data.turnNumber );
 
 		Assert.assertEquals( data.surface.getSurfaceCommand(), surface.getSurfaceCommand() );
@@ -100,7 +104,7 @@ public class TestMemoryPlanetDataService2 {
 //	@Test
 	public void testMap () {
 		TestData data = createTestData();
-		DPlanetSurface dPlanetSurface = planetDataService.mapToDPlanetSurface2(data.surface, data.planet, data.turnNumber);
+		DPlanetSurface dPlanetSurface = planetDataService.mapToDPlanetSurface(data.surface, data.planet, data.turnNumber);
 		
 		Assert.assertNotNull( dPlanetSurface );
 		Assert.assertNotNull( dPlanetSurface.getShipFactories() );
@@ -126,7 +130,9 @@ public class TestMemoryPlanetDataService2 {
 		
 		Galaxy g = galaxyService.createGalaxy(new Galaxy(), EGalaxyPurposes.PLAY, true);
 		
-		Nation nation = nationService.createNation(new Nation("pacukai"), null, null );
+		User u = new User("aaa@aaaz.lt", "katinass");
+		userDao.save(u);
+		Nation nation = nationService.createNation(new Nation("pacukai"), u, g );
 
 		Planet planet = new Planet();
 		planet = planetService.createPlanet(planet, g);

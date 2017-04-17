@@ -87,7 +87,7 @@ public class AssignNationsPlanets {
 
 		if ( psurf1 == null ) {
 			PlanetSurface planetSurface1 = new PlanetSurface("Nation 1 home", nation1, 100, 100, 0, new SurfaceCommandIndustry());
-			pds.storePlanetSurface2(planetSurface1, planet1, 1);
+			pds.storePlanetSurface(planetSurface1, planet1, 1);
 			System.out.println( "Created surface for planet1" );
 		}
 		else {
@@ -96,7 +96,7 @@ public class AssignNationsPlanets {
 
 		if( psurf2 == null ) {
 			PlanetSurface planetSurface2 = new PlanetSurface("Nation 2 home", nation2, 100, 100, 0, new SurfaceCommandIndustry());
-			pds.storePlanetSurface2(planetSurface2, planet2, 1);
+			pds.storePlanetSurface(planetSurface2, planet2, 1);
 			System.out.println( "Created surface for planet2" );
 		}
 		else {

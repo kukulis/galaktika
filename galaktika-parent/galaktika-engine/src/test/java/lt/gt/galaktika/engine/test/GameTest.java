@@ -183,6 +183,8 @@ public class GameTest {
 		
 		PlanetData pd3 = planetDataService.loadPlanetData(planet3.getPlanetId() , 2);
 		
+		Assert.assertEquals( 0.5, pd3.getSurface().getShipFactory().getDonePart(), Utils.EPSILON );
+		
 		Assert.assertNotNull( pd3.getOrbit() );
 		Assert.assertNotNull( pd3.getOrbit().getFleets() );
 		Assert.assertNotEquals( 0, pd3.getOrbit().getFleets().size() );
@@ -202,6 +204,7 @@ public class GameTest {
 	public void test030MakeTurn2Commands() {
 		System.out.println( "TODO second turn commands" );
 		// lets make same commands again
+		usersBot.makeTurn2Commands();
 	}
 	@Test
 	public void test031ExecuteTurn2() {

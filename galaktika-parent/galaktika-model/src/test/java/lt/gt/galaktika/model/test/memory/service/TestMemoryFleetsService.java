@@ -20,7 +20,9 @@ import lt.gt.galaktika.core.exception.GalaktikaException;
 import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.model.config.MemoryTestConfig;
 import lt.gt.galaktika.model.config.ModelBeansConfig;
+import lt.gt.galaktika.model.dao.IUserDao;
 import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
+import lt.gt.galaktika.model.entity.noturn.User;
 import lt.gt.galaktika.model.service.FleetsService;
 import lt.gt.galaktika.model.service.GalaxyService;
 import lt.gt.galaktika.model.service.NationService;
@@ -51,6 +53,9 @@ public class TestMemoryFleetsService {
 	
 	@Autowired
 	GalaxyService galaxyService;
+	
+	@Autowired
+	IUserDao userDao;
 
 	@Test
 //	 @Ignore
@@ -58,8 +63,10 @@ public class TestMemoryFleetsService {
 		LOG.trace("testFleetsService called");
 		
 		Galaxy g = galaxyService.createGalaxy(new Galaxy(), EGalaxyPurposes.PLAY, true);
+		User u = new User("aaa@aaa.lt", "katinas");
+		userDao.save(u);
 		
-		Nation nation = nationService.createNation(new Nation("vokieciai "), null, null );
+		Nation nation = nationService.createNation(new Nation("vokieciai "), u, g );
 
 		int turnNumber = 1;
 
@@ -121,8 +128,12 @@ public class TestMemoryFleetsService {
 		// contract data
 		Ship katinas = shipService.create(new Ship("katinas"));
 		Ship suva = shipService.create(new Ship("suva"));
+		
+		Galaxy g = galaxyService.createGalaxy(new Galaxy(), EGalaxyPurposes.PLAY, true);
+		User u = new User("aaa@aaba.lt", "katinaas");
+		userDao.save(u);
 
-		Nation nation = nationService.createNation(new Nation("vokieciai "), null, null);
+		Nation nation = nationService.createNation(new Nation("vokieciai "), u, g);
 
 		int turnNumber = 1;
 

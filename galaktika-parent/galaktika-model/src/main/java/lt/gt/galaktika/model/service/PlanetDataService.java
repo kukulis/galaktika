@@ -83,8 +83,8 @@ public class PlanetDataService {
 		return orbit;
 	}
 
-	public void storePlanetSurface2(PlanetSurface planetSurface, Planet planet, int turnNumber) {
-		DPlanetSurface dPlanetSurface = mapToDPlanetSurface2(planetSurface, planet, turnNumber);
+	public void storePlanetSurface(PlanetSurface planetSurface, Planet planet, int turnNumber) {
+		DPlanetSurface dPlanetSurface = mapToDPlanetSurface(planetSurface, planet, turnNumber);
 		fullSaveDPlanetSurface(dPlanetSurface);
 	}
 
@@ -96,7 +96,7 @@ public class PlanetDataService {
 	 * @param turnNumber
 	 * @return
 	 */
-	public DPlanetSurface mapToDPlanetSurface2(PlanetSurface planetSurface, Planet planet, int turnNumber) {
+	public DPlanetSurface mapToDPlanetSurface(PlanetSurface planetSurface, Planet planet, int turnNumber) {
 		DPlanetSurface dPlanetSurface = new DPlanetSurface(planet.getPlanetId(), turnNumber);
 		dPlanetSurface.setName(planetSurface.getName());
 		dPlanetSurface.setPopulation(planetSurface.getPopulation());
@@ -105,7 +105,7 @@ public class PlanetDataService {
 		dPlanetSurface.setOwner(nationService.mapToDbObject(planetSurface.getNation()));
 
 		if (planetSurface.getSurfaceCommand() != null) {
-			DSurfaceCommand dCommand = mapDSurfaceCommand2(planetSurface.getSurfaceCommand(), planet.getPlanetId(),
+			DSurfaceCommand dCommand = mapDSurfaceCommand(planetSurface.getSurfaceCommand(), planet.getPlanetId(),
 					turnNumber);
 			if (dPlanetSurface.getCommands().size() == 0)
 				dPlanetSurface.getCommands().add(dCommand);
@@ -116,7 +116,7 @@ public class PlanetDataService {
 		}
 
 		if (planetSurface.getShipFactory() != null) {
-			DShipFactory dFactory = mapDFactory2(planetSurface.getShipFactory(), planet.getPlanetId(), turnNumber);
+			DShipFactory dFactory = mapDFactory(planetSurface.getShipFactory(), planet.getPlanetId(), turnNumber);
 
 			if (dPlanetSurface.getShipFactories().size() == 0)
 				dPlanetSurface.getShipFactories().add(dFactory);
@@ -207,7 +207,7 @@ public class PlanetDataService {
 	}
 
 
-	public DSurfaceCommand mapDSurfaceCommand2(SurfaceCommand surfaceCommand, long planetId, int turnNumber) {
+	public DSurfaceCommand mapDSurfaceCommand(SurfaceCommand surfaceCommand, long planetId, int turnNumber) {
 		DSurfaceCommand dCommand = new DSurfaceCommand();
 		dCommand.setPlanetId(planetId);
 		dCommand.setTurnNumber(turnNumber);
@@ -246,7 +246,7 @@ public class PlanetDataService {
 		}
 	}
 
-	public DShipFactory mapDFactory2(ShipFactory factory, long planetId, int turnNumber) {
+	public DShipFactory mapDFactory(ShipFactory factory, long planetId, int turnNumber) {
 		DShipFactory dFactory = new DShipFactory(planetId, turnNumber);
 		dFactory.setDonePart(factory.getDonePart());
 		dFactory.setDesign(shipDesignService.mapToDbObject(factory.getShipDesign()));

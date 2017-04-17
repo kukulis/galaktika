@@ -106,7 +106,7 @@ public class GameService {
 				}
 
 				// store planet data (surface only for now) to a new turn
-				planetDataService.storePlanetSurface2(pd.getSurface(), p, g.getTurn() + 1);
+				planetDataService.storePlanetSurface(pd.getSurface(), p, g.getTurn() + 1);
 				try {
 					planetDataService.storeOrbit( pd, g.getTurn() + 1);
 				}
@@ -221,7 +221,7 @@ public class GameService {
 			Planet p = planets.get(i);
 			Nation n = nations.get(i);
 			PlanetSurface ps = new PlanetSurface( n.getNationName()+ " home", n, 100, 100, 0, new SurfaceCommandIndustry());
-			planetDataService.storePlanetSurface2(ps, p, 1);
+			planetDataService.storePlanetSurface(ps, p, 1);
 		}
 		return true;
 	}

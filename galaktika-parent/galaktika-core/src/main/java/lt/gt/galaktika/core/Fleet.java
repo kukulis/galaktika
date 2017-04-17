@@ -214,5 +214,16 @@ public class Fleet implements Serializable {
 		} else
 			return false;
 	}
+	
+	public void mergeToShipGroups(Ship ship, int amount) {
+		// try to find existing group
+		for ( ShipGroup g : this.shipGroups )
+			if ( g.getShip().equals(ship) ) {
+				g.setCount(g.getCount()+amount);
+				return;
+			}
+		// else
+		this.addShipGroup(new ShipGroup(ship, amount));
+	}
 
 }
