@@ -19,13 +19,12 @@ import lt.gt.math.IPlaneContainer;
 import lt.gt.math.PlanePoint;
 import lt.gt.math.SectoredPlaneContainer;
 import lt.gt.math.SectoredPlaneContainer.Initializer;
-import lt.gt.math.fuzzy.SimplePlanePoint;
 
 /** 
  * 
- * @author 
+ * @author Giedrius T. 
  * 
- * @deprecated use GameService or transform this class to use it
+ * TODO use GameService or transform this class to use it
  *
  */
 public class CreateMap {

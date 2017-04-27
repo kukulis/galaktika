@@ -60,4 +60,17 @@ public class DFleetDataDao implements IFleetDataDao {
 		return query.getResultList();
 	}
 
+	@Override
+	public List<DFleetData> findFleets(long galaxyId, int turnNumber) {
+		String queryStr = "select d from DFleetData d left join fetch d.planetLocation as p left join fetch d.spaceLocation "
+				+ "join fetch d.fleet f "
+				+ "join fetch f.nation n " 
+				+ "where n.galaxy.galaxyId=:galaxyId "
+				+ "and d.turnNumber=:turnNumber";
+		Query query = em.createQuery( queryStr, DFleetData.class);
+		query.setParameter("galaxyId", galaxyId);
+		query.setParameter("turnNumber", turnNumber);
+				
+		return query.getResultList();
+	}
 }

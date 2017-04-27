@@ -20,6 +20,8 @@ import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.PlanetData;
 import lt.gt.galaktika.core.planet.PlanetSurface;
 import lt.gt.galaktika.core.planet.SurfaceActivities;
+import lt.gt.galaktika.core.planet.SurfaceCommand;
+import lt.gt.galaktika.core.planet.SurfaceCommandProduction;
 import lt.gt.galaktika.engine.bot.UsersBot;
 import lt.gt.galaktika.engine.config.AdditionalBeansConfig;
 import lt.gt.galaktika.engine.work.GameService;
@@ -198,18 +200,57 @@ public class GameTest {
 		Assert.assertEquals(2, group.getCount() );
 		Assert.assertEquals(10, group.getShip().getAttack(), Utils.EPSILON );
 		
+
+		// TEST continued command for the turn 2
+		Assert.assertNotNull( surface3.getSurfaceCommand() );
+		Assert.assertTrue( surface3.getSurfaceCommand() instanceof SurfaceCommandProduction );
+		
+		SurfaceCommandProduction productionCommand3 = (SurfaceCommandProduction) surface3.getSurfaceCommand();
+
+		Assert.assertEquals(1,  productionCommand3.getMaxShips() );
+		
 	}
 	
 	@Test
 	public void test030MakeTurn2Commands() {
-		System.out.println( "TODO second turn commands" );
+		System.out.println( "second turn commands" );
+		
+		// test if there is continued command from the previous turn
+		
+		Galaxy g = galaxyService.getGalaxy(new GalaxiesFilter().setPurpose(EGalaxyPurposes.PLAY).setActive(true));
+		List<Planet> planets = planetService.findPlanets(g);
+		
+		Planet planet1 = planets.get(0);
+		Planet planet2 = planets.get(1);
+		Planet planet3 = planets.get(2);
+		
+		PlanetSurface surface1 = planetDataService.loadPlanetSurface(planet1.getPlanetId(), 2);
+		PlanetSurface surface2 = planetDataService.loadPlanetSurface(planet2.getPlanetId(), 2);
+		PlanetSurface surface3 = planetDataService.loadPlanetSurface(planet3.getPlanetId(), 2);
+
+		
 		// lets make same commands again
 		usersBot.makeTurn2Commands();
+		
 	}
 	@Test
 	public void test031ExecuteTurn2() {
 		System.out.println( "TODO second turn" );
 		// execute turn 2
+		gameService.makeTurn();
+		
+		Galaxy g = galaxyService.getGalaxy(new GalaxiesFilter().setPurpose(EGalaxyPurposes.PLAY).setActive(true));
+		List<Planet> planets = planetService.findPlanets(g);
+		
+		Planet planet1 = planets.get(0);
+		Planet planet2 = planets.get(1);
+		Planet planet3 = planets.get(2);
+		
+		PlanetSurface surface1 = planetDataService.loadPlanetSurface(planet1.getPlanetId(), 3);
+		PlanetSurface surface2 = planetDataService.loadPlanetSurface(planet2.getPlanetId(), 3);
+		PlanetData pd3 = planetDataService.loadPlanetData(planet3.getPlanetId() , 3);		
+		Fleet planet3Fleet = fleetsService.loadFleet( pd3.getOrbit().getFleets().get(0).getFleetId(), 3); 
+		Assert.assertEquals(3, planet3Fleet.getShipGroups().get(0).getCount() );
 	}
 	
 }

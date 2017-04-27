@@ -67,9 +67,9 @@ public class GameService {
 
 		Galaxy g = galaxies.get(0);
 
-		surfaceActions(g);
-		orbitActions(g);
 		flightActions(g);
+//		orbitActions(g);
+		surfaceActions(g);
 		combatActions(g);
 		updateTurn(g);
 	}
@@ -123,12 +123,21 @@ public class GameService {
 		}
 	}
 
-	private void orbitActions(Galaxy g) {
-
-	}
+//	private void orbitActions(Galaxy g) {
+//
+//	}
 
 	private void flightActions(Galaxy g) {
-
+		// for each fleet
+		// move it to anoher destination
+		// or if it does not move, preserve its location for the next turn in the same place (planet orbit)
+		
+		// TODO
+		// load all fleets from the turn
+		g.getTurn();
+		
+		// move them
+		// store fleets to another turn
 	}
 
 	private void combatActions(Galaxy g) {

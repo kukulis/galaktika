@@ -245,5 +245,7 @@ public class UsersBot {
 		// set commands for surfaces
 		ps2.setSurfaceCommand(new SurfaceCommandTechnologies(TechnologyType.ATTACK));
 		planetDataService.storePlanetSurface(ps2, planet2, 1);
+		
+//		 ps3.getSurfaceCommand()
 	}
 }

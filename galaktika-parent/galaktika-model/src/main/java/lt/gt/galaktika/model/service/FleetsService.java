@@ -1,8 +1,11 @@
 package lt.gt.galaktika.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.hibernate.LazyInitializationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.FlightCommand;
+import lt.gt.galaktika.core.Galaxy;
 import lt.gt.galaktika.core.GalaxyLocation;
 import lt.gt.galaktika.core.Ship;
 import lt.gt.galaktika.core.ShipGroup;
@@ -267,10 +271,14 @@ public class FleetsService {
 
 		if (dFleetData != null) {
 			// dFleetData fields
-			for (DShipGroup dg : dFleetData.getShipGroups()) {
-				Ship ship = shipService.mapToCoreObject(dg.getShip());
-				ShipGroup group = new ShipGroup(ship, dg.getShipsCount());
-				fleet.addShipGroup(group);
+			try {
+				for (DShipGroup dg : dFleetData.getShipGroups()) {
+					Ship ship = shipService.mapToCoreObject(dg.getShip());
+					ShipGroup group = new ShipGroup(ship, dg.getShipsCount());
+					fleet.addShipGroup(group);
+				}
+			} catch ( LazyInitializationException le ) {
+				LOG.warn( le.getMessage() );
 			}
 
 			// location
@@ -293,5 +301,18 @@ public class FleetsService {
 		}
 
 		return fleet;
+	}
+	
+//	public Fleet mapFleet(DFleet dFleet) {
+//		
+//		Fleet f = new Fleet();
+//		f.setFleetId( dFleet.getFleetId());
+//		f.setGalaxyLocation(dFleet.get);
+//		// TODO
+//		return null;
+//	}
+	
+	public List<Fleet> loadFleets( Galaxy g, int turn) {
+		return dFleetDataDao.findFleets(g.getGalaxyId(), turn).stream().map(d -> this.mapFleet(d.getFleet(),  d)).collect(Collectors.toList());
 	}
 }

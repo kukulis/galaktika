@@ -8,4 +8,5 @@ public interface IFleetDataDao {
 	public DFleetData find ( long fleetId, int turnNumber );
 	public DFleetData findWithGroupsAndLocations ( long fleetId, int turnNumber );
 	public List<DFleetData> findInOrbit ( long planetId, int turnNumber, boolean withGroups );
+	public List<DFleetData> findFleets(long galaxyId, int turnNumber);
 }

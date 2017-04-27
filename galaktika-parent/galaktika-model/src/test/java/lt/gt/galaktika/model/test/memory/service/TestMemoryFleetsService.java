@@ -1,6 +1,9 @@
 package lt.gt.galaktika.model.test.memory.service;
 
+import java.util.List;
+
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -23,6 +26,7 @@ import lt.gt.galaktika.model.config.ModelBeansConfig;
 import lt.gt.galaktika.model.dao.IUserDao;
 import lt.gt.galaktika.model.entity.noturn.EGalaxyPurposes;
 import lt.gt.galaktika.model.entity.noturn.User;
+import lt.gt.galaktika.model.exception.FleetContractException;
 import lt.gt.galaktika.model.service.FleetsService;
 import lt.gt.galaktika.model.service.GalaxyService;
 import lt.gt.galaktika.model.service.NationService;
@@ -58,7 +62,7 @@ public class TestMemoryFleetsService {
 	IUserDao userDao;
 
 	@Test
-//	 @Ignore
+	 @Ignore
 	public void testFleetsService() throws GalaktikaException {
 		LOG.trace("testFleetsService called");
 		
@@ -120,7 +124,7 @@ public class TestMemoryFleetsService {
 	}
 
 	@Test
-	// @Ignore
+	 @Ignore
 	public void testUpdateFleet() throws GalaktikaException {
 		// fleet update
 		LOG.trace("testUpdateFleet called");
@@ -183,6 +187,51 @@ public class TestMemoryFleetsService {
 
 	public void testWrongContractData() {
 		// TODO assert exceptions that must be thrown
+	}
+	
+	@Test
+	public void testLoadFleets() {
+		// create fleets
+		Galaxy g = new Galaxy (100, 100);
+		g = galaxyService.createGalaxy(g, EGalaxyPurposes.PLAY, true);
+		
+		User u1 = new User("aaa@aaa.lt", "aaaa" );
+		User u2 = new User("bbb@bbb.lt", "bbbb" );
+		User u3 = new User("ccc@ccc.lt", "ccbc" );
+		
+		userDao.save( u1 );
+		userDao.save( u2 );
+		userDao.save( u3 );
+		
+		Nation n1 = new Nation();
+		Nation n2 = new Nation();
+		Nation n3 = new Nation();
+		
+		n1 = nationService.createNation(n1, u1, g);
+		n2 = nationService.createNation(n2, u2, g);
+		n3 = nationService.createNation(n3, u3, g);
+
+		Fleet f1 = new Fleet();
+		Fleet f2 = new Fleet();
+		Fleet f3 = new Fleet();
+		
+		f1.setOwner(n1);
+		f2.setOwner(n2);
+		f3.setOwner(n3);
+		try {
+			f1 =fleetsService.saveFleet(f1, 1);
+			f2 =fleetsService.saveFleet(f2, 1);
+			f3 =fleetsService.saveFleet(f3, 1);
+		
+		} catch ( FleetContractException fce ) {
+			LOG.error(fce.getMessage() );
+		}
+		
+		// load fleets
+		List<Fleet> fleets = fleetsService.loadFleets(g, 1);
+		
+		// assert
+		Assert.assertArrayEquals(new Fleet[]{f1,f2,f3},fleets.toArray());
 	}
 
 }
