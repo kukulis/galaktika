@@ -59,7 +59,6 @@ public class FleetsService {
 	@Autowired
 	SpaceLocationService spaceLocationService;
 
-	
 	/**
 	 * If fleetId is 0, then create new one, else update existing.
 	 * 
@@ -111,9 +110,10 @@ public class FleetsService {
 	}
 
 	// ================================================================================================================
-	// ==================== inner code ================================================================================
+	// ==================== inner code
+	// ================================================================================
 	// ================================================================================================================
-	
+
 	public class FleetContractData {
 		Map<Long, DShip> ships = new HashMap<>();
 		Map<Long, DPlanet> planets = new HashMap<>();
@@ -137,12 +137,15 @@ public class FleetsService {
 			}
 		}
 
-		public DPlanet findPlanet(GalaxyLocation gl) {
-			if (gl != null && gl instanceof Planet) {
-				Planet p = (Planet) gl;
-				return planets.get(p.getPlanetId());
-			} else
+		public DPlanet findPlanet(Planet gl) {
+//			if (gl != null && gl instanceof Planet) {
+//				Planet p = (Planet) gl;
+			if ( gl != null)
+				return planets.get(gl.getPlanetId());
+			else 
 				return null;
+//			} else
+//				return null;
 		}
 
 		public DShip findShip(Ship s) {
@@ -154,7 +157,6 @@ public class FleetsService {
 
 	}
 
-	
 	private void storeGroups(DFleetData dFleetData) {
 		dFleetData.getShipGroups().forEach(g -> {
 			if (g.getShipGroupId() == 0)
@@ -214,7 +216,7 @@ public class FleetsService {
 	 * @return
 	 * @throws FleetContractException
 	 */
-	protected DFleetData mapDFleetData(DFleetData dFleetData, Fleet fleet, int turnNumber, FleetContractData fcd)
+	public DFleetData mapDFleetData(DFleetData dFleetData, Fleet fleet, int turnNumber, FleetContractData fcd)
 			throws FleetContractException {
 		// put existing ship groups to map by shipid
 		Map<Long, DShipGroup> shipidToDShipGroup = new HashMap<>();
@@ -240,7 +242,7 @@ public class FleetsService {
 
 		// location
 		if (fleet.getGalaxyLocation() instanceof Planet)
-			dFleetData.setPlanetLocation(fcd.findPlanet(fleet.getGalaxyLocation()));
+			dFleetData.setPlanetLocation(fcd.findPlanet((Planet)fleet.getGalaxyLocation()));
 		else if (fleet.getGalaxyLocation() instanceof SpaceLocation) {
 			if (dFleetData.getSpaceLocation() == null
 					|| Utils.same(fleet.getGalaxyLocation(), dFleetData.getSpaceLocation().getX(),
@@ -250,8 +252,8 @@ public class FleetsService {
 		}
 
 		// flightCommand
-		dFleetData.setFlightSource(fcd.findPlanet(fleet.getFlightSource()));
-		dFleetData.setFlightDestination(fcd.findPlanet(fleet.getFlightDestination()));
+		dFleetData.setFlightSource(fcd.findPlanet((Planet)fleet.getFlightSource()));
+		dFleetData.setFlightDestination(fcd.findPlanet((Planet)fleet.getFlightDestination()));
 
 		return dFleetData;
 	}
@@ -277,8 +279,8 @@ public class FleetsService {
 					ShipGroup group = new ShipGroup(ship, dg.getShipsCount());
 					fleet.addShipGroup(group);
 				}
-			} catch ( LazyInitializationException le ) {
-				LOG.warn( le.getMessage() );
+			} catch (LazyInitializationException le) {
+				LOG.warn(le.getMessage());
 			}
 
 			// location
@@ -289,7 +291,7 @@ public class FleetsService {
 				SpaceLocation l = spaceLocationService.mapToCoreObject(dFleetData.getSpaceLocation());
 				fleet.setGalaxyLocation(l);
 			}
-			if (dFleetData.getFlightSource() != null && dFleetData.getFlightDestination() != null) {
+			if ( dFleetData.isFlightSourceLoaded() && dFleetData.isFlightDestinationLoaded() ) {
 				FlightCommand fCommand = new FlightCommand();
 				// flight source
 				fCommand.setSource(planetService.mapToCoreObject(dFleetData.getFlightSource()));
@@ -302,17 +304,48 @@ public class FleetsService {
 
 		return fleet;
 	}
-	
-//	public Fleet mapFleet(DFleet dFleet) {
-//		
-//		Fleet f = new Fleet();
-//		f.setFleetId( dFleet.getFleetId());
-//		f.setGalaxyLocation(dFleet.get);
-//		// TODO
-//		return null;
-//	}
-	
-	public List<Fleet> loadFleets( Galaxy g, int turn) {
-		return dFleetDataDao.findFleets(g.getGalaxyId(), turn).stream().map(d -> this.mapFleet(d.getFleet(),  d)).collect(Collectors.toList());
+
+	// public Fleet mapFleet(DFleet dFleet) {
+	//
+	// Fleet f = new Fleet();
+	// f.setFleetId( dFleet.getFleetId());
+	// f.setGalaxyLocation(dFleet.get);
+	// // TODO
+	// return null;
+	// }
+
+	public List<Fleet> loadFleets(Galaxy g, int turn) {
+		return dFleetDataDao.findFleets(g.getGalaxyId(), turn).stream().map(d -> this.mapFleet(d.getFleet(), d))
+				.collect(Collectors.toList());
 	}
+
+	public Fleet completelySaveFleet(Fleet f, int turn) throws FleetContractException {
+		for (ShipGroup g : f.getShipGroups()) {
+			g.setShip(shipService.create(g.getShip()));
+		}
+		return saveFleet(f, turn);
+	}
+
+	// ======================================================================
+	// TODO remake without contract
+
+	// 1) map
+	// 2) upfill
+	// 3) save
+
+	// 1) map
+	/**
+	 *  Maps without contract data
+	 *  
+	 * @param dFleetData
+	 * @param fleet
+	 * @param turnNumber
+	 * @return
+	 */
+	public DFleetData mapDFleetData(DFleetData dFleetData, Fleet fleet, int turnNumber) {
+		
+		// TODO later
+		return null;
+	}
+
 }

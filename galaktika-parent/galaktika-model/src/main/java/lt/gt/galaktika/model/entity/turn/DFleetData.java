@@ -14,11 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.proxy.HibernateProxy;
+
 import lt.gt.galaktika.model.entity.noturn.DFleet;
 import lt.gt.galaktika.model.entity.noturn.DPlanet;
 import lt.gt.galaktika.model.entity.noturn.DSpaceLocation;
 
-@Entity @IdClass(DFleetDataId.class) 
+@Entity
+@IdClass(DFleetDataId.class)
 @Table(name = "fleetdata")
 public class DFleetData {
 	@Id
@@ -27,31 +30,30 @@ public class DFleetData {
 	private int turnNumber;
 
 	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumns({@JoinColumn(name = "fleetId"),@JoinColumn(name = "turnNumber")})
+	@JoinColumns({ @JoinColumn(name = "fleetId"), @JoinColumn(name = "turnNumber") })
 	private List<DShipGroup> shipGroups = new ArrayList<>();
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "planetId", nullable = true, foreignKey=@ForeignKey(name="FK_FLEET_LOCATION_PLANET"))
+	@JoinColumn(name = "planetId", nullable = true, foreignKey = @ForeignKey(name = "FK_FLEET_LOCATION_PLANET"))
 	private DPlanet planetLocation;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "spaceLocationId", nullable = true, foreignKey=@ForeignKey(name="FK_FLEET_LOCATION_SPACE"))
+	@JoinColumn(name = "spaceLocationId", nullable = true, foreignKey = @ForeignKey(name = "FK_FLEET_LOCATION_SPACE"))
 	private DSpaceLocation spaceLocation;
-	
+
 	// flightCommand
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "flightSourceId", nullable = true, foreignKey=@ForeignKey(name="FK_FLEET_FLIGHT_SOURCE_PLANET"))
+	@JoinColumn(name = "flightSourceId", nullable = true, foreignKey = @ForeignKey(name = "FK_FLEET_FLIGHT_SOURCE_PLANET"))
 	private DPlanet flightSource;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "flightDestinationId", nullable = true, foreignKey=@ForeignKey(name="FK_FLEET_FLIGHT_DESTINATION_PLANET"))
+	@JoinColumn(name = "flightDestinationId", nullable = true, foreignKey = @ForeignKey(name = "FK_FLEET_FLIGHT_DESTINATION_PLANET"))
 	private DPlanet flightDestination;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "fleetId", referencedColumnName = "fleetId",
-	insertable =  false, updatable = false, foreignKey=@ForeignKey(name="FK_FLEET_OF_FLEETDATA"))
+	@JoinColumn(name = "fleetId", referencedColumnName = "fleetId", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_FLEET_OF_FLEETDATA"))
 	private DFleet fleet;
-	
+
 	public DFleetData() {
 	}
 
@@ -99,7 +101,7 @@ public class DFleetData {
 	public void setSpaceLocation(DSpaceLocation spaceLocation) {
 		this.spaceLocation = spaceLocation;
 	}
-	
+
 	public DPlanet getFlightSource() {
 		return flightSource;
 	}
@@ -123,11 +125,11 @@ public class DFleetData {
 
 	@Override
 	public boolean equals(Object obj) {
-		if ( obj instanceof DFleetData ) {
+		if (obj instanceof DFleetData) {
 			DFleetData fdata = (DFleetData) obj;
 			return fleetId == fdata.fleetId && turnNumber == fdata.turnNumber;
-		}
-		else return false;
+		} else
+			return false;
 	}
 
 	public DFleet getFleet() {
@@ -136,5 +138,24 @@ public class DFleetData {
 
 	public void setFleet(DFleet fleet) {
 		this.fleet = fleet;
+	}
+
+	public boolean isFlightSourceLoaded() {
+		if (flightSource instanceof HibernateProxy) {
+			if (((HibernateProxy) flightSource).getHibernateLazyInitializer().isUninitialized()) {
+				return false;
+			}
+		}
+		return (getFlightSource() != null);
+	}
+
+	public boolean isFlightDestinationLoaded() {
+		if (flightDestination instanceof HibernateProxy) {
+			if (((HibernateProxy) flightDestination).getHibernateLazyInitializer().isUninitialized()) {
+				return false;
+			}
+		}
+		return (getFlightDestination() != null);
+
 	}
 }

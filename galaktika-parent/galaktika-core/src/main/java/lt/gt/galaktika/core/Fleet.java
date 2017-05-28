@@ -8,15 +8,11 @@ public class Fleet implements Serializable {
 	private static final long serialVersionUID = -4540086506515014695L;
 
 	private long fleetId;
-
 	private String name;
-
 	private List<ShipGroup> shipGroups = new ArrayList<>();
 	private GalaxyLocation galaxyLocation;
-
 	private FlightCommand flightCommand;
-
-	private Nation owner = new Nation();
+	private Nation owner = new Nation(); // ?
 
 	public Fleet() {
 	}

@@ -62,7 +62,7 @@ public class TestMemoryFleetsService {
 	IUserDao userDao;
 
 	@Test
-	 @Ignore
+//	 @Ignore
 	public void testFleetsService() throws GalaktikaException {
 		LOG.trace("testFleetsService called");
 		
@@ -195,9 +195,9 @@ public class TestMemoryFleetsService {
 		Galaxy g = new Galaxy (100, 100);
 		g = galaxyService.createGalaxy(g, EGalaxyPurposes.PLAY, true);
 		
-		User u1 = new User("aaa@aaa.lt", "aaaa" );
-		User u2 = new User("bbb@bbb.lt", "bbbb" );
-		User u3 = new User("ccc@ccc.lt", "ccbc" );
+		User u1 = new User("aaa@aaa7.lt", "aaaa" );
+		User u2 = new User("bbb@bbb8.lt", "bbbb" );
+		User u3 = new User("ccc@ccc9.lt", "ccbc" );
 		
 		userDao.save( u1 );
 		userDao.save( u2 );
@@ -233,5 +233,65 @@ public class TestMemoryFleetsService {
 		// assert
 		Assert.assertArrayEquals(new Fleet[]{f1,f2,f3},fleets.toArray());
 	}
+	
+	@Test
+	public void testFlightCommand () throws FleetContractException {
+		System.out.println("testFlightCommand called");
+		
+		
+		// 0) Prepare fleets and store them to database
+		Galaxy g = new Galaxy(300, 300);
+		g = galaxyService.createGalaxy(g, EGalaxyPurposes.IMITATE, true);
+		int turn = 1;
+		
+		Planet p1 = new Planet(100, 100,1,1);
+		Planet p2 = new Planet(100, 200,1,1);
+		
+		p1 = planetService.createPlanet(p1, g);
+		p2 = planetService.createPlanet(p2, g);
+		
+		User user1 = new User("aaa@aaax.lt", "aaaax");
+		userDao.save(user1);
+
+		Nation n1 = new Nation("aaa");
+		n1 = nationService.createNation(n1, user1, g);
+
+		Fleet f = new Fleet();
+		f.setGalaxyLocation(new SpaceLocation(100, 100));
+		f.setFlightCommand(new FlightCommand(p1, p2));
+		f.addShipGroup(new ShipGroup(new Ship("laivas", 1, 1, 1, 1, 1)));
+		f.setOwner(n1);
+		f =  fleetsService.completelySaveFleet(f, turn);
+		
+		Fleet loadedFleet = fleetsService.loadFleet(f.getFleetId(), turn);
+		Assert.assertNotNull( loadedFleet.getFlightCommand() );
+	}
+	
+//	@Test
+//	public void testMapDFleetData() throws FleetContractException {
+//		// 0) Prepare fleets and store them to database
+//				Galaxy g = new Galaxy(300, 300);
+//				g = galaxyService.createGalaxy(g, EGalaxyPurposes.IMITATE, true);
+//				int turn = 1;
+//				
+//				Nation n1=null;
+//
+//				User user1 = new User("aaa@aaay.lt", "aaaay");
+//
+//				userDao.save(user1);
+//
+//				n1 = new Nation("aaa");
+//
+//				n1 = nationService.createNation(n1, user1, g);
+//
+//				Fleet f = new Fleet();
+//				f.setGalaxyLocation(new SpaceLocation(100, 100));
+//				f.setFlightCommand(new FlightCommand(new SpaceLocation(100, 100), new SpaceLocation(100, 200)));
+//				f.addShipGroup(new ShipGroup(new Ship("laivas", 1, 1, 1, 1, 1)));
+//				f.setOwner(n1);
+//				
+//				DFleetData dFleetData = new DFleetData();
+//				fleetsService.mapDFleetData(dFleetData, f, turn, null);
+//	}
 
 }

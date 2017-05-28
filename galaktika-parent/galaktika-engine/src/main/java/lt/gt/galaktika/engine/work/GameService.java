@@ -2,9 +2,12 @@ package lt.gt.galaktika.engine.work;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.Galaxy;
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.Technologies;
@@ -38,6 +41,8 @@ public class GameService {
 	public final static int MAX_FAILS = 100;
 	public final static double MAX_SIZE_X = 100;
 	public final static double MAX_SIZE_Y = 100;
+	
+	final static Logger LOG = LoggerFactory.getLogger(GameService.class);
 
 	@Autowired
 	GalaxyService galaxyService;
@@ -132,12 +137,23 @@ public class GameService {
 		// move it to anoher destination
 		// or if it does not move, preserve its location for the next turn in the same place (planet orbit)
 		
-		// TODO
 		// load all fleets from the turn
-		g.getTurn();
+		List<Fleet> fleets = fleetsService.loadFleets(g, g.getTurn());
+		for ( Fleet f : fleets ) {
+			// move them
+			if ( f.getFlightCommand() != null ) {
+				// TODO flight
+			}
+		}
 		
-		// move them
 		// store fleets to another turn
+		for ( Fleet f : fleets ) 
+			try { 
+				fleetsService.saveFleet(f, g.getTurn()+1);
+			}
+			catch ( FleetContractException ce ) {
+				LOG.error( ce.getMessage() );
+			}
 	}
 
 	private void combatActions(Galaxy g) {

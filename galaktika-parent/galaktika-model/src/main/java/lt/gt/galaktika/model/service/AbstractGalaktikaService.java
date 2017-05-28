@@ -38,7 +38,7 @@ public abstract class AbstractGalaktikaService <D,C> {
 		try {
 			BeanUtils.copyProperties( coreObject, dbObject );
 		} catch ( InvocationTargetException | IllegalAccessException ite ) {
-			throw new GalaktikaRuntimeException( "coreObject.class="+coreObject.getClass()+"  dbObject.class="+dbObject.getClass() , ite );
+			throw new GalaktikaRuntimeException( "coreObject.class="+coreObject.getClass()+"  dbObject.class="+dbObject.getClass()+" message="+ite.getMessage() , ite );
 		}
 
 		return coreObject;

@@ -20,6 +20,8 @@ public class DFleet {
 
 	@Size(max = 32)
 	private String name; // optional ?
+	
+//	private DGalaxy galaxy;
 
 	// relations
 	// private long nationId;
@@ -80,5 +82,4 @@ public class DFleet {
 	public String toString() {
 		return "DFleet["+fleetId+"]("+name+")";
 	}
-	
 }
