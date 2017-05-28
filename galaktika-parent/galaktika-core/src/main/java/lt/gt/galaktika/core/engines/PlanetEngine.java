@@ -9,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import lt.gt.galaktika.core.Fleet;
+import lt.gt.galaktika.core.FleetCommandStay;
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.Ship;
 import lt.gt.galaktika.core.ShipGroup;
@@ -366,6 +367,7 @@ public class PlanetEngine {
 				fleet.setOwner(pd.getSurface().getNation());
 				pd.getOrbit().getFleets().add(fleet);
 			}
+			
 			fleet.mergeToShipGroups(ship, r.getBuiltAmount());
 		}
 

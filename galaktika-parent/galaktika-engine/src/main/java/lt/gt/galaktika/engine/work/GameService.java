@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import lt.gt.galaktika.core.Fleet;
 import lt.gt.galaktika.core.Galaxy;
+import lt.gt.galaktika.core.GalaxyLocation;
 import lt.gt.galaktika.core.Nation;
 import lt.gt.galaktika.core.Technologies;
+import lt.gt.galaktika.core.engines.GalaxyEngine;
 import lt.gt.galaktika.core.engines.PlanetEngine;
 import lt.gt.galaktika.core.exception.GalaktikaException;
 import lt.gt.galaktika.core.exception.GalaktikaRuntimeException;
@@ -41,7 +43,7 @@ public class GameService {
 	public final static int MAX_FAILS = 100;
 	public final static double MAX_SIZE_X = 100;
 	public final static double MAX_SIZE_Y = 100;
-	
+
 	final static Logger LOG = LoggerFactory.getLogger(GameService.class);
 
 	@Autowired
@@ -61,7 +63,7 @@ public class GameService {
 
 	@Autowired
 	FleetsService fleetsService;
-	
+
 	public void makeTurn() {
 		List<Galaxy> galaxies = galaxyService
 				.getGalaxies(new GalaxiesFilter().setPurpose(EGalaxyPurposes.PLAY).setActive(true));
@@ -73,13 +75,12 @@ public class GameService {
 		Galaxy g = galaxies.get(0);
 
 		flightActions(g);
-//		orbitActions(g);
+		// orbitActions(g);
 		surfaceActions(g);
 		combatActions(g);
 		updateTurn(g);
 	}
 
-	
 	private void surfaceActions(Galaxy g) {
 		PlanetEngine planetEngine = new PlanetEngine();
 
@@ -94,30 +95,33 @@ public class GameService {
 
 			for (Long planetId : planets) {
 				System.out.println("Working with planet " + planetId);
-				PlanetData pd = planetDataService.loadPlanetData(planetId, g.getTurn());
+				PlanetData pd = planetDataService.loadPlanetData(planetId, g.getTurn(), true);
 				planetEngine.executePopulation(pd);
 				Planet p = planetService.load(planetId);
 				if (pd.getSurface().getSurfaceCommand() instanceof SurfaceCommandProduction) {
-//					SurfaceCommandProduction scp = (SurfaceCommandProduction) pd.getSurface().getSurfaceCommand();
+					// SurfaceCommandProduction scp = (SurfaceCommandProduction)
+					// pd.getSurface().getSurfaceCommand();
 					planetEngine.prepareProduction(pd, t);
 					planetDataService.storeNoTurnPlanetSurfaceObjects(pd.getSurface());
 					planetEngine.executeProduction(pd, t);
 				} else if (pd.getSurface().getSurfaceCommand() instanceof SurfaceCommandIndustry) {
-//					SurfaceCommandIndustry sci = (SurfaceCommandIndustry) pd.getSurface().getSurfaceCommand();
+					// SurfaceCommandIndustry sci = (SurfaceCommandIndustry)
+					// pd.getSurface().getSurfaceCommand();
 					planetEngine.executeIndustry(pd);
 				} else if (pd.getSurface().getSurfaceCommand() instanceof SurfaceCommandTechnologies) {
-//					SurfaceCommandTechnologies sct = (SurfaceCommandTechnologies) pd.getSurface().getSurfaceCommand();
+					// SurfaceCommandTechnologies sct =
+					// (SurfaceCommandTechnologies)
+					// pd.getSurface().getSurfaceCommand();
 					planetEngine.executeTechnologies(pd, t);
 				}
 
 				// store planet data (surface only for now) to a new turn
 				planetDataService.storePlanetSurface(pd.getSurface(), p, g.getTurn() + 1);
 				try {
-					planetDataService.storeOrbit( pd, g.getTurn() + 1);
-				}
-				catch ( FleetContractException fce ) {
-//					fce.printStackTrace();
-//					return;
+					planetDataService.storeOrbit(pd, g.getTurn() + 1);
+				} catch (FleetContractException fce) {
+					// fce.printStackTrace();
+					// return;
 					throw new GalaktikaRuntimeException(fce);
 				}
 			}
@@ -128,32 +132,30 @@ public class GameService {
 		}
 	}
 
-//	private void orbitActions(Galaxy g) {
-//
-//	}
+	// private void orbitActions(Galaxy g) {
+	//
+	// }
 
 	private void flightActions(Galaxy g) {
 		// for each fleet
 		// move it to anoher destination
-		// or if it does not move, preserve its location for the next turn in the same place (planet orbit)
-		
+		// or if it does not move, preserve its location for the next turn in
+		// the same place (planet orbit?)
+
 		// load all fleets from the turn
 		List<Fleet> fleets = fleetsService.loadFleets(g, g.getTurn());
-		for ( Fleet f : fleets ) {
+		GalaxyEngine galaxyEngine = new GalaxyEngine();
+		for (Fleet f : fleets) {
+			f = fleetsService.loadFleet(f.getFleetId(), g.getTurn()); // loading full for movement data
 			// move them
-			if ( f.getFlightCommand() != null ) {
-				// TODO flight
+			GalaxyLocation location = galaxyEngine.calculateMovement(f, g);
+			f.setGalaxyLocation(location);
+			try {
+				fleetsService.saveFleet(f, g.getTurn() + 1);
+			} catch (FleetContractException ce) {
+				LOG.error(ce.getMessage());
 			}
 		}
-		
-		// store fleets to another turn
-		for ( Fleet f : fleets ) 
-			try { 
-				fleetsService.saveFleet(f, g.getTurn()+1);
-			}
-			catch ( FleetContractException ce ) {
-				LOG.error( ce.getMessage() );
-			}
 	}
 
 	private void combatActions(Galaxy g) {
@@ -231,24 +233,24 @@ public class GameService {
 		((SectoredPlaneContainer) planeContainer).printSectorsStatistics(System.out);
 		// create these planets to galaxy
 		planeContainer.getAllPoints().stream().forEach(p -> planetService.createPlanet((Planet) p, g));
-		
+
 		return true;
 	}
-	
-	public boolean assignSurfaces () {
-		Galaxy g = galaxyService
-			.getGalaxy(new GalaxiesFilter().setActive(true).setPurpose(EGalaxyPurposes.PLAY));
+
+	public boolean assignSurfaces() {
+		Galaxy g = galaxyService.getGalaxy(new GalaxiesFilter().setActive(true).setPurpose(EGalaxyPurposes.PLAY));
 		// get all nations
-		List<Nation> nations = nationService.getNations( g );
+		List<Nation> nations = nationService.getNations(g);
 		List<Planet> planets = planetService.findPlanets(g);
-		
-		for ( int i = 0; i < nations.size(); i ++ ) {
+
+		for (int i = 0; i < nations.size(); i++) {
 			Planet p = planets.get(i);
 			Nation n = nations.get(i);
-			PlanetSurface ps = new PlanetSurface( n.getNationName()+ " home", n, 100, 100, 0, new SurfaceCommandIndustry());
+			PlanetSurface ps = new PlanetSurface(n.getNationName() + " home", n, 100, 100, 0,
+					new SurfaceCommandIndustry());
 			planetDataService.storePlanetSurface(ps, p, 1);
 		}
 		return true;
 	}
-	
+
 }

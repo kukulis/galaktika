@@ -20,7 +20,6 @@ import lt.gt.galaktika.core.planet.Planet;
 import lt.gt.galaktika.core.planet.PlanetData;
 import lt.gt.galaktika.core.planet.PlanetSurface;
 import lt.gt.galaktika.core.planet.SurfaceActivities;
-import lt.gt.galaktika.core.planet.SurfaceCommand;
 import lt.gt.galaktika.core.planet.SurfaceCommandProduction;
 import lt.gt.galaktika.engine.bot.UsersBot;
 import lt.gt.galaktika.engine.config.AdditionalBeansConfig;
@@ -183,7 +182,7 @@ public class GameTest {
 		
 		Assert.assertEquals(2, t2.getEngines(), Utils.EPSILON );
 		
-		PlanetData pd3 = planetDataService.loadPlanetData(planet3.getPlanetId() , 2);
+		PlanetData pd3 = planetDataService.loadPlanetData(planet3.getPlanetId() , 2, false);
 		
 		Assert.assertEquals( 0.5, pd3.getSurface().getShipFactory().getDonePart(), Utils.EPSILON );
 		
@@ -246,10 +245,12 @@ public class GameTest {
 		Planet planet2 = planets.get(1);
 		Planet planet3 = planets.get(2);
 		
-		PlanetSurface surface1 = planetDataService.loadPlanetSurface(planet1.getPlanetId(), 3);
-		PlanetSurface surface2 = planetDataService.loadPlanetSurface(planet2.getPlanetId(), 3);
-		PlanetData pd3 = planetDataService.loadPlanetData(planet3.getPlanetId() , 3);		
-		Fleet planet3Fleet = fleetsService.loadFleet( pd3.getOrbit().getFleets().get(0).getFleetId(), 3); 
+		int turn = 3;
+		
+		PlanetSurface surface1 = planetDataService.loadPlanetSurface(planet1.getPlanetId(), turn);
+		PlanetSurface surface2 = planetDataService.loadPlanetSurface(planet2.getPlanetId(), turn);
+		PlanetData pd3 = planetDataService.loadPlanetData(planet3.getPlanetId() , turn, false);		
+		Fleet planet3Fleet = fleetsService.loadFleet( pd3.getOrbit().getFleets().get(0).getFleetId(), turn); 
 		Assert.assertEquals(3, planet3Fleet.getShipGroups().get(0).getCount() );
 	}
 	

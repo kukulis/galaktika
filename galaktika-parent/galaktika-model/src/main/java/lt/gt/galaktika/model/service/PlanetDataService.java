@@ -297,11 +297,11 @@ public class PlanetDataService {
 		return dPlanetSurfaceDao.findPlanets(n.getNationId(), turnNumber);
 	}
 
-	public PlanetData loadPlanetData ( long planetId, int turn ) {
+	public PlanetData loadPlanetData ( long planetId, int turn, boolean withGroups ) {
 		return new PlanetData(
 			planetService.load( planetId ),
 			loadPlanetSurface(planetId, turn),
-			loadPlanetOrbit(planetId, turn, false) );
+			loadPlanetOrbit(planetId, turn, withGroups) );
 	}
 	
 	public void storeOrbit ( PlanetData planetData, int turnNumber ) throws FleetContractException {

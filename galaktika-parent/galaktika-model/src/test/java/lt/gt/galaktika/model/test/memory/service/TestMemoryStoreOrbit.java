@@ -54,7 +54,7 @@ public class TestMemoryStoreOrbit {
 		pd.getOrbit().getFleets().add( f );
 		planetDataService.storeOrbit( pd, 1);
 
-		PlanetData loadedPlanetData = planetDataService.loadPlanetData(p.getPlanetId(), 1);
+		PlanetData loadedPlanetData = planetDataService.loadPlanetData(p.getPlanetId(), 1, false);
 		
 		Assert.assertNotNull( loadedPlanetData.getOrbit() );
 		Assert.assertNotNull(loadedPlanetData.getOrbit().getFleets());
