@@ -46,4 +46,17 @@ public class TechnologiesService extends AbstractGalaktikaService<DTechnologies,
 		dt = dao.create( dt );
 		return mapToCoreObject(dt);
 	}
+
+	@Override
+	public Technologies mapToCoreObject(DTechnologies dbObject) {
+		Technologies result = new Technologies();
+		result.setTechnologiesId( dbObject.getTechnologiesId() );
+		result.setAttack( dbObject.getAttack() );
+		result.setDefence( dbObject.getDefence() );
+		result.setCargo( dbObject.getCargo() );
+		result.setEngines( dbObject.getEngines() );
+		return result;
+	}
+	
+	
 }

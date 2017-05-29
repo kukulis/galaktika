@@ -213,21 +213,6 @@ public class GameTest {
 	@Test
 	public void test030MakeTurn2Commands() {
 		System.out.println( "second turn commands" );
-		
-		// test if there is continued command from the previous turn
-		
-		Galaxy g = galaxyService.getGalaxy(new GalaxiesFilter().setPurpose(EGalaxyPurposes.PLAY).setActive(true));
-		List<Planet> planets = planetService.findPlanets(g);
-		
-		Planet planet1 = planets.get(0);
-		Planet planet2 = planets.get(1);
-		Planet planet3 = planets.get(2);
-		
-		PlanetSurface surface1 = planetDataService.loadPlanetSurface(planet1.getPlanetId(), 2);
-		PlanetSurface surface2 = planetDataService.loadPlanetSurface(planet2.getPlanetId(), 2);
-		PlanetSurface surface3 = planetDataService.loadPlanetSurface(planet3.getPlanetId(), 2);
-
-		
 		// lets make same commands again
 		usersBot.makeTurn2Commands();
 		
@@ -247,11 +232,22 @@ public class GameTest {
 		
 		int turn = 3;
 		
-		PlanetSurface surface1 = planetDataService.loadPlanetSurface(planet1.getPlanetId(), turn);
 		PlanetSurface surface2 = planetDataService.loadPlanetSurface(planet2.getPlanetId(), turn);
+//		Assert.assertNotNull( surface2.getShipFactory().getTechnologies());
+//		PlanetSurface surface1 = planetDataService.loadPlanetSurface(planet1.getPlanetId(), turn);
+//		Assert.assertNotNull( surface1.getShipFactory().getTechnologies());
 		PlanetData pd3 = planetDataService.loadPlanetData(planet3.getPlanetId() , turn, false);		
 		Fleet planet3Fleet = fleetsService.loadFleet( pd3.getOrbit().getFleets().get(0).getFleetId(), turn); 
+		Assert.assertNotNull( pd3.getSurface().getShipFactory().getTechnologies() );
 		Assert.assertEquals(3, planet3Fleet.getShipGroups().get(0).getCount() );
+		
+		PlanetData pd1 = planetDataService.loadPlanetData(planet1.getPlanetId(), turn, true);
+		Assert.assertNotNull( pd1.getSurface().getShipFactory() );
+		Assert.assertNotNull( pd1.getSurface().getShipFactory().getTechnologies() );
+		Assert.assertEquals(1, pd1.getOrbit().getFleets().size());
+		Assert.assertEquals(1, pd1.getOrbit().getFleets().get(0).getShipGroups().size());
+		Assert.assertEquals(3, pd1.getOrbit().getFleets().get(0).getShipGroups().get(0).getCount());
+		
 	}
 	
 }
