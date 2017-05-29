@@ -1,5 +1,6 @@
 package lt.gt.galaktika.model.entity.turn;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;

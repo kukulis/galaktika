@@ -158,9 +158,8 @@ public class PlanetDataService {
 					throw new GalaktikaModelException(
 							String.format("Technologies with id %d was not found", technologies.getTechnologiesId()));
 				
-
+				technologies = foundTechnologies;
 			}
-			// FIXME check the turn matching 
 //			if ( technologies != null && technologies.getTechnologiesId() != 0 && dcommand.getTurnNumber() != technologies.getTurnNumber() )
 //				throw new GalaktikaModelException( String.format("Technologies with id %d turn %d is not the same as the command turn %d ", technologies.getTechnologiesId(), technologies.getTurnNumber(), dcommand.getTurnNumber() )); 
 		}

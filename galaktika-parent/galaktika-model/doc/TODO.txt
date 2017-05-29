@@ -2,11 +2,11 @@ Hibernate indexes. How it affects multiple bag exceptions. How it is different a
 
 * TestMemoryPlanetDataService must pass (TODO)
 
-Klaida PlanetDataService klasëje, eilutëje [214], dao.create metode, kuris kuria DSurfaceCommand ojektà
+Klaida PlanetDataService klasï¿½je, eilutï¿½je [214], dao.create metode, kuris kuria DSurfaceCommand ojektï¿½
 	Planas: 
-		1) debuginti ðità vietà ir þiûrëti koks DSurfaceCommand objektas sukuriamas.
-		2) taip pat debuginti tà vietà kur vyksta DSurfaceCommand objekto kûrimas.
-	Klaida mapinant DShipService á ShipService (OK, pataisyta)
+		1) debuginti ï¿½itï¿½ vietï¿½ ir ï¿½iï¿½rï¿½ti koks DSurfaceCommand objektas sukuriamas.
+		2) taip pat debuginti tï¿½ vietï¿½ kur vyksta DSurfaceCommand objekto kï¿½rimas.
+	Klaida mapinant DShipService ï¿½ ShipService (OK, pataisyta)
 	
 ----
 2017-03-05
@@ -36,3 +36,7 @@ TODO add owner to ship design
 --------
 2017-04-08
 Store planet orbit
+
+----
+2017-05-29
+Test store planet surface when there are technologies form different turn.
