@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.proxy.HibernateProxy;
+
 import lt.gt.galaktika.model.entity.noturn.DShip;
 import lt.gt.galaktika.model.entity.noturn.DShipDesign;
 
@@ -126,6 +128,15 @@ public class DShipFactory {
 			return false;
 	}
 
+	
+	public boolean isTechnologiesLoaded() {
+		if (technologies instanceof HibernateProxy) {
+			if (((HibernateProxy) technologies).getHibernateLazyInitializer().isUninitialized()) {
+				return false;
+			}
+		}
+		return (getTechnologies() != null);
+	}
 	
 	
 }

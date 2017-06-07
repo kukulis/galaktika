@@ -219,6 +219,8 @@ public class UsersBot {
 	}
 	
 	public void makeTurn2Commands () {
+		int turn = 2;
+		
 		User player1 = userDao.getByLogin( PLAYER1 );
 		User player2 = userDao.getByLogin( PLAYER2 );
 		User player3 = userDao.getByLogin( PLAYER3 );
@@ -229,26 +231,49 @@ public class UsersBot {
 		Nation nation3 = nationService.getNation(player3, galaxy);
 		
 //		planetService.
-		List<Long> planetsIds1 = planetDataService.findPlanetsIds(nation1, 1);
-		List<Long> planetsIds2 = planetDataService.findPlanetsIds(nation2, 1);
-		List<Long> planetsIds3 = planetDataService.findPlanetsIds(nation3, 1);
+		List<Long> planetsIds1 = planetDataService.findPlanetsIds(nation1, turn);
+		List<Long> planetsIds2 = planetDataService.findPlanetsIds(nation2, turn);
+		List<Long> planetsIds3 = planetDataService.findPlanetsIds(nation3, turn);
 		
 		Planet planet1 = planetService.load( planetsIds1.get(0));
 		Planet planet2 = planetService.load( planetsIds2.get(0));
 		Planet planet3 = planetService.load( planetsIds3.get(0));
 		
-		PlanetSurface ps1 = planetDataService.loadPlanetSurface(planetsIds1.get(0), 1);
-		PlanetSurface ps2 =planetDataService.loadPlanetSurface(planetsIds2.get(0), 1);
+		PlanetSurface ps1 = planetDataService.loadPlanetSurface(planetsIds1.get(0), turn);
+		PlanetSurface ps2 =planetDataService.loadPlanetSurface(planetsIds2.get(0), turn);
 		ps2.setName("Technocrats");
-		PlanetSurface ps3 =planetDataService.loadPlanetSurface(planetsIds3.get(0), 1);
+		PlanetSurface ps3 =planetDataService.loadPlanetSurface(planetsIds3.get(0), turn);
 		
 		// set commands for surfaces
 		ps2.setSurfaceCommand(new SurfaceCommandTechnologies(TechnologyType.ATTACK));
-		planetDataService.storePlanetSurface(ps2, planet2, 1);
+		planetDataService.storePlanetSurface(ps2, planet2, turn);
 		
 		// TODO make other planets to build something
 		
 //		 ps3.getSurfaceCommand()
+		
+		{
+			SurfaceCommandProduction productionCommand = new SurfaceCommandProduction();
+			Technologies t = technologiesService.getNationTechnologies(nation1, turn);
+			productionCommand.setTechnologies( t );
+			productionCommand.setMaxShips(1);
+			ShipDesign shipDesign = new ShipDesign();
+			shipDesign.setAttackMass(10);
+			shipDesign.setDefenceMass(10);
+			shipDesign.setEngineMass(10);
+			shipDesign.setCargoMass(0);
+			shipDesign.setDesignName("uogiukas");
+			shipDesign.setGuns( 1 );
+			
+			shipDesign = shipDesignService.createShipDesign(shipDesign, nation1);
+			productionCommand.setShipDesign(shipDesign);
+			productionCommand.setMaxShips(3);
+			ps1.setSurfaceCommand(productionCommand);
+		}
+		
+		
+		planetDataService.storePlanetSurface(ps1, planet1, turn);
+
 	}
 	
 	public void makeTurn3Commands () {
