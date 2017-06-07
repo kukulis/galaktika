@@ -246,6 +246,13 @@ public class UsersBot {
 		ps2.setSurfaceCommand(new SurfaceCommandTechnologies(TechnologyType.ATTACK));
 		planetDataService.storePlanetSurface(ps2, planet2, 1);
 		
+		// TODO make other planets to build something
+		
 //		 ps3.getSurfaceCommand()
+	}
+	
+	public void makeTurn3Commands () {
+		System.out.println( "TODO make turn3 commands");
+		// Flight to another planet
 	}
 }

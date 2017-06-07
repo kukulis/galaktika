@@ -227,6 +227,7 @@ public class GameTest {
 		PlanetSurface surface2 = planetDataService.loadPlanetSurface(planet2.getPlanetId(), 2);
 		PlanetSurface surface3 = planetDataService.loadPlanetSurface(planet3.getPlanetId(), 2);
 
+		// TODO asserts ?
 		
 		// lets make same commands again
 		usersBot.makeTurn2Commands();
@@ -252,6 +253,10 @@ public class GameTest {
 		PlanetData pd3 = planetDataService.loadPlanetData(planet3.getPlanetId() , turn, false);		
 		Fleet planet3Fleet = fleetsService.loadFleet( pd3.getOrbit().getFleets().get(0).getFleetId(), turn); 
 		Assert.assertEquals(3, planet3Fleet.getShipGroups().get(0).getCount() );
+	}
+	
+	public void test041MakeTurn3Commands() {
+		usersBot.makeTurn3Commands();
 	}
 	
 }
